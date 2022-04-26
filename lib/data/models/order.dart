@@ -1,7 +1,6 @@
 import 'dart:math';
 
 import 'package:jiffy/jiffy.dart';
-import 'package:mapalus_partner/data/models/delivery_info.dart';
 import 'package:mapalus_partner/data/models/order_info.dart';
 import 'package:mapalus_partner/data/models/product_order.dart';
 import 'package:mapalus_partner/data/models/rating.dart';
@@ -12,7 +11,7 @@ import 'package:mapalus_partner/shared/values.dart';
 class Order {
   String? id;
   List<ProductOrder> products;
-  DeliveryInfo deliveryInfo;
+  // DeliveryInfo deliveryInfo;
   OrderStatus status;
   String? _orderTimeStamp;
   String? _finishTimeStamp;
@@ -27,7 +26,7 @@ class Order {
     Jiffy? orderTimeStamp,
     Jiffy? finishTimeStamp,
     required this.orderingUser,
-    required this.deliveryInfo,
+    // required this.deliveryInfo,
     required this.products,
     required this.status,
     required this.orderInfo,
@@ -42,7 +41,8 @@ class Order {
   }
 
   Order.fromMap(Map<String, dynamic> data)
-      : deliveryInfo = DeliveryInfo.fromMap(data['delivery_info']),
+      :
+        // deliveryInfo = DeliveryInfo.fromMap(data['delivery_info']),
         id = data['id'],
         orderInfo = OrderInfo.fromMap(data['order_info']),
         status = OrderStatus.values.firstWhere(
@@ -92,7 +92,7 @@ class Order {
 
   @override
   String toString() {
-    return 'Order{id: $id, products: $products, deliveryInfo: $deliveryInfo, '
+    return 'Order{id: $id, products: $products,'
         'status: $status, _orderTimeStamp: $_orderTimeStamp, '
         '_finishTimeStamp: $_finishTimeStamp, rating: $rating, '
         'orderingUser: $orderingUser, deliveringUser: $deliveringUser}';
@@ -106,13 +106,13 @@ class Order {
     return {
       'id': id,
       'products': productMaps,
-      'delivery_info': deliveryInfo.toMap(),
+      // 'delivery_info': deliveryInfo.toMap(),
       'order_info': orderInfo.toMap(),
       'status': status.name,
       'order_time': _orderTimeStamp,
       'finish_time': _finishTimeStamp,
       'rating': rating.toMap(),
-      'ordering_user': orderingUser.toMap(),
+      'ordering_user': orderingUser.toMap(minify: true),
       'delivering_user':
           deliveringUser != null ? deliveringUser!.toMap() : null,
     };

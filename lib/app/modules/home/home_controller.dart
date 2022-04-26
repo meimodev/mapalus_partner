@@ -64,4 +64,8 @@ class HomeController extends GetxController {
   void onPressedAddButton() {
     Get.toNamed(Routes.productDetail, arguments: null);
   }
+
+  void refreshOrders() {
+    _loadOrders();
+  }
 }

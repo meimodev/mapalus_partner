@@ -18,9 +18,6 @@ class DeliveryInfo {
     [27000, 36000, 45000, 120000], // >6Kg - 9Kg
   ];
 
-  /*TODO Every product must have predetermine weight in gram,
-   while the measuring unit can vary*/
-
   DeliveryInfo(
     this.id,
     this._start,

@@ -80,7 +80,7 @@ class CardOrder extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'menyiapkan',
+                        'Menunggu konfirmasi',
                         style: Theme.of(context).textTheme.caption?.copyWith(
                               fontWeight: FontWeight.w600,
                             ),
@@ -91,13 +91,7 @@ class CardOrder extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'pengantaran',
-                        style: Theme.of(context).textTheme.caption?.copyWith(
-                              fontWeight: FontWeight.w300,
-                            ),
-                      ),
-                      Text(
-                        'Besok, 07:00 - 08:00',
+                        order.orderInfo.deliveryTime,
                         style: Theme.of(context).textTheme.caption?.copyWith(
                               fontWeight: FontWeight.w600,
                             ),

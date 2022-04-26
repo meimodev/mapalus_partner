@@ -14,8 +14,6 @@ class LocationController extends GetxController {
   RxBool isLocationSelectionVisible = true.obs;
   RxBool isLocationSelectionButtonVisible = true.obs;
 
-  //TODO determine the distance between traditional market & destination
-  //TODO calculate price based on that distance & weight of ordered products
 
   Rx<OrderInfo> orderInfo = OrderInfo(
     productCount: 0,
@@ -24,6 +22,7 @@ class LocationController extends GetxController {
     deliveryPrice: 0,
     deliveryDistance: 0,
     deliveryCoordinate: const LatLng(0, 0),
+    deliveryTime: '',
   ).obs;
 
   RxDouble distance = 0.0.obs;

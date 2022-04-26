@@ -14,7 +14,6 @@ class ProductRepo extends ProductRepoContract {
 
   @override
   Future<Product> readProduct(int id) {
-    // TODO: implement readProduct
     throw UnimplementedError();
   }
 
@@ -25,7 +24,6 @@ class ProductRepo extends ProductRepoContract {
 
   @override
   Future<Product> searchProduct() {
-    // TODO: implement searchProduct
     throw UnimplementedError();
   }
 }

@@ -25,14 +25,12 @@ class OrderingController extends GetxController {
     UserApp? user = await userRepo.readSignedInUser();
 
     Map<String, dynamic> args = Get.arguments as Map<String, dynamic>;
-    DeliveryInfo _deliveryInfo = args['delivery_info'] as DeliveryInfo;
     List<ProductOrder> _productOrders =
         args['product_orders'] as List<ProductOrder>;
     OrderInfo _orderInfo = args['order_info'] as OrderInfo;
 
     try {
       Order order = await orderRepo.createOrder(
-        deliveryInfo: _deliveryInfo,
         products: _productOrders,
         user: user!,
         orderInfo: _orderInfo,

@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 import 'package:mapalus_partner/data/models/order.dart';
+import 'package:mapalus_partner/data/models/partner.dart';
 import 'package:mapalus_partner/data/models/product.dart';
 import 'package:mapalus_partner/data/models/user_app.dart';
 
@@ -145,8 +146,33 @@ class FirestoreService {
     return order;
   }
 
-  Stream getOrdersStream() {
+  Stream<QuerySnapshot<Object?>> getOrdersStream() {
     CollectionReference orders = fireStore.collection('orders');
     return orders.snapshots();
+  }
+
+  Future<Partner> updatePartner(Partner partner) {
+    CollectionReference partners = fireStore.collection('partners');
+
+    partners.doc(partner.id).set(partner.toMap()).then((_) {
+      if (kDebugMode) {
+        print('[FIRESTORE] PARTNER successfully updated');
+      }
+    }).onError((e, _) {
+      if (kDebugMode) {
+        print('[FIRESTORE] PARTNER update error $e');
+      }
+    });
+
+    return Future.value(partner);
+  }
+
+  Future<Partner> getPartner(String id) async {
+    CollectionReference partners = fireStore.collection('partners');
+
+    DocumentSnapshot doc = await partners.doc(id).get();
+
+    final data = doc.data() as Map<String, dynamic>;
+    return Partner.fromMap(data);
   }
 }

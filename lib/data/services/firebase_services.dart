@@ -173,6 +173,56 @@ class FirestoreService {
     DocumentSnapshot doc = await partners.doc(id).get();
 
     final data = doc.data() as Map<String, dynamic>;
+    print(data.toString());
     return Partner.fromMap(data);
+  }
+
+  Future<Product> updateProduct(Product product) {
+    CollectionReference products = fireStore.collection('products');
+
+    products.doc(product.id.toString()).set(product.toMap()).then((_) {
+      if (kDebugMode) {
+        print('[FIRESTORE] PRODUCT successfully updated');
+      }
+    }).onError((e, _) {
+      if (kDebugMode) {
+        print('[FIRESTORE] PRODUCT update error $e');
+      }
+    });
+
+    return Future.value(product);
+  }
+
+  Future<Product> createProduct(Product product) async {
+    CollectionReference products = fireStore.collection('products');
+
+    DocumentReference docRef = await products.add(product.toMap());
+
+    product.id = docRef.id;
+    products.doc(product.id).set(product.toMap()).then((_) {
+      if (kDebugMode) {
+        print('[FIRESTORE] PRODUCT successfully created');
+      }
+    }).onError((e, _) {
+      if (kDebugMode) {
+        print('[FIRESTORE] PRODUCT creation error $e');
+      }
+    });
+
+    return product;
+  }
+
+  deleteProduct(String productId) {
+    CollectionReference products = fireStore.collection('products');
+
+    products.doc(productId).delete().then((_) {
+      if (kDebugMode) {
+        print('[FIRESTORE] PRODUCT successfully deleted');
+      }
+    }).onError((e, _) {
+      if (kDebugMode) {
+        print('[FIRESTORE] PRODUCT deletion error $e');
+      }
+    });
   }
 }

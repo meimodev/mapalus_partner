@@ -1,18 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'package:jiffy/jiffy.dart';
 import 'package:mapalus_partner/app/modules/home/home_controller.dart';
-import 'package:mapalus_partner/app/widgets/card_category.dart';
 import 'package:mapalus_partner/app/widgets/card_order.dart';
-import 'package:mapalus_partner/app/widgets/card_order_peak.dart';
 import 'package:mapalus_partner/app/widgets/card_product.dart';
-import 'package:mapalus_partner/app/widgets/card_cart_peak.dart';
-import 'package:mapalus_partner/app/widgets/dialog_item_detail.dart';
 import 'package:mapalus_partner/app/widgets/screen_wrapper.dart';
-import 'package:mapalus_partner/app/widgets/card_search_bar.dart';
-import 'package:mapalus_partner/data/models/data_mock.dart';
 import 'package:mapalus_partner/data/models/order.dart';
 import 'package:mapalus_partner/data/models/product.dart';
 import 'package:mapalus_partner/shared/routes.dart';
@@ -153,6 +145,8 @@ class HomeScreen extends GetView<HomeController> {
     if (isShowingOrders && !isShowingProducts) {
       return Obx(
         () => ListView.builder(
+          padding: EdgeInsets.only(bottom: Insets.large.h * 2),
+          addAutomaticKeepAlives: true,
           physics: const BouncingScrollPhysics(),
           itemBuilder: (context, index) {
             Order order = controller.orders.elementAt(index);
@@ -172,6 +166,8 @@ class HomeScreen extends GetView<HomeController> {
     } else {
       return Obx(
         () => ListView.builder(
+          padding: EdgeInsets.only(bottom: Insets.large.h * 2),
+          addAutomaticKeepAlives: true,
           physics: const BouncingScrollPhysics(),
           itemBuilder: (context, index) {
             Product product = controller.products.elementAt(index);

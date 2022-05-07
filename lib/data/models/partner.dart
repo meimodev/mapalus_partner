@@ -13,7 +13,7 @@ class Partner {
   Map<String, dynamic> toMap() {
     return {
       'id': id,
-      'fcm_Token': fcmToken,
+      'fcm_token': fcmToken,
       'name': name,
       'orders': orders,
     };

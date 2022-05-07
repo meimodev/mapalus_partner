@@ -26,4 +26,16 @@ class ProductRepo extends ProductRepoContract {
   Future<Product> searchProduct() {
     throw UnimplementedError();
   }
+
+  Future<Product> updateProduct(Product product) async {
+    return await firestore.updateProduct(product);
+  }
+
+  Future<Product> createProduct(Product product) async {
+    return await firestore.createProduct(product);
+  }
+
+  Future<void> deleteProduct(String productId) async {
+    await firestore.deleteProduct(productId);
+  }
 }

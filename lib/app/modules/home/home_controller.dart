@@ -53,8 +53,10 @@ class HomeController extends GetxController {
     isLoading.value = true;
     // await Future.delayed(1.seconds);
 
-    var _orders = await productRepo.readProducts(0, 0);
-    products.value = List<Product>.from(_orders.reversed);
+    var _products = await productRepo.readProducts(0, 0);
+    var p = List<Product>.from(_products);
+    p.sort((a, b) => a.name.toLowerCase().compareTo(b.name.toLowerCase()));
+    products.value = List<Product>.from(p);
 
     //show the list on screen
     isLoading.value = false;
@@ -169,5 +171,25 @@ class HomeController extends GetxController {
       Get.rawSnackbar(message: "Order list updated");
       isLoading.value = false;
     });
+  }
+
+  void updateProductList(Product product, {bool isDeletion = false}) {
+    if (isDeletion) {
+      products.removeWhere((element) => element.id == product.id);
+      return;
+    }
+
+    if (products.isEmpty) {
+      products.add(product);
+      return;
+    }
+    int index = products.indexWhere((element) => element.id == product.id);
+    if (index <= -1) {
+      products.add(product);
+      return;
+    }
+
+    products.removeAt(index);
+    products.insert(index, product);
   }
 }

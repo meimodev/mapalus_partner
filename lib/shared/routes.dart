@@ -18,6 +18,7 @@ import 'package:mapalus_partner/app/modules/product_detail/product_detail_screen
 import 'package:mapalus_partner/app/modules/signing/signing_binding.dart';
 import 'package:mapalus_partner/app/modules/signing/signing_screen.dart';
 import 'package:mapalus_partner/app/modules/splash/splash_screen.dart';
+import 'package:mapalus_partner/app/modules/update_app/update_app_screen.dart';
 
 class Routes {
   static const String splash = '/';
@@ -30,6 +31,7 @@ class Routes {
   static const String location = '/location';
   static const String ordering = '/ordering';
   static const String signing = '/signing';
+  static const String updateApp = '/update-app';
 
   static List<GetPage> getRoutes() {
     return [
@@ -92,6 +94,11 @@ class Routes {
         page: () => const SigningScreen(),
         binding: SigningBinding(),
         transition: Transition.leftToRight,
+      ),
+      GetPage(
+        name: updateApp,
+        page: () => const UpdateAppScreen(),
+        transition: Transition.rightToLeftWithFade,
       ),
     ];
   }

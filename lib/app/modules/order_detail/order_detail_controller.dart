@@ -8,7 +8,7 @@ import 'package:mapalus_partner/data/models/rating.dart';
 import 'package:mapalus_partner/data/repo/order_repo.dart';
 import 'package:mapalus_partner/shared/enums.dart';
 import 'package:mapalus_partner/shared/values.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 class OrderDetailController extends GetxController {
   OrderRepo orderRepo = Get.find();
@@ -124,6 +124,6 @@ class OrderDetailController extends GetxController {
     var _longitude = _order.orderInfo.deliveryCoordinate.longitude;
     var _url =
         'https://www.google.com/maps/search/?api=1&query=$_latitude,$_longitude';
-    launch(_url);
+    launchUrlString(_url);
   }
 }

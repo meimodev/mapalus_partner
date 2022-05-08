@@ -1,10 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';
+import 'package:mapalus_partner/data/repo/app_repo.dart';
 import 'package:mapalus_partner/shared/enums.dart';
 import 'package:mapalus_partner/shared/routes.dart';
 
 class SigningController extends GetxController {
+  AppRepo appRepo = Get.find();
+
   TextEditingController tecSigning = TextEditingController();
   Rx<String> errorText = "".obs;
   String? message;
@@ -22,11 +25,16 @@ class SigningController extends GetxController {
 
   @override
   Future<void> onReady() async {
+    await Future.delayed(1.seconds);
+    if (!await appRepo.checkIfLatestVersion()) {
+      Get.offNamed(Routes.updateApp);
+      return;
+    }
+
     box = await Hive.openBox('signing');
 
     bool isLoggedIn = box.get('isLoggedIn', defaultValue: false);
 
-    print('isLoggedIn $isLoggedIn');
     if (isLoggedIn) {
       Get.rawSnackbar(message: "Already signed in");
       Get.offNamed(Routes.home);

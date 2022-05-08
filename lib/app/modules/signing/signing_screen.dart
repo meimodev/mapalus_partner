@@ -4,9 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:mapalus_partner/app/modules/signing/signing_controller.dart';
-import 'package:mapalus_partner/app/widgets/card_navigation.dart';
 import 'package:mapalus_partner/app/widgets/screen_wrapper.dart';
-import 'package:mapalus_partner/shared/enums.dart';
 import 'package:mapalus_partner/shared/theme.dart';
 
 class SigningScreen extends GetView<SigningController> {
@@ -19,10 +17,6 @@ class SigningScreen extends GetView<SigningController> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          const CardNavigation(
-            title: '',
-            isInverted: true,
-          ),
           Expanded(
             child: Container(
               color: Palette.accent,
@@ -60,14 +54,11 @@ class SigningScreen extends GetView<SigningController> {
               ),
             ),
           ),
-          Obx(
-            () => CardSigning(
-              signingState: controller.signingState.value,
-              onPressedRequestOTP: controller.onPressedRequestOTP,
-              onPressedConfirmCode: controller.onPressedConfirmCode,
-              onPressedCreateUser: controller.onPressedCreateUser,
-              controller: controller,
-            ),
+          CardSigning(
+            tecPhone: controller.tecPhone,
+            tecPassword: controller.tecPassword,
+            onPressedSigning: controller.onPressedSignIn,
+            controller: controller,
           ),
         ],
       ),
@@ -115,20 +106,16 @@ class SigningScreen extends GetView<SigningController> {
 class CardSigning extends StatelessWidget {
   const CardSigning({
     Key? key,
-    required this.signingState,
-    required this.onPressedRequestOTP,
-    required this.onPressedConfirmCode,
-    required this.onPressedCreateUser,
+    required this.tecPhone,
+    required this.tecPassword,
     required this.controller,
+    required this.onPressedSigning,
   }) : super(key: key);
 
-  final CardSigningState signingState;
-
+  final TextEditingController tecPhone;
+  final TextEditingController tecPassword;
   final SigningController controller;
-
-  final VoidCallback onPressedRequestOTP;
-  final VoidCallback onPressedConfirmCode;
-  final VoidCallback onPressedCreateUser;
+  final VoidCallback onPressedSigning;
 
   @override
   Widget build(BuildContext context) {
@@ -143,90 +130,57 @@ class CardSigning extends StatelessWidget {
           top: Radius.circular(30.sp),
         ),
       ),
-      child: WillPopScope(
-        onWillPop: controller.onPressedBack,
-        child: Obx(
-          () => AnimatedSwitcher(
-            duration: const Duration(milliseconds: 400),
-            child: controller.isLoading.value
-                ? const CircularProgressIndicator(color: Palette.primary)
-                : Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      ...generateSigningHeader(context),
-                      SizedBox(height: Insets.small.h * .5),
-                      generateSigningTextField(context),
-                      SizedBox(height: Insets.small.h),
-                      generateSigningButton(),
-                    ],
-                  ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          SizedBox(height: Insets.small.h),
+          _buildTextField(
+            context,
+            controller: tecPhone,
+            title: "Phone",
           ),
-        ),
+          SizedBox(height: Insets.small.h),
+          _buildTextField(
+            context,
+            controller: tecPassword,
+            title: "Password",
+            obscureText: true,
+          ),
+          SizedBox(height: Insets.small.h),
+          Obx(() => AnimatedSwitcher(
+                duration: 400.milliseconds,
+                child: controller.errorText.isEmpty
+                    ? const SizedBox()
+                    : Padding(
+                        padding: EdgeInsets.only(bottom: Insets.small.h),
+                        child: Text(
+                          controller.errorText.value,
+                          textAlign: TextAlign.center,
+                          style:
+                              Theme.of(context).textTheme.bodyText1?.copyWith(
+                                    color: Palette.negative,
+                                    fontSize: 10.sp,
+                                    fontWeight: FontWeight.w300,
+                                  ),
+                        ),
+                      ),
+              )),
+          _buildSigningButton(context, onPressedSigning),
+        ],
       ),
     );
   }
 
-  generateSigningButton() {
-    String _buttonText;
-    VoidCallback _onPressed;
-
-    switch (signingState) {
-      case CardSigningState.oneTimePassword:
-        _buttonText = "Masuk";
-        _onPressed = onPressedRequestOTP;
-        break;
-      case CardSigningState.confirmCode:
-        _buttonText = "Konfirmasi Kode";
-        _onPressed = onPressedConfirmCode;
-
-        break;
-      default:
-        _buttonText = "Daftar & Masuk";
-        _onPressed = onPressedCreateUser;
-    }
-
-    return Material(
-      color: Palette.primary,
-      clipBehavior: Clip.hardEdge,
-      elevation: 2,
-      borderRadius: BorderRadius.circular(9.sp),
-      child: InkWell(
-        onTap: _onPressed,
-        child: Padding(
-          padding: EdgeInsets.all(Insets.small.sp),
-          child: Center(
-            child: Text(_buttonText),
-          ),
-        ),
-      ),
-    );
-  }
-
-  generateSigningTextField(BuildContext context) {
-    String labelText = "Nomor Handphone";
-    VoidCallback _onPressed;
-
-    switch (signingState) {
-      case CardSigningState.oneTimePassword:
-        _onPressed = onPressedRequestOTP;
-
-        break;
-      case CardSigningState.confirmCode:
-        labelText = "Kode";
-        _onPressed = onPressedConfirmCode;
-
-        break;
-      case CardSigningState.notRegistered:
-        labelText = "Nama Anda";
-        _onPressed = onPressedCreateUser;
-
-        break;
-    }
-
+  _buildTextField(
+    BuildContext context, {
+    required controller,
+    required title,
+    obscureText = false,
+  }) {
     return Container(
       padding: EdgeInsets.symmetric(
         horizontal: Insets.small.w,
-        vertical: 2.w,
+        vertical: 1.w,
       ),
       decoration: BoxDecoration(
         color: Palette.editable,
@@ -237,41 +191,30 @@ class CardSigning extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           TextField(
-            controller: controller.tecSigning,
+            controller: controller,
             maxLines: 1,
-            onSubmitted: (_) {
-              _onPressed();
-            },
+            obscureText: obscureText,
             autocorrect: false,
             style: TextStyle(
               color: Palette.accent,
               fontFamily: fontFamily,
-              fontSize: 14.sp,
+              fontSize: 12.sp,
             ),
             cursorColor: Palette.primary,
             decoration: InputDecoration(
               hintStyle: TextStyle(
                 fontFamily: fontFamily,
+                fontSize: 10.sp,
+                color: Palette.accent,
+              ),
+              labelStyle: TextStyle(
+                fontFamily: fontFamily,
+                color: Palette.accent,
                 fontSize: 12.sp,
               ),
               isDense: true,
               border: InputBorder.none,
-              labelText: labelText,
-            ),
-          ),
-          Obx(
-            () => AnimatedSwitcher(
-              duration: 400.milliseconds,
-              child: controller.errorText.isNotEmpty
-                  ? Text(
-                      controller.errorText.value,
-                      style: Theme.of(context).textTheme.bodyText1?.copyWith(
-                            color: Palette.negative,
-                            fontSize: 10.sp,
-                            fontWeight: FontWeight.w300,
-                          ),
-                    )
-                  : const SizedBox(),
+              labelText: title,
             ),
           ),
         ],
@@ -279,42 +222,26 @@ class CardSigning extends StatelessWidget {
     );
   }
 
-  generateSigningHeader(BuildContext context) {
-    String? message = controller.message;
-    String phone = controller.phone;
-    bool isTitleHeadVisible = false;
-    bool isAlignMiddle = false;
-
-    switch (signingState) {
-      case CardSigningState.oneTimePassword:
-        isAlignMiddle = true;
-        isTitleHeadVisible = false;
-        break;
-      case CardSigningState.confirmCode:
-        isTitleHeadVisible = true;
-        message = null;
-        break;
-      case CardSigningState.notRegistered:
-        isTitleHeadVisible = true;
-        message = null;
-        break;
-    }
-
-    return [
-      Text(
-        'Nomor Handphone',
-        style: Theme.of(context).textTheme.bodyText1?.copyWith(
-              fontSize: 12.sp,
-              color: isTitleHeadVisible ? Colors.grey : Colors.transparent,
-            ),
+  _buildSigningButton(
+    BuildContext context,
+    VoidCallback onPressedSigning,
+  ) {
+    return Material(
+      clipBehavior: Clip.hardEdge,
+      borderRadius: BorderRadius.circular(12.w),
+      color: Palette.primary,
+      child: InkWell(
+        onTap: onPressedSigning,
+        child: Container(
+          padding: EdgeInsets.symmetric(vertical: Insets.small.h),
+          child: Text('Sign In',
+              textAlign: TextAlign.center,
+              style: Theme.of(context).textTheme.bodyText1?.copyWith(
+                    fontSize: 14.sp,
+                    color: Palette.accent,
+                  )),
+        ),
       ),
-      Text(
-        message ?? phone,
-        textAlign: isAlignMiddle ? TextAlign.center : TextAlign.start,
-        style: Theme.of(context).textTheme.bodyText1?.copyWith(
-              fontSize: 14.sp,
-            ),
-      ),
-    ];
+    );
   }
 }

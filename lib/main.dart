@@ -13,7 +13,9 @@ import 'package:jiffy/jiffy.dart';
 import 'firebase_options.dart';
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-  print("This is a background message: ${message.messageId}");
+  if (kDebugMode) {
+    print("This is a background message: ${message.messageId}");
+  }
 }
 
 void main() async {

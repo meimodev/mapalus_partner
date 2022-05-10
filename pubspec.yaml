@@ -34,6 +34,8 @@ dependencies:
   flutter_local_notifications: ^9.5.1
   transparent_image: ^2.0.0
   package_info_plus: ^1.4.2
+  dio: ^4.0.6
+  flutter_ringtone_player: ^3.2.0
 
 dev_dependencies:
   flutter_test:

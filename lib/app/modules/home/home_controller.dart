@@ -1,5 +1,4 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 import 'package:mapalus_partner/data/models/order.dart';
 import 'package:mapalus_partner/data/models/partner.dart';
@@ -8,6 +7,7 @@ import 'package:mapalus_partner/data/repo/order_repo.dart';
 import 'package:mapalus_partner/data/repo/product_repo.dart';
 import 'package:mapalus_partner/data/repo/user_repo.dart';
 import 'package:mapalus_partner/shared/routes.dart';
+import 'package:flutter_ringtone_player/flutter_ringtone_player.dart';
 
 class HomeController extends GetxController {
   UserRepo userRepo = Get.find<UserRepo>();
@@ -20,19 +20,16 @@ class HomeController extends GetxController {
   var isLoading = false.obs;
   var activeNavBottomIndex = 1.obs;
 
+  bool firstInit = true;
+
   //TODO [OPTIMIZATION] use infinite scrolling implementation
 
   @override
   void onInit() {
-    _initOrderNotifications();
+    // _initOrderNotifications();
     _initPartnerFCMToken();
     _initNewOrderListener();
     super.onInit();
-  }
-
-  @override
-  void onReady() {
-    super.onReady();
   }
 
   void onPressedProducts() {
@@ -75,80 +72,6 @@ class HomeController extends GetxController {
     _loadOrders();
   }
 
-  Future<void> _initOrderNotifications() async {
-    const AndroidNotificationChannel androidChannel =
-        AndroidNotificationChannel(
-      'order_channel', // id
-      'order channel',
-      description: 'used to handle order notification exclusively',
-      importance: Importance.max,
-      enableVibration: true,
-      enableLights: true,
-      playSound: true,
-      showBadge: true,
-    );
-    final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-        FlutterLocalNotificationsPlugin();
-
-    await flutterLocalNotificationsPlugin
-        .resolvePlatformSpecificImplementation<
-            AndroidFlutterLocalNotificationsPlugin>()
-        ?.createNotificationChannel(androidChannel);
-
-    FirebaseMessaging.onMessage.listen((event) => _handleMessage(
-          message: event,
-          flutterLocalNotificationsPlugin: flutterLocalNotificationsPlugin,
-        ));
-
-    FirebaseMessaging.onMessageOpenedApp.listen(
-      (event) => _handleMessage(
-          message: event,
-          flutterLocalNotificationsPlugin: flutterLocalNotificationsPlugin),
-    );
-    RemoteMessage? initMessage =
-        await FirebaseMessaging.instance.getInitialMessage();
-    if (initMessage != null) {
-      _handleMessage(
-        message: initMessage,
-        flutterLocalNotificationsPlugin: flutterLocalNotificationsPlugin,
-      );
-    }
-  }
-
-  _handleMessage({
-    required RemoteMessage message,
-    required FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin,
-    AndroidNotificationChannel? androidChannel,
-  }) {
-    RemoteNotification? notification = message.notification;
-
-    if (notification != null) {
-      AndroidNotification? android = notification.android;
-      if (android != null) {
-        flutterLocalNotificationsPlugin.show(
-          notification.hashCode,
-          notification.title,
-          notification.body,
-          NotificationDetails(
-            android: AndroidNotificationDetails(
-              androidChannel!.id,
-              androidChannel.name,
-              channelDescription: androidChannel.description,
-              playSound: androidChannel.playSound,
-              enableLights: androidChannel.enableLights,
-              enableVibration: androidChannel.enableVibration,
-            ),
-          ),
-        );
-        return;
-      }
-
-      Get.rawSnackbar(
-        message: notification.title,
-      );
-    }
-  }
-
   Future<void> _initPartnerFCMToken() async {
     Partner partner = await userRepo.firestore.getPartner("089525699078");
     FirebaseMessaging.instance.onTokenRefresh.listen((event) async {
@@ -165,15 +88,46 @@ class HomeController extends GetxController {
   void _initNewOrderListener() {
     orderRepo.firestore.getOrdersStream().listen((snapShot) {
       isLoading.value = true;
-      orders.value = snapShot.docs
-          .map((e) => Order.fromMap(e.data() as Map<String, dynamic>))
-          .toList()
-          .reversed
-          .toList();
-      //TODO [OPTIMIZATION] read & build only the altered order in this list
+      if (orders.isEmpty) {
+        orders.value = snapShot.docs
+            .map((e) => Order.fromMap(e.data() as Map<String, dynamic>))
+            .toList()
+            .reversed
+            .toList();
+        isLoading.value = false;
+        return;
+      }
 
-      //TODO [OPTIMIZATION] specify the notification message of the updated content
-      Get.rawSnackbar(message: "Order list updated");
+      var docChanges = snapShot.docChanges;
+      for (var d in docChanges) {
+        var map = d.doc.data() as Map<String, dynamic>;
+        var order = Order.fromMap(map);
+        final existIndex =
+            orders.indexWhere((element) => element.id == order.id);
+
+        if (existIndex == -1) {
+          orders.insert(0, order);
+          Get.rawSnackbar(
+            message: "New Order received | #${order.idMinified}",
+          );
+        } else {
+          // orders.replaceRange(existIndex, existIndex, [order]);
+          orders.removeAt(existIndex);
+          orders.insert(existIndex, order);
+          Get.rawSnackbar(
+            message: "Order #${order.idMinified} updated",
+          );
+        }
+      }
+
+      FlutterRingtonePlayer.play(
+        android: AndroidSounds.notification,
+        ios: IosSounds.glass,
+        looping: false,
+        volume: 1,
+        asAlarm: true,
+      );
+
       isLoading.value = false;
     });
   }

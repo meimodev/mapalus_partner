@@ -25,6 +25,9 @@ class SigningController extends GetxController {
 
   @override
   Future<void> onReady() async {
+    super.onReady();
+
+    isLoading.value = true;
     await Future.delayed(1.seconds);
     if (!await appRepo.checkIfLatestVersion()) {
       Get.offNamed(Routes.updateApp);
@@ -38,8 +41,9 @@ class SigningController extends GetxController {
     if (isLoggedIn) {
       Get.rawSnackbar(message: "Already signed in");
       Get.offNamed(Routes.home);
+      return;
     }
-    super.onReady();
+    isLoading.value = false;
   }
 
   void onPressedSignIn() {

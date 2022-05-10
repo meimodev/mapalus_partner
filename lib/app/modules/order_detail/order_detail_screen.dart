@@ -5,7 +5,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mapalus_partner/app/modules/order_detail/order_detail_controller.dart';
 import 'package:mapalus_partner/app/widgets/card_navigation.dart';
 import 'package:mapalus_partner/app/widgets/card_order_detail_item.dart';
-import 'package:mapalus_partner/app/widgets/dialog_rating.dart';
 import 'package:mapalus_partner/app/widgets/screen_wrapper.dart';
 import 'package:mapalus_partner/data/models/product_order.dart';
 import 'package:mapalus_partner/data/models/rating.dart';
@@ -470,7 +469,7 @@ class _BuildRatedLayout extends StatelessWidget {
           ),
           SizedBox(height: Insets.small.h * .5),
           Text(
-            'Dinilai ${rating.ratingTimeStamp!.format("dd MMMM yyyy")}',
+            'Dinilai ${rating.ratingTimeStamp.format("dd MMMM yyyy")}',
             style: Theme.of(context).textTheme.bodyText1?.copyWith(
                   fontSize: 12.sp,
                   fontWeight: FontWeight.w300,

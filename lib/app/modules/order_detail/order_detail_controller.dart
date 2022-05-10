@@ -31,25 +31,17 @@ class OrderDetailController extends GetxController {
   RxBool isLoading = false.obs;
 
   Rx<OrderStatus> orderStatus = OrderStatus.placed.obs;
-  Rx<Rating> orderRating = Rating.zero().obs;
+  Rx<Rating> orderRating = Rating.empty().obs;
 
   late Order _order;
   bool shouldRefresh = false;
-
-  @override
-  void onClose() {
-    if (shouldRefresh) {
-      homeController.refreshOrders();
-    }
-    super.onClose();
-  }
 
   @override
   void onInit() {
     Order order = Get.arguments as Order;
     _order = order;
     productOrders.value = order.products;
-    id.value = order.id!;
+    id.value = order.idMinified;
 
     var _orderTimeStamp = order.orderTimeStamp;
     orderTime.value = _orderTimeStamp == null
@@ -101,21 +93,23 @@ class OrderDetailController extends GetxController {
     orderStatus.value = OrderStatus.accepted;
     shouldRefresh = true;
     isLoading.value = false;
+    Get.back();
   }
 
   onPressedFinishOrder() async {
-    print("pressed finish");
     isLoading.value = true;
     orderStatus.value = OrderStatus.finished;
+    await Future.delayed(const Duration(seconds: 1));
+    var rating = Rating(
+      0,
+      "From Partner",
+      Jiffy(),
+    );
     await orderRepo.rateOrder(
       _order,
-      Rating(
-        1,
-        0,
-        "From Partner",
-        Jiffy(),
-      ),
+      rating,
     );
+    orderRating.value = rating;
     isLoading.value = false;
   }
 

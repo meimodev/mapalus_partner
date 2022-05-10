@@ -130,43 +130,53 @@ class CardSigning extends StatelessWidget {
           top: Radius.circular(30.sp),
         ),
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          SizedBox(height: Insets.small.h),
-          _buildTextField(
-            context,
-            controller: tecPhone,
-            title: "Phone",
-          ),
-          SizedBox(height: Insets.small.h),
-          _buildTextField(
-            context,
-            controller: tecPassword,
-            title: "Password",
-            obscureText: true,
-          ),
-          SizedBox(height: Insets.small.h),
-          Obx(() => AnimatedSwitcher(
-                duration: 400.milliseconds,
-                child: controller.errorText.isEmpty
-                    ? const SizedBox()
-                    : Padding(
-                        padding: EdgeInsets.only(bottom: Insets.small.h),
-                        child: Text(
-                          controller.errorText.value,
-                          textAlign: TextAlign.center,
-                          style:
-                              Theme.of(context).textTheme.bodyText1?.copyWith(
-                                    color: Palette.negative,
-                                    fontSize: 10.sp,
-                                    fontWeight: FontWeight.w300,
+      child: Obx(
+        () => AnimatedSwitcher(
+          duration: const Duration(milliseconds: 400),
+          child: controller.isLoading.isTrue
+              ? _buildLoading()
+              : Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    SizedBox(height: Insets.small.h),
+                    _buildTextField(
+                      context,
+                      controller: tecPhone,
+                      title: "Phone",
+                    ),
+                    SizedBox(height: Insets.small.h),
+                    _buildTextField(
+                      context,
+                      controller: tecPassword,
+                      title: "Password",
+                      obscureText: true,
+                    ),
+                    SizedBox(height: Insets.small.h),
+                    Obx(() => AnimatedSwitcher(
+                          duration: 400.milliseconds,
+                          child: controller.errorText.isEmpty
+                              ? const SizedBox()
+                              : Padding(
+                                  padding:
+                                      EdgeInsets.only(bottom: Insets.small.h),
+                                  child: Text(
+                                    controller.errorText.value,
+                                    textAlign: TextAlign.center,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyText1
+                                        ?.copyWith(
+                                          color: Palette.negative,
+                                          fontSize: 10.sp,
+                                          fontWeight: FontWeight.w300,
+                                        ),
                                   ),
-                        ),
-                      ),
-              )),
-          _buildSigningButton(context, onPressedSigning),
-        ],
+                                ),
+                        )),
+                    _buildSigningButton(context, onPressedSigning),
+                  ],
+                ),
+        ),
       ),
     );
   }
@@ -241,6 +251,18 @@ class CardSigning extends StatelessWidget {
                     color: Palette.accent,
                   )),
         ),
+      ),
+    );
+  }
+
+  _buildLoading() {
+    return Padding(
+      padding: EdgeInsets.symmetric(
+        vertical: Insets.medium.h,
+        horizontal: Insets.small.w,
+      ),
+      child: const CircularProgressIndicator(
+        color: Palette.primary,
       ),
     );
   }

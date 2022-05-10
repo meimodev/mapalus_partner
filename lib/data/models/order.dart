@@ -30,7 +30,7 @@ class Order {
     required this.products,
     required this.status,
     required this.orderInfo,
-  }) : rating = Rating.zero() {
+  }) : rating = Rating.empty() {
     if (orderTimeStamp == null) {
       _orderTimeStamp = Jiffy().format(Values.formatRawDate);
     }
@@ -86,6 +86,10 @@ class Order {
     return null;
   }
 
+  String get idMinified {
+    return id!.replaceRange(0, 12, '');
+  }
+
   void setFinishTimeStamp(Jiffy timeStamp) {
     _finishTimeStamp = timeStamp.format(Values.formatRawDate);
   }
@@ -117,4 +121,16 @@ class Order {
           deliveringUser != null ? deliveringUser!.toMap() : null,
     };
   }
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is Order &&
+          runtimeType == other.runtimeType &&
+          id == other.id &&
+          products == other.products &&
+          orderingUser == other.orderingUser;
+
+  @override
+  int get hashCode => id.hashCode ^ products.hashCode ^ orderingUser.hashCode;
 }

@@ -1,4 +1,3 @@
-import 'package:mapalus_partner/data/models/delivery_info.dart';
 import 'package:mapalus_partner/data/models/order.dart';
 import 'package:mapalus_partner/data/models/order_info.dart';
 import 'package:mapalus_partner/data/models/product_order.dart';
@@ -48,7 +47,7 @@ class OrderRepo extends OrderRepoContract {
     //new order with updated rating
     order.rating = rating;
     order.status = OrderStatus.finished;
-    order.setFinishTimeStamp(rating.ratingTimeStamp!);
+    order.setFinishTimeStamp(rating.ratingTimeStamp);
     return await firestore.updateOrder(order);
   }
 
@@ -72,7 +71,6 @@ class OrderRepo extends OrderRepoContract {
   }
 
   Future<List<Order>> readAllOrders(int start, int end) async {
-    var res = <Order>[];
 
     var orders = firestore.readOrders(start, end);
 

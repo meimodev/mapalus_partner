@@ -98,7 +98,7 @@ class Palette {
   static const Color accent = Color(0xFF2B2E33);
 
   static const Color cardForeground = Color(0xFFFFFFFF);
-  static const Color scaffold = Color(0xFFF8FAFC);
+  static const Color scaffold = Color(0xFFF8FAFF);
 
   static const Color positive = Color(0xFF38C672);
   static const Color negative = Color(0xFFC63849);

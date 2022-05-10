@@ -71,7 +71,6 @@ class OrderRepo extends OrderRepoContract {
   }
 
   Future<List<Order>> readAllOrders(int start, int end) async {
-
     var orders = firestore.readOrders(start, end);
 
     return orders;

@@ -43,137 +43,15 @@ class OrderDetailScreen extends GetView<OrderDetailController> {
                   ),
                 ),
                 Expanded(
-                  child: Container(
-                    margin: EdgeInsets.symmetric(
-                      horizontal: Insets.medium.w * .5,
+                  child: Obx(
+                    () => AnimatedSwitcher(
+                      duration: const Duration(
+                        milliseconds: 400,
+                      ),
+                      child: controller.canLoading.isTrue
+                          ? _buildLoadingLayout()
+                          : _buildMainLayout(context),
                     ),
-                    child: Obx(
-                      () => ListView.builder(
-                        itemCount: controller.productOrders.length,
-                        physics: const BouncingScrollPhysics(),
-                        itemBuilder: (context, index) {
-                          ProductOrder po =
-                              controller.productOrders.elementAt(index);
-                          return CardOrderDetailItem(
-                            productName: po.product.name,
-                            productPrice: po.totalPriceString,
-                            index: (index + 1).toString(),
-                            productWeight:
-                                '${po.quantityString} ${po.product.unit}',
-                          );
-                        },
-                      ),
-                    ),
-                  ),
-                ),
-                Container(
-                  margin: EdgeInsets.symmetric(
-                    horizontal: Insets.medium.w * .5,
-                  ),
-                  padding: EdgeInsets.symmetric(
-                    horizontal: Insets.medium.h,
-                    vertical: Insets.medium.w * .5,
-                  ),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(9.sp),
-                    color: Palette.cardForeground,
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      Column(
-                        children: [
-                          Row(
-                            children: [
-                              Expanded(
-                                flex: 4,
-                                child: Obx(
-                                  () => _buildDeliveryStateCard(
-                                    context: context,
-                                    title: 'Dipesan',
-                                    timeStamp: controller.orderTime.value,
-                                  ),
-                                ),
-                              ),
-                              const Expanded(
-                                flex: 3,
-                                child: SizedBox(),
-                              ),
-                              Expanded(
-                                flex: 4,
-                                child: Obx(
-                                  () => _buildDeliveryStateCard(
-                                    context: context,
-                                    title: 'Selesai',
-                                    timeStamp: controller.deliveryTime.value,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                          SizedBox(height: Insets.medium.h),
-                          Container(
-                            padding: EdgeInsets.symmetric(
-                              vertical: Insets.small.h * .5,
-                            ),
-                            decoration: const BoxDecoration(
-                                border: Border(
-                              top: BorderSide(
-                                color: Palette.accent,
-                              ),
-                              bottom: BorderSide(
-                                color: Palette.accent,
-                              ),
-                            )),
-                            child: _buildDeliveryInfoLayout(
-                              context,
-                            ),
-                          ),
-                          Obx(
-                            () => _buildRowItem(
-                              context,
-                              "Produk",
-                              controller.productCount.value,
-                              controller.productTotal.value,
-                            ),
-                          ),
-                          SizedBox(height: 6.h),
-                          Obx(
-                            () => _buildRowItem(
-                              context,
-                              "Pengantaran",
-                              controller.deliveryCount.value,
-                              controller.deliveryTotal.value,
-                            ),
-                          ),
-                          SizedBox(height: 6.h),
-                          Obx(
-                            () => _buildRowItem(
-                              context,
-                              "Total Pembayaran",
-                              '',
-                              controller.totalPrice.value,
-                              highLight: true,
-                            ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: Insets.medium.h),
-                      Obx(
-                        () => AnimatedSwitcher(
-                          duration: 400.milliseconds,
-                          child: controller.isLoading.isTrue
-                              ? const CircularProgressIndicator(
-                                  color: Palette.primary,
-                                )
-                              : _buildConfirmFinishLayout(
-                                  context,
-                                  orderStatus: controller.orderStatus.value,
-                                  rating: controller.orderRating.value,
-                                ),
-                        ),
-                      ),
-                    ],
                   ),
                 ),
               ],
@@ -181,6 +59,127 @@ class OrderDetailScreen extends GetView<OrderDetailController> {
           )
         ],
       ),
+    );
+  }
+
+  _buildLoadingLayout() {
+    return const Center(
+      child: CircularProgressIndicator(
+        color: Palette.primary,
+      ),
+    );
+  }
+
+  _buildMainLayout(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Expanded(
+          child: Container(
+            margin: EdgeInsets.symmetric(
+              horizontal: Insets.medium.w * .5,
+            ),
+            child: Obx(
+              () => ListView.builder(
+                itemCount: controller.productOrders.length,
+                physics: const BouncingScrollPhysics(),
+                itemBuilder: (context, index) {
+                  ProductOrder po = controller.productOrders.elementAt(index);
+                  return CardOrderDetailItem(
+                    productName: po.product.name,
+                    productPrice: po.totalPriceString,
+                    index: (index + 1).toString(),
+                    productWeight: '${po.quantityString} ${po.product.unit}',
+                  );
+                },
+              ),
+            ),
+          ),
+        ),
+        Container(
+          margin: EdgeInsets.symmetric(
+            horizontal: Insets.medium.w * .5,
+          ),
+          padding: EdgeInsets.symmetric(
+            horizontal: Insets.medium.h,
+            vertical: Insets.medium.w * .5,
+          ),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(9.sp),
+            color: Palette.cardForeground,
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Column(
+                children: [
+                  Row(
+                    children: [
+                      Obx(
+                        () => _buildDeliveryStateCard(
+                          context: context,
+                          title: 'Dipesan',
+                          timeStamp: controller.orderTime.value,
+                        ),
+                      ),
+                      const Expanded(
+                        flex: 3,
+                        child: SizedBox(),
+                      ),
+                      // Expanded(
+                      //   flex: 4,
+                      //   child: Obx(
+                      //     () => _buildDeliveryStateCard(
+                      //       context: context,
+                      //       title: 'Selesai',
+                      //       timeStamp: controller.deliveryTime.value,
+                      //     ),
+                      //   ),
+                      // ),
+                    ],
+                  ),
+                  SizedBox(height: Insets.small.h),
+                  _buildDeliveryInfoLayout(context),
+                  SizedBox(height: Insets.small.h),
+                  Obx(
+                    () => _buildRowItem(
+                      context,
+                      "Produk",
+                      controller.productCount.value,
+                      controller.productTotal.value,
+                    ),
+                  ),
+                  SizedBox(height: 1.h),
+                  Obx(
+                    () => _buildRowItem(
+                      context,
+                      "Pengantaran",
+                      controller.deliveryCount.value,
+                      controller.deliveryTotal.value,
+                    ),
+                  ),
+                  SizedBox(height: 1.h),
+                  Obx(
+                    () => _buildRowItem(
+                      context,
+                      "Total Pembayaran",
+                      '',
+                      controller.totalPrice.value,
+                      highLight: true,
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(height: Insets.medium.h),
+              _buildConfirmFinishLayout(
+                context,
+                orderStatus: controller.orderStatus.value,
+                rating: controller.orderRating.value,
+              ),
+            ],
+          ),
+        ),
+      ],
     );
   }
 
@@ -220,47 +219,63 @@ class OrderDetailScreen extends GetView<OrderDetailController> {
   }
 
   _buildDeliveryInfoLayout(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              controller.deliveryTime.value,
-              style: Theme.of(context).textTheme.bodyText1?.copyWith(
-                    fontSize: 12.sp,
-                  ),
-            ),
-            Text(
-              controller.deliveryCoordinate.value,
-              style: Theme.of(context).textTheme.bodyText1?.copyWith(
-                    fontSize: 12.sp,
-                  ),
-            ),
-          ],
+    return Container(
+      padding: EdgeInsets.symmetric(
+        vertical: Insets.small.h * .5,
+      ),
+      decoration: const BoxDecoration(
+        border: Border(
+          top: BorderSide(
+            color: Palette.accent,
+          ),
+          bottom: BorderSide(
+            color: Palette.accent,
+          ),
         ),
-        Material(
-          color: Palette.primary,
-          clipBehavior: Clip.hardEdge,
-          borderRadius: BorderRadius.circular(12.sp),
-          child: InkWell(
-            onTap: controller.onPressedViewMaps,
-            child: Padding(
-              padding: EdgeInsets.symmetric(
-                horizontal: Insets.small.w,
-                vertical: Insets.small.h,
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                controller.deliveryTime.value,
+                style: Theme.of(context).textTheme.bodyText1?.copyWith(
+                      fontSize: 12.sp,
+                    ),
               ),
-              child: const Center(
-                child: Icon(
-                  Icons.place,
-                  color: Palette.accent,
+              Text(
+                "${controller.orderingUser!.name} - ${controller.orderingUser!.phone}",
+                style: Theme.of(context).textTheme.bodyText1?.copyWith(
+                      fontSize: 12.sp,
+                      fontWeight: FontWeight.w300,
+                    ),
+              ),
+            ],
+          ),
+          Material(
+            color: Palette.primary,
+            clipBehavior: Clip.hardEdge,
+            borderRadius: BorderRadius.circular(12.sp),
+            child: InkWell(
+              onTap: controller.onPressedViewMaps,
+              child: Padding(
+                padding: EdgeInsets.symmetric(
+                  horizontal: Insets.small.w,
+                  vertical: Insets.small.h,
+                ),
+                child: const Center(
+                  child: Icon(
+                    Icons.place,
+                    color: Palette.accent,
+                  ),
                 ),
               ),
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 
@@ -319,8 +334,8 @@ class OrderDetailScreen extends GetView<OrderDetailController> {
   }) =>
       Container(
         padding: EdgeInsets.symmetric(
-          horizontal: 6.w,
-          vertical: 6.h,
+          horizontal: Insets.small.w,
+          vertical: Insets.small.h,
         ),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(6.sp),

@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:mapalus_partner/app/modules/home/home_controller.dart';
@@ -5,8 +6,10 @@ import 'package:mapalus_partner/app/widgets/dialog_confirm.dart';
 import 'package:mapalus_partner/data/models/order.dart';
 import 'package:mapalus_partner/data/models/product_order.dart';
 import 'package:mapalus_partner/data/models/rating.dart';
+import 'package:mapalus_partner/data/models/user_app.dart';
 import 'package:mapalus_partner/data/repo/order_repo.dart';
 import 'package:mapalus_partner/shared/enums.dart';
+import 'package:mapalus_partner/shared/routes.dart';
 import 'package:mapalus_partner/shared/values.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
@@ -28,16 +31,20 @@ class OrderDetailController extends GetxController {
   RxString deliveryCoordinate = ''.obs;
   RxString totalPrice = ''.obs;
 
-  RxBool isLoading = false.obs;
-
   Rx<OrderStatus> orderStatus = OrderStatus.placed.obs;
   Rx<Rating> orderRating = Rating.empty().obs;
 
   late Order _order;
   bool shouldRefresh = false;
 
+  RxBool canLoading = true.obs;
+
+  UserApp? orderingUser;
+
   @override
-  void onInit() {
+  Future<void> onInit() async {
+    canLoading.value = true;
+    await Future.delayed(600.milliseconds);
     Order order = Get.arguments as Order;
     _order = order;
     productOrders.value = order.products;
@@ -61,10 +68,12 @@ class OrderDetailController extends GetxController {
     deliveryCoordinate.value = order.orderInfo.deliveryCoordinateF;
     totalPrice.value = order.orderInfo.totalPrice;
     orderRating.value = order.rating;
+    orderingUser = order.orderingUser;
 
     orderStatus.value = order.status;
 
     super.onInit();
+    canLoading.value = false;
   }
 
   onPressedNegative() async {
@@ -74,30 +83,32 @@ class OrderDetailController extends GetxController {
       title: "PERHATIAN !",
       confirmText: "TOLAK",
       onPressedConfirm: () async {
-        isLoading.value = true;
+        canLoading.value = true;
         _order.status = OrderStatus.rejected;
         await orderRepo.updateOrderStatus(order: _order);
         orderStatus.value = OrderStatus.rejected;
         shouldRefresh = true;
-        isLoading.value = false;
+        await Future.delayed(600.milliseconds);
+
+        canLoading.value = false;
       },
     ));
     //alter this order in database to orderstatus.accepted
   }
 
   onPressedPositive() async {
-    isLoading.value = true;
+    canLoading.value = true;
     //alter this order in database to orderstatus.accepted
     _order.status = OrderStatus.accepted;
     await orderRepo.updateOrderStatus(order: _order);
     orderStatus.value = OrderStatus.accepted;
     shouldRefresh = true;
-    isLoading.value = false;
-    Get.back();
+    await Future.delayed(600.milliseconds);
+    Get.until(ModalRoute.withName(Routes.home));
   }
 
   onPressedFinishOrder() async {
-    isLoading.value = true;
+    canLoading.value = true;
     orderStatus.value = OrderStatus.finished;
     await Future.delayed(const Duration(seconds: 1));
     var rating = Rating(
@@ -110,7 +121,7 @@ class OrderDetailController extends GetxController {
       rating,
     );
     orderRating.value = rating;
-    isLoading.value = false;
+    canLoading.value = false;
   }
 
   onPressedViewMaps() {

@@ -55,7 +55,7 @@ class CardOrder extends StatelessWidget {
                               ) &&
                               order.status == OrderStatus.placed
                           ? "Hari Ini"
-                          : order.orderTimeStamp!.format('E, dd MMMM'),
+                          : order.orderTimeStamp!.format('E, dd MMM H:mm'),
                       style: Theme.of(context).textTheme.caption?.copyWith(
                             fontWeight: order.orderTimeStamp!.isSame(
                               Jiffy(),

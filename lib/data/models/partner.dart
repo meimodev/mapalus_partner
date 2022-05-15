@@ -1,12 +1,12 @@
 class Partner {
   String id;
-  String fcmToken;
+  List<String> fcmToken;
   String name;
   List<String> orders;
 
   Partner.fromMap(Map<String, dynamic> data)
       : id = data['id'],
-        fcmToken = data['fcm_token'],
+        fcmToken = List<String>.from(data['fcm_token']),
         name = data['name'],
         orders = List<String>.from(data['orders']);
 
@@ -17,5 +17,13 @@ class Partner {
       'name': name,
       'orders': orders,
     };
+  }
+
+  void addNewToken(String token) {
+    if (fcmToken.length < 3) {
+      fcmToken.add(token);
+      return;
+    }
+    fcmToken.insert(0, token);
   }
 }

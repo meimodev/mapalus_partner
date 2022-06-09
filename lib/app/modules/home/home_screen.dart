@@ -48,28 +48,50 @@ class HomeScreen extends GetView<HomeController> {
                       ),
                     ],
                   ),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
+                  child: Row(
+                    mainAxisSize: MainAxisSize.max,
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      Text(
-                        "Mapalus Partner",
-                        textAlign: TextAlign.center,
-                        style: Theme.of(context).textTheme.bodyText1?.copyWith(
-                              fontSize: 12.sp,
-                              color: Colors.grey,
-                            ),
+                      Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Mapalus Partner",
+                            style:
+                                Theme.of(context).textTheme.bodyText1?.copyWith(
+                                      fontSize: 12.sp,
+                                      color: Colors.grey,
+                                    ),
+                          ),
+                          Text(
+                            "Pasar Tondano",
+                            style:
+                                Theme.of(context).textTheme.bodyText1?.copyWith(
+                                      fontSize: 16.sp,
+                                    ),
+                          ),
+                        ],
                       ),
-                      Text(
-                        "Pasar Tondano",
-                        textAlign: TextAlign.center,
-                        style: Theme.of(context).textTheme.bodyText1?.copyWith(
-                              fontSize: 16.sp,
-                            ),
+                      Obx(
+                        () => AnimatedSwitcher(
+                          duration: 200.milliseconds,
+                          child: controller.isLoading.value
+                              ? const SizedBox()
+                              : _buildInfoSection(
+                                  isShowingOrders:
+                                      controller.activeNavBottomIndex.value ==
+                                          1,
+                                  isShowingProducts:
+                                      controller.activeNavBottomIndex.value ==
+                                          2,
+                                  context: context,
+                                ),
+                        ),
                       ),
                     ],
                   ),
                 ),
-                SizedBox(height: Insets.medium.h),
                 Expanded(
                   child: Obx(
                     () => AnimatedSwitcher(
@@ -85,6 +107,7 @@ class HomeScreen extends GetView<HomeController> {
                                   controller.activeNavBottomIndex.value == 1,
                               isShowingProducts:
                                   controller.activeNavBottomIndex.value == 2,
+                              context: context,
                             ),
                     ),
                   ),
@@ -141,27 +164,36 @@ class HomeScreen extends GetView<HomeController> {
   _buildListSwitcher({
     required bool isShowingOrders,
     required bool isShowingProducts,
+    required BuildContext context,
   }) {
     if (isShowingOrders && !isShowingProducts) {
-      return Obx(
-        () => ListView.builder(
-          padding: EdgeInsets.only(bottom: Insets.large.h * 2),
-          addAutomaticKeepAlives: true,
-          physics: const BouncingScrollPhysics(),
-          itemBuilder: (context, index) {
-            Order order = controller.orders.elementAt(index);
-            return CardOrder(
-                order: order,
-                onPressed: () {
-                  Navigator.pushNamed(
-                    context,
-                    Routes.orderDetail,
-                    arguments: order,
-                  );
-                });
-          },
-          itemCount: controller.orders.length,
-        ),
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          SizedBox(height: Insets.small.h),
+          Expanded(
+            child: Obx(
+              () => ListView.builder(
+                padding: EdgeInsets.only(bottom: Insets.large.h * 2),
+                addAutomaticKeepAlives: true,
+                physics: const BouncingScrollPhysics(),
+                itemBuilder: (context, index) {
+                  Order order = controller.orders.elementAt(index);
+                  return CardOrder(
+                      order: order,
+                      onPressed: () {
+                        Navigator.pushNamed(
+                          context,
+                          Routes.orderDetail,
+                          arguments: order,
+                        );
+                      });
+                },
+                itemCount: controller.orders.length,
+              ),
+            ),
+          ),
+        ],
       );
     } else {
       return Obx(
@@ -185,6 +217,36 @@ class HomeScreen extends GetView<HomeController> {
         ),
       );
     }
+  }
+
+  _buildInfoSection({
+    required BuildContext context,
+    required bool isShowingOrders,
+    required bool isShowingProducts,
+  }) {
+    if (isShowingOrders) {
+      return Obx(
+        () => Text(
+          'Total orders ${controller.orders.length}',
+          style: Theme.of(context).textTheme.bodyText1?.copyWith(
+                color: Palette.accent,
+                fontWeight: FontWeight.w300,
+                fontSize: 10.sp,
+              ),
+        ),
+      );
+    }
+
+    return Obx(
+      () => Text(
+        'Total products ${controller.products.length}',
+        style: Theme.of(context).textTheme.bodyText1?.copyWith(
+              color: Palette.accent,
+              fontWeight: FontWeight.w300,
+              fontSize: 10.sp,
+            ),
+      ),
+    );
   }
 }
 

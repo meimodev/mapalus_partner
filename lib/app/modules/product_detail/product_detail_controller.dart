@@ -18,7 +18,7 @@ class ProductDetailController extends GetxController {
   TextEditingController tecUnit = TextEditingController();
   TextEditingController tecWeight = TextEditingController();
   TextEditingController tecCategory = TextEditingController();
-  RxBool isAvailable = false.obs;
+  RxBool isAvailable = true.obs;
   RxBool isCustomPrice = false.obs;
 
   RxString errorText = "".obs;

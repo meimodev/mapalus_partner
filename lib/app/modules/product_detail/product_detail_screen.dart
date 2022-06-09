@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dropdown/flutter_dropdown.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mapalus_partner/app/modules/product_detail/product_detail_controller.dart';
 import 'package:mapalus_partner/app/widgets/card_navigation.dart';
@@ -66,25 +67,30 @@ class ProductDetailScreen extends GetView<ProductDetailController> {
                           title: "Price",
                           value: controller.product.price.toString(),
                           controller: controller.tecPrice,
+                          numbersOnly: true,
                         ),
                         _buildListItem(
-                          context: context,
-                          title: "Unit",
-                          value: controller.product.unit,
-                          controller: controller.tecUnit,
-                        ),
+                            context: context,
+                            title: "Unit",
+                            value: controller.product.unit,
+                            controller: controller.tecUnit,
+                            onTextChanged: (value) {
+                              if (value.toLowerCase() == 'kilogram') {
+                                controller.tecWeight.text = "1000";
+                              }
+                            }),
                         _buildListItem(
                           context: context,
                           title: "Weight in gram",
                           value: controller.product.weight.toString(),
                           controller: controller.tecWeight,
+                          numbersOnly: true,
                         ),
-                        _buildListItem(
-                          context: context,
-                          title: "Category",
-                          value: controller.product.category,
-                          controller: controller.tecCategory,
-                        ),
+                        _buildDropdownList(context, (value) {
+                          if (value != null) {
+                            controller.tecCategory.text = value;
+                          }
+                        }, controller.tecCategory.text),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
@@ -135,6 +141,8 @@ class ProductDetailScreen extends GetView<ProductDetailController> {
     required String title,
     required String value,
     required TextEditingController controller,
+    Function(String)? onTextChanged,
+    bool numbersOnly = false,
     int maxLines = 1,
   }) {
     return Container(
@@ -157,6 +165,10 @@ class ProductDetailScreen extends GetView<ProductDetailController> {
             controller: controller,
             maxLines: maxLines,
             autocorrect: false,
+            onChanged: onTextChanged,
+            keyboardType:
+                numbersOnly ? TextInputType.text : TextInputType.number,
+            textInputAction: TextInputAction.next,
             style: TextStyle(
               color: Palette.accent,
               fontFamily: fontFamily,
@@ -327,6 +339,57 @@ class ProductDetailScreen extends GetView<ProductDetailController> {
           ),
         ),
       ),
+    );
+  }
+
+  _buildDropdownList(
+    BuildContext context,
+    Function(String?)? onChanged,
+    String current,
+  ) {
+    List<String> items = [
+      'Bahan Makanan',
+      'Lauk Pauk',
+      'Bumbu Dapur',
+      'Sayuram',
+      'Buah',
+      'Bahan Kue'
+    ];
+    return DropDown<String>(
+      showUnderline: false,
+      items: items,
+      hint: Padding(
+        padding: EdgeInsets.only(
+          left: Insets.small.w,
+        ),
+        child: Text(
+          current.isEmpty ? 'Category' : current,
+          style: Theme.of(context).textTheme.bodyText1?.copyWith(
+                color: Palette.accent,
+                fontSize: 12.sp,
+                fontWeight: current.isEmpty ? FontWeight.w400 : FontWeight.w300,
+              ),
+        ),
+      ),
+      customWidgets: <Widget>[
+        for (var e in items)
+          Padding(
+            padding: EdgeInsets.only(
+              left: Insets.small.w,
+            ),
+            child: Text(
+              e,
+              style: Theme.of(context).textTheme.bodyText1?.copyWith(
+                    color: Palette.accent,
+                    fontWeight: e.toLowerCase() == current.toLowerCase()
+                        ? FontWeight.bold
+                        : FontWeight.w400,
+                    fontSize: 12.sp,
+                  ),
+            ),
+          ),
+      ],
+      onChanged: onChanged,
     );
   }
 }

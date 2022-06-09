@@ -167,7 +167,7 @@ class ProductDetailScreen extends GetView<ProductDetailController> {
             autocorrect: false,
             onChanged: onTextChanged,
             keyboardType:
-                numbersOnly ? TextInputType.text : TextInputType.number,
+                numbersOnly ? TextInputType.number : TextInputType.text,
             textInputAction: TextInputAction.next,
             style: TextStyle(
               color: Palette.accent,

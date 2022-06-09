@@ -347,17 +347,9 @@ class ProductDetailScreen extends GetView<ProductDetailController> {
     Function(String?)? onChanged,
     String current,
   ) {
-    List<String> items = [
-      'Bahan Makanan',
-      'Lauk Pauk',
-      'Bumbu Dapur',
-      'Sayuram',
-      'Buah',
-      'Bahan Kue'
-    ];
     return DropDown<String>(
       showUnderline: false,
-      items: items,
+      items: controller.categories,
       hint: Padding(
         padding: EdgeInsets.only(
           left: Insets.small.w,
@@ -372,7 +364,7 @@ class ProductDetailScreen extends GetView<ProductDetailController> {
         ),
       ),
       customWidgets: <Widget>[
-        for (var e in items)
+        for (var e in controller.categories)
           Padding(
             padding: EdgeInsets.only(
               left: Insets.small.w,

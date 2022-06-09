@@ -26,6 +26,15 @@ class ProductDetailController extends GetxController {
   bool shouldUpdateHomeControllerProducts = false;
   bool isDeletion = false;
 
+  List<String> categories = [
+    'Bahan Makanan',
+    'Lauk Pauk',
+    'Bumbu Dapur',
+    'Sayuran',
+    'Buah',
+    'Bahan Kue'
+  ];
+
   @override
   void onInit() {
     var _product = Get.arguments;

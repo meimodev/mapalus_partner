@@ -1,4 +1,5 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:mapalus_partner/data/models/order.dart';
 import 'package:mapalus_partner/data/models/partner.dart';
@@ -16,6 +17,9 @@ class HomeController extends GetxController {
 
   RxList<Order> orders = <Order>[].obs;
   RxList<Product> products = <Product>[].obs;
+  List<Product> _tempProducts = <Product>[];
+
+  TextEditingController tecProductFilter = TextEditingController();
 
   var isLoading = false.obs;
   var activeNavBottomIndex = 1.obs;
@@ -25,8 +29,13 @@ class HomeController extends GetxController {
   //TODO [OPTIMIZATION] use infinite scrolling implementation
 
   @override
+  void dispose() {
+    tecProductFilter.dispose();
+    super.dispose();
+  }
+
+  @override
   void onInit() {
-    // _initOrderNotifications();
     _initPartnerFCMToken();
     _initNewOrderListener();
     super.onInit();
@@ -42,10 +51,27 @@ class HomeController extends GetxController {
     _loadOrders();
   }
 
+  Future<void> onChangedProductFilter(String value) async {
+    if (value.isEmpty) {
+      products.value = List.of(_tempProducts);
+      return;
+    }
+
+    List<Product> pp = List.of(_tempProducts);
+    pp.retainWhere((element) {
+      var pName = element.name.trim().toLowerCase();
+      var pCategory = element.category.trim().toLowerCase();
+      var val = value.trim().toLowerCase();
+      return pName.contains(val) || pCategory.contains(val);
+    });
+    products.value = pp;
+  }
+
   _loadOrders() async {
     isLoading.value = true;
-    var _orders = await orderRepo.readAllOrders(0, 0);
-    orders.value = List<Order>.from(_orders.reversed);
+    var oo = await orderRepo.readAllOrders(0, 0);
+    tecProductFilter.text = '';
+    orders.value = List<Order>.from(oo);
 
     //show the list on screen
     isLoading.value = false;
@@ -55,11 +81,11 @@ class HomeController extends GetxController {
     isLoading.value = true;
     // await Future.delayed(1.seconds);
 
-    var _products = await productRepo.readProducts(0, 0);
-    var p = List<Product>.from(_products);
+    var pp = await productRepo.readProducts(0, 0);
+    var p = List<Product>.from(pp);
     p.sort((a, b) => a.name.toLowerCase().compareTo(b.name.toLowerCase()));
     products.value = List<Product>.from(p);
-
+    _tempProducts = List<Product>.of(products);
     //show the list on screen
     isLoading.value = false;
   }
@@ -78,9 +104,9 @@ class HomeController extends GetxController {
       partner.addNewToken(event);
       userRepo.firestore.updatePartner(partner);
     });
-    var _token = await FirebaseMessaging.instance.getToken();
-    if (_token != null && !partner.fcmToken.contains(_token)) {
-      partner.addNewToken(_token);
+    var token = await FirebaseMessaging.instance.getToken();
+    if (token != null && !partner.fcmToken.contains(token)) {
+      partner.addNewToken(token);
       userRepo.firestore.updatePartner(partner);
     }
   }

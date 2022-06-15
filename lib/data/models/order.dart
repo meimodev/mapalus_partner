@@ -43,6 +43,7 @@ class Order {
   Order.fromMap(Map<String, dynamic> data)
       :
         // deliveryInfo = DeliveryInfo.fromMap(data['delivery_info']),
+
         id = data['id'],
         orderInfo = OrderInfo.fromMap(data['order_info']),
         status = OrderStatus.values.firstWhere(

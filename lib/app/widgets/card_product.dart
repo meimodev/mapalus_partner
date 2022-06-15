@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mapalus_partner/app/widgets/custom_image.dart';
 import 'package:mapalus_partner/data/models/product.dart';
 import 'package:mapalus_partner/shared/theme.dart';
@@ -56,20 +55,36 @@ class CardProduct extends StatelessWidget {
                             fontSize: 12.sp,
                           ),
                     ),
-                    Text(
-                      '${product.priceF} / ${product.unit}',
-                      style: Theme.of(context).textTheme.bodyText1?.copyWith(
-                            fontSize: 10.sp,
-                            fontWeight: FontWeight.w300,
-                          ),
+                    Row(
+                      children: [
+                        Text(
+                          '${product.priceF} / ${product.unit}',
+                          style:
+                              Theme.of(context).textTheme.bodyText1?.copyWith(
+                                    fontSize: 10.sp,
+                                    fontWeight: FontWeight.w300,
+                                  ),
+                        ),
+                        product.unit.trim().toLowerCase() == 'kilogram'
+                            ? const SizedBox()
+                            : Row(
+                                children: [
+                                  const Text(" | "),
+                                  Text(
+                                    product.weightF,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyText1
+                                        ?.copyWith(
+                                          fontSize: 10.sp,
+                                          fontWeight: FontWeight.w500,
+                                        ),
+                                  ),
+                                ],
+                              ),
+                      ],
                     ),
-                    Text(
-                      product.weightF,
-                      style: Theme.of(context).textTheme.bodyText1?.copyWith(
-                            fontSize: 10.sp,
-                            fontWeight: FontWeight.w300,
-                          ),
-                    ),
+                    _buildCategoriesChip(),
                   ],
                 ),
               ),
@@ -90,38 +105,83 @@ class CardProduct extends StatelessWidget {
     required bool isCustomPrice,
   }) {
     return Row(
-      crossAxisAlignment: CrossAxisAlignment.end,
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
         isAvailable
             ? const SizedBox()
             : Container(
-                padding: EdgeInsets.all(6.sp),
+                padding: EdgeInsets.all(9.sp),
                 decoration: const BoxDecoration(
-                  color: Palette.editable,
+                  color: Palette.accent,
                   shape: BoxShape.circle,
                 ),
-                child: SvgPicture.asset(
-                  'assets/vectors/empty.svg',
-                  color: Palette.negative,
-                  width: 15.w,
-                  height: 15.h,
+                child: Text(
+                  "!",
+                  style: TextStyle(
+                    fontSize: 15.sp,
+                    fontWeight: FontWeight.bold,
+                    color: Palette.negative,
+                  ),
                 ),
               ),
+        SizedBox(width: 3.w),
         isCustomPrice
             ? Container(
-                padding: EdgeInsets.all(6.sp),
+                padding: EdgeInsets.all(9.sp),
                 decoration: const BoxDecoration(
-                  color: Palette.editable,
+                  color: Palette.accent,
                   shape: BoxShape.circle,
                 ),
-                child: SvgPicture.asset(
-                  'assets/vectors/money.svg',
-                  color: Palette.accent,
-                  width: 15.w,
-                  height: 15.h,
+                child: Text(
+                  "\$",
+                  style: TextStyle(
+                    fontSize: 11.sp,
+                    fontWeight: FontWeight.bold,
+                    color: Palette.primary,
+                  ),
                 ),
               )
             : const SizedBox(),
+      ],
+    );
+  }
+
+  _buildCategoriesChip() {
+    var categoryList = [];
+    if (product.category.contains(',')) {
+      var temp = product.category.split(',');
+      for (String t in temp) {
+        categoryList.add(t);
+      }
+    } else {
+      categoryList.add(product.category);
+    }
+
+    return Row(
+      children: [
+        for (var c in categoryList)
+          Container(
+            decoration: BoxDecoration(
+              color: Palette.accent,
+              borderRadius: BorderRadius.circular(30.sp),
+            ),
+            child: Center(
+              child: Padding(
+                padding: EdgeInsets.symmetric(
+                  horizontal: Insets.small.w * .5,
+                  vertical: Insets.small.h * .25,
+                ),
+                child: Text(
+                  c,
+                  style: TextStyle(
+                    fontFamily: 'Roboto',
+                    color: Palette.primary,
+                    fontSize: 8.sp,
+                  ),
+                ),
+              ),
+            ),
+          ),
       ],
     );
   }

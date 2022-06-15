@@ -124,7 +124,7 @@ class HomeScreen extends GetView<HomeController> {
           ),
           Positioned(
             right: Insets.medium.w,
-            bottom: 90.h,
+            bottom: 120.h,
             child: Obx(
               () => AnimatedSwitcher(
                 duration: 400.milliseconds,
@@ -133,20 +133,19 @@ class HomeScreen extends GetView<HomeController> {
                         color: Palette.primary,
                         shape: const CircleBorder(),
                         clipBehavior: Clip.hardEdge,
+                        elevation: 3,
                         child: InkWell(
                           onTap: controller.onPressedAddButton,
                           child: SizedBox(
-                            height: 45.h,
-                            width: 45.w,
+                            height: 50.h,
+                            width: 50.w,
                             child: Center(
                               child: Text(
                                 '+',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodyText1
-                                    ?.copyWith(
-                                      fontSize: 20.sp,
-                                    ),
+                                style: TextStyle(
+                                  color: Palette.accent,
+                                  fontSize: 30.sp,
+                                ),
                               ),
                             ),
                           ),
@@ -173,47 +172,109 @@ class HomeScreen extends GetView<HomeController> {
           SizedBox(height: Insets.small.h),
           Expanded(
             child: Obx(
-              () => ListView.builder(
-                padding: EdgeInsets.only(bottom: Insets.large.h * 2),
-                addAutomaticKeepAlives: true,
-                physics: const BouncingScrollPhysics(),
-                itemBuilder: (context, index) {
-                  Order order = controller.orders.elementAt(index);
-                  return CardOrder(
-                      order: order,
-                      onPressed: () {
-                        Navigator.pushNamed(
-                          context,
-                          Routes.orderDetail,
-                          arguments: order,
-                        );
-                      });
-                },
-                itemCount: controller.orders.length,
-              ),
+              () => controller.orders.isNotEmpty
+                  ? ListView.builder(
+                      padding: EdgeInsets.only(bottom: Insets.large.h * 2),
+                      addAutomaticKeepAlives: true,
+                      physics: const BouncingScrollPhysics(),
+                      itemBuilder: (context, index) {
+                        Order order = controller.orders.elementAt(index);
+                        return CardOrder(
+                            order: order,
+                            onPressed: () {
+                              Navigator.pushNamed(
+                                context,
+                                Routes.orderDetail,
+                                arguments: order,
+                              );
+                            });
+                      },
+                      itemCount: controller.orders.length,
+                    )
+                  : Center(
+                      child: Text(
+                        'No Order Yet',
+                        style: Theme.of(context).textTheme.bodyText1?.copyWith(
+                            color: Palette.accent,
+                            fontSize: 15.sp,
+                            fontWeight: FontWeight.bold),
+                      ),
+                    ),
             ),
           ),
         ],
       );
     } else {
       return Obx(
-        () => ListView.builder(
-          padding: EdgeInsets.only(bottom: Insets.large.h * 2),
-          addAutomaticKeepAlives: true,
-          physics: const BouncingScrollPhysics(),
-          itemBuilder: (context, index) {
-            Product product = controller.products.elementAt(index);
-            return CardProduct(
-                product: product,
-                onPressed: (_) {
-                  Navigator.pushNamed(
-                    context,
-                    Routes.productDetail,
-                    arguments: product,
-                  );
-                });
-          },
-          itemCount: controller.products.length,
+        () => Column(
+          children: [
+            Container(
+              padding: EdgeInsets.only(
+                left: Insets.medium.w,
+                right: Insets.medium.w,
+                bottom: Insets.medium.h,
+                top: Insets.medium.h,
+              ),
+              child: TextField(
+                controller: controller.tecProductFilter,
+                onChanged: controller.onChangedProductFilter,
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 13.sp,
+                  color: Palette.accent,
+                ),
+                textInputAction: TextInputAction.done,
+                maxLines: 1,
+                decoration: InputDecoration(
+                  isDense: true,
+                  focusColor: Palette.primary,
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12.sp),
+                    borderSide: const BorderSide(
+                      color: Palette.primary,
+                    ),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12.sp),
+                    borderSide: const BorderSide(
+                      color: Palette.accent,
+                    ),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12.sp),
+                    borderSide: const BorderSide(
+                      color: Palette.primary,
+                    ),
+                  ),
+                  labelText: "Filter",
+                  labelStyle: TextStyle(
+                    fontSize: 12.sp,
+                    color: Colors.grey,
+                  ),
+                ),
+              ),
+            ),
+            Expanded(
+              child: ListView.builder(
+                padding: EdgeInsets.only(bottom: Insets.large.h * 2),
+                addAutomaticKeepAlives: true,
+                physics: const BouncingScrollPhysics(),
+                itemBuilder: (context, index) {
+                  Product product = controller.products.elementAt(index);
+                  return CardProduct(
+                      product: product,
+                      onPressed: (_) {
+                        Navigator.pushNamed(
+                          context,
+                          Routes.productDetail,
+                          arguments: product,
+                        );
+                      });
+                },
+                itemCount: controller.products.length,
+              ),
+            ),
+          ],
         ),
       );
     }

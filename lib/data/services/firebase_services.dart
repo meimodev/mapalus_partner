@@ -209,6 +209,18 @@ class FirestoreService {
       }
     });
 
+    CollectionReference app = fireStore.collection('app');
+
+    app.doc('product').set({'count': FieldValue.increment(1)}).then((_) {
+      if (kDebugMode) {
+        print('[FIRESTORE] PRODUCT successfully counted');
+      }
+    }).onError((e, _) {
+      if (kDebugMode) {
+        print('[FIRESTORE] PRODUCT creation error while counting $e');
+      }
+    });
+
     return product;
   }
 
@@ -222,6 +234,18 @@ class FirestoreService {
     }).onError((e, _) {
       if (kDebugMode) {
         print('[FIRESTORE] PRODUCT deletion error $e');
+      }
+    });
+
+    CollectionReference app = fireStore.collection('app');
+
+    app.doc('product').set({'count': FieldValue.increment(-1)}).then((_) {
+      if (kDebugMode) {
+        print('[FIRESTORE] PRODUCT successfully discounted');
+      }
+    }).onError((e, _) {
+      if (kDebugMode) {
+        print('[FIRESTORE] PRODUCT creation error while discounting $e');
       }
     });
   }

@@ -102,16 +102,7 @@ class HomeController extends GetxController {
   Future<void> _initPartnerFCMToken() async {
     Partner partner = await userRepo.firestore.getPartner("089525699078");
     await FirebaseMessaging.instance.subscribeToTopic(partner.id);
-    debugPrint('Subscribed To ${partner.id}');
-    // FirebaseMessaging.instance.onTokenRefresh.listen((event) async {
-    //   partner.addNewToken(event);
-    //   userRepo.firestore.updatePartner(partner);
-    // });
-    // var token = await FirebaseMessaging.instance.getToken();
-    // if (token != null && !partner.fcmToken.contains(token)) {
-    //   partner.addNewToken(token);
-    //   userRepo.firestore.updatePartner(partner);
-    // }
+
   }
 
   void _initNewOrderListener() {
@@ -139,6 +130,13 @@ class HomeController extends GetxController {
           Get.rawSnackbar(
             message: "New Order received | #${order.idMinified}",
           );
+          FlutterRingtonePlayer.play(
+            android: AndroidSounds.notification,
+            ios: IosSounds.glass,
+            looping: false,
+            volume: 1,
+            asAlarm: true,
+          );
         } else {
           // orders.replaceRange(existIndex, existIndex, [order]);
           orders.removeAt(existIndex);
@@ -149,13 +147,7 @@ class HomeController extends GetxController {
         }
       }
 
-      FlutterRingtonePlayer.play(
-        android: AndroidSounds.notification,
-        ios: IosSounds.glass,
-        looping: false,
-        volume: 1,
-        asAlarm: true,
-      );
+
 
       isLoading.value = false;
     });

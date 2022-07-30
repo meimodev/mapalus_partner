@@ -29,6 +29,9 @@ void main() async {
   }
   await Jiffy.locale("id");
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+
+  await FirebaseMessaging.instance.setAutoInitEnabled(true);
+
   runApp(const MyApp());
 }
 

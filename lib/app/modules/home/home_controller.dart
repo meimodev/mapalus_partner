@@ -102,6 +102,7 @@ class HomeController extends GetxController {
   Future<void> _initPartnerFCMToken() async {
     Partner partner = await userRepo.firestore.getPartner("089525699078");
     await FirebaseMessaging.instance.subscribeToTopic(partner.id);
+    debugPrint('Subscribed To ${partner.id}');
     // FirebaseMessaging.instance.onTokenRefresh.listen((event) async {
     //   partner.addNewToken(event);
     //   userRepo.firestore.updatePartner(partner);

@@ -37,13 +37,13 @@ class ProductDetailController extends GetxController {
 
   @override
   void onInit() {
-    var _product = Get.arguments;
-    if (_product == null) {
+    var product = Get.arguments;
+    if (product == null) {
       isAdding.value = true;
       product = Product.empty();
     } else {
       isAdding.value = false;
-      product = _product;
+      product = product;
       _initTextFields();
     }
 

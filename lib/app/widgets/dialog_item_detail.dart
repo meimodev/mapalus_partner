@@ -261,7 +261,6 @@ class _DialogItemDetailState extends State<DialogItemDetail> {
       } else {
         tecPrice.text = (gram * widget.product.price).floor().toString();
       }
-      print('gram = ${tecGram.text} price = ${tecPrice.text}');
     }
 
     _adding(int amount, TextEditingController controller, bool isFromPrice) {

@@ -83,7 +83,8 @@ class HomeController extends GetxController {
 
     var pp = await productRepo.readProducts(0, 0);
     var p = List<Product>.from(pp);
-    p.sort((a, b) => a.name.toLowerCase().compareTo(b.name.toLowerCase()));
+    // p.sort((a, b) => a.name.toLowerCase().compareTo(b.name.toLowerCase()));
+
     products.value = List<Product>.from(p);
     _tempProducts = List<Product>.of(products);
     //show the list on screen
@@ -100,15 +101,16 @@ class HomeController extends GetxController {
 
   Future<void> _initPartnerFCMToken() async {
     Partner partner = await userRepo.firestore.getPartner("089525699078");
-    FirebaseMessaging.instance.onTokenRefresh.listen((event) async {
-      partner.addNewToken(event);
-      userRepo.firestore.updatePartner(partner);
-    });
-    var token = await FirebaseMessaging.instance.getToken();
-    if (token != null && !partner.fcmToken.contains(token)) {
-      partner.addNewToken(token);
-      userRepo.firestore.updatePartner(partner);
-    }
+    await FirebaseMessaging.instance.subscribeToTopic(partner.id);
+    // FirebaseMessaging.instance.onTokenRefresh.listen((event) async {
+    //   partner.addNewToken(event);
+    //   userRepo.firestore.updatePartner(partner);
+    // });
+    // var token = await FirebaseMessaging.instance.getToken();
+    // if (token != null && !partner.fcmToken.contains(token)) {
+    //   partner.addNewToken(token);
+    //   userRepo.firestore.updatePartner(partner);
+    // }
   }
 
   void _initNewOrderListener() {
@@ -140,9 +142,9 @@ class HomeController extends GetxController {
           // orders.replaceRange(existIndex, existIndex, [order]);
           orders.removeAt(existIndex);
           orders.insert(existIndex, order);
-          Get.rawSnackbar(
-            message: "Order #${order.idMinified} updated",
-          );
+          // Get.rawSnackbar(
+          //   message: "Order #${order.idMinified} updated",
+          // );
         }
       }
 

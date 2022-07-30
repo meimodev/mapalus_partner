@@ -70,16 +70,16 @@ class DeliveryInfo {
     double distanceFee = 0;
     //determine the weight in which class
     weight = weight / 1000;
-    if (weight > 0 && weight <= 2.0) {
+    if (weight > 0 && weight <= 5.0) {
       distanceFee = _calculateDistance(distance, 0);
-    } else if (weight > 2.0 && weight <= 4.0) {
+    } else if (weight > 2.0 && weight <= 10.0) {
       distanceFee = _calculateDistance(distance, 1);
-    } else if (weight > 4.0 && weight <= 6.0) {
+    } else if (weight > 4.0 && weight <= 15.0) {
       distanceFee = _calculateDistance(distance, 2);
-    } else if (weight > 6 && weight <= 9) {
+    } else if (weight > 6 && weight <= 20) {
       distanceFee = _calculateDistance(distance, 3);
     } else {
-      return 'invalid weight $weight';
+      return 'Overload! tidak bisa $weight';
     }
     //determine the distance in which class
     //than multiply with discount

@@ -1,5 +1,4 @@
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:jiffy/jiffy.dart';
 import 'package:mapalus_partner/shared/utils.dart';
 
 class OrderInfo {

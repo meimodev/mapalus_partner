@@ -30,7 +30,6 @@ class FirestoreService {
 
     if (doc.exists) {
       Map data = doc.data() as Map<String, dynamic>;
-      print("firebase service getuser $data");
       UserApp userApp = UserApp(
         phone: phone,
         name: data["name"],
@@ -173,7 +172,6 @@ class FirestoreService {
     DocumentSnapshot doc = await partners.doc(id).get();
 
     final data = doc.data() as Map<String, dynamic>;
-    print(data.toString());
     return Partner.fromMap(data);
   }
 

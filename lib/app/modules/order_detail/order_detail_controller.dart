@@ -50,15 +50,15 @@ class OrderDetailController extends GetxController {
     productOrders.value = order.products;
     id.value = order.idMinified;
 
-    var _orderTimeStamp = order.orderTimeStamp;
-    orderTime.value = _orderTimeStamp == null
+    var orderTimeStamp = order.orderTimeStamp;
+    orderTime.value = orderTimeStamp == null
         ? '-'
-        : _orderTimeStamp.format(Values.formatRawDate);
+        : orderTimeStamp.format(Values.formatRawDate);
 
-    var _finishTimeStamp = order.finishTimeStamp;
-    finishTime.value = _finishTimeStamp == null
+    var finishTimeStamp = order.finishTimeStamp;
+    finishTime.value = finishTimeStamp == null
         ? '-'
-        : _finishTimeStamp.format(Values.formatRawDate);
+        : finishTimeStamp.format(Values.formatRawDate);
 
     productCount.value = order.orderInfo.productCountF;
     productTotal.value = order.orderInfo.productPriceF;
@@ -125,10 +125,10 @@ class OrderDetailController extends GetxController {
   }
 
   onPressedViewMaps() {
-    var _latitude = _order.orderInfo.deliveryCoordinate.latitude;
-    var _longitude = _order.orderInfo.deliveryCoordinate.longitude;
-    var _url =
-        'https://www.google.com/maps/search/?api=1&query=$_latitude,$_longitude';
-    launchUrlString(_url);
+    var latitude = _order.orderInfo.deliveryCoordinate.latitude;
+    var longitude = _order.orderInfo.deliveryCoordinate.longitude;
+    var url =
+        'https://www.google.com/maps/search/?api=1&query=$latitude,$longitude';
+    launchUrlString(url);
   }
 }

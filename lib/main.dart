@@ -47,15 +47,15 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         initialRoute: Routes.splash,
         getPages: Routes.getRoutes(),
-        builder: (context, widget) {
-          ScreenUtil.setContext(context);
-          return MediaQuery(
-            data: MediaQuery.of(context).copyWith(
-              textScaleFactor: 1.0,
-            ),
-            child: widget!,
-          );
-        },
+        // builder: (context, widget) {
+        //   // ScreenUtil.setContext(context);
+        //   return MediaQuery(
+        //     data: MediaQuery.of(context).copyWith(
+        //       textScaleFactor: 1.0,
+        //     ),
+        //     child: widget!,
+        //   );
+        // },
       ),
     );
   }

@@ -52,10 +52,10 @@ class UpdateAppScreen extends StatelessWidget {
                     title: 'App Store',
                     icon: Icons.apple,
                     onPressed: () {
-                      String _url =
+                      String url =
                           "https://apps.apple.com/sg/app/bungkus/id1460126004";
                       launchUrlString(
-                        _url,
+                        url,
                         mode: LaunchMode.externalNonBrowserApplication,
                       );
                     },
@@ -65,10 +65,10 @@ class UpdateAppScreen extends StatelessWidget {
                     title: 'Play Store',
                     icon: Icons.android,
                     onPressed: () {
-                      String _url =
+                      String url =
                           "https://play.google.com/store/apps/details?id=com.meimodev.mapalus_partner";
                       launchUrlString(
-                        _url,
+                        url,
                         mode: LaunchMode.externalNonBrowserApplication,
                       );
                     },

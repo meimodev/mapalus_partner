@@ -30,24 +30,19 @@ class UserRepo extends UserRepoContract {
 
   UserRepo() {
     auth.authStateChanges().listen((User? user) async {
-      print('AuthStateChanges()');
       if (user != null) {
-        print('AuthStateChanges, Phone number confirmed');
         UserApp? userApp = await firestore.getUser(
           user.phoneNumber!.replaceFirst('+62', '0'),
         );
         if (userApp != null) {
           signing(userApp);
 
-          print('signed success ' + signedUser.toString());
         } else {
           // user is not registered
           signedUser = null;
           canRegister = true;
-          print('Phone is not registered ' + user.phoneNumber!);
         }
       } else {
-        print('AuthStateChanges() user = null');
 
         canRegister = false;
         signedUser = null;
@@ -99,7 +94,6 @@ class UserRepo extends UserRepoContract {
   void requestOTP(String phone, Function(Result) onResult) async {
     phone = phone.replaceFirst("0", "+62");
     if (kDebugMode) {
-      print("phone " + phone);
     }
     await auth.verifyPhoneNumber(
       phoneNumber: phone,
@@ -113,13 +107,12 @@ class UserRepo extends UserRepoContract {
       },
       verificationFailed: (FirebaseAuthException e) {
         if (kDebugMode) {
-          print('VERIFICATION_FAILED ' + e.code);
         }
         onResult(Result(message: "VERIFICATION_FAILED"));
       },
-      codeSent: (String _verificationId, int? _resendToken) {
-        resendToken = _resendToken;
-        verificationId = _verificationId;
+      codeSent: (String verificationId, int? resendToken) {
+        resendToken = resendToken;
+        verificationId = verificationId;
 
         onResult(Result(message: "SENT"));
       },

@@ -1,20 +1,11 @@
-import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:mapalus_partner/app/modules/orders/orders_controller.dart';
 import 'package:mapalus_partner/app/widgets/card_navigation.dart';
 import 'package:mapalus_partner/app/widgets/card_order.dart';
 import 'package:mapalus_partner/app/widgets/screen_wrapper.dart';
-import 'package:mapalus_partner/data/models/data_mock.dart';
-import 'package:mapalus_partner/data/models/delivery_info.dart';
 import 'package:mapalus_partner/data/models/order.dart';
-import 'package:mapalus_partner/data/models/order_info.dart';
-import 'package:mapalus_partner/data/models/product.dart';
-import 'package:mapalus_partner/data/models/product_order.dart';
-import 'package:mapalus_partner/data/models/user_app.dart';
-import 'package:mapalus_partner/shared/enums.dart';
 import 'package:mapalus_partner/shared/routes.dart';
 import 'package:mapalus_partner/shared/theme.dart';
 

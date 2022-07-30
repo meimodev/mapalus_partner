@@ -13,29 +13,29 @@ dependencies:
     sdk: flutter
 
   flutter_screenutil: ^5.3.1
-  flutter_svg: ^1.1.0
+  flutter_svg: ^1.1.1+1
   cupertino_icons: ^1.0.5
   flutter_rating_bar: ^4.0.1
   badges: ^2.0.3
   carousel_slider: ^4.1.1
-  firebase_core: ^1.18.0
-  cloud_firestore: ^3.1.18
+  firebase_core: ^1.20.0
+  cloud_firestore: ^3.4.2
   get: ^4.6.5
   intl: ^0.17.0
   jiffy: ^5.0.0
-  firebase_auth: ^3.3.20
-  hive: ^2.2.2
+  firebase_auth: ^3.6.1
+  hive: ^2.2.3
   hive_flutter: ^1.1.0
-  google_maps_flutter: ^2.1.8
+  google_maps_flutter: ^2.1.10
   infinite_scroll_pagination: ^3.2.0
-  url_launcher: ^6.1.4
-  firebase_messaging: ^11.4.2
-  flutter_local_notifications: ^9.6.1
+  url_launcher: ^6.1.5
+  firebase_messaging: ^12.0.1
+  flutter_local_notifications: ^9.7.0
   transparent_image: ^2.0.0
-  package_info_plus: ^1.4.2
+  package_info_plus: ^1.4.3
   dio: ^4.0.6
   flutter_ringtone_player: ^3.2.0
-  flutter_dropdown: ^1.0.0+hotfix.1
+  flutter_dropdown: ^1.0.1+hotfix.1
 
 dev_dependencies:
   flutter_launcher_icons: '^0.9.2'

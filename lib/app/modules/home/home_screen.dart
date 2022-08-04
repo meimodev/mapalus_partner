@@ -52,26 +52,51 @@ class HomeScreen extends GetView<HomeController> {
                     mainAxisSize: MainAxisSize.max,
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      Column(
-                        mainAxisSize: MainAxisSize.min,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            "Mapalus Partner",
-                            style:
-                                Theme.of(context).textTheme.bodyText1?.copyWith(
-                                      fontSize: 12.sp,
-                                      color: Colors.grey,
-                                    ),
+                      SizedBox(width: 12.w),
+                      Material(
+                        color: Palette.primary,
+                        shape: const CircleBorder(),
+                        elevation: 3,
+                        clipBehavior: Clip.hardEdge,
+                        child: InkWell(
+                          onTap: controller.onPressedSettings,
+                          child: Padding(
+                            padding: EdgeInsets.all(12.w),
+                            child: SvgPicture.asset(
+                              'assets/images/mapalus_logo.svg',
+                              width: 12.w,
+                              height: 12.w,
+                            ),
                           ),
-                          Text(
-                            "Pasar Tondano",
-                            style:
-                                Theme.of(context).textTheme.bodyText1?.copyWith(
-                                      fontSize: 16.sp,
-                                    ),
-                          ),
-                        ],
+                        ),
+                      ),
+                      SizedBox(width: 6.w),
+                      Expanded(
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "Mapalus Partner",
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyText1
+                                  ?.copyWith(
+                                    fontSize: 12.sp,
+                                    color: Colors.grey,
+                                  ),
+                            ),
+                            Text(
+                              "Pasar Tondano",
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyText1
+                                  ?.copyWith(
+                                    fontSize: 16.sp,
+                                  ),
+                            ),
+                          ],
+                        ),
                       ),
                       Obx(
                         () => AnimatedSwitcher(
@@ -89,6 +114,7 @@ class HomeScreen extends GetView<HomeController> {
                                 ),
                         ),
                       ),
+                      SizedBox(width: 12.w),
                     ],
                   ),
                 ),

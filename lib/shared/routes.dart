@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
-import 'package:mapalus_partner/app/modules/account_settings/account_settings_binding.dart';
-import 'package:mapalus_partner/app/modules/account_settings/account_settings_screen.dart';
+import 'package:mapalus_partner/app/modules/settings/settings_binding.dart';
+import 'package:mapalus_partner/app/modules/settings/settings_screen.dart';
 import 'package:mapalus_partner/app/modules/cart/cart_binding.dart';
 import 'package:mapalus_partner/app/modules/cart/cart_screen.dart';
 import 'package:mapalus_partner/app/modules/home/home_binding.dart';
@@ -23,7 +23,6 @@ import 'package:mapalus_partner/app/modules/update_app/update_app_screen.dart';
 class Routes {
   static const String splash = '/';
   static const String home = '/home';
-  static const String accountSetting = '/account-setting';
   static const String orders = '/orders';
   static const String orderDetail = '/order-detail';
   static const String productDetail = '/product-detail';
@@ -32,6 +31,7 @@ class Routes {
   static const String ordering = '/ordering';
   static const String signing = '/signing';
   static const String updateApp = '/update-app';
+  static const String settings = '/settings';
 
   static List<GetPage> getRoutes() {
     return [
@@ -47,12 +47,12 @@ class Routes {
         maintainState: true,
         preventDuplicates: true,
       ),
-      GetPage(
-        name: accountSetting,
-        page: () => const AccountSettingsScreen(),
-        binding: AccountSettingsBinding(),
-        transition: Transition.cupertino,
-      ),
+      // GetPage(
+      //   name: accountSetting,
+      //   page: () => const AccountSettingsScreen(),
+      //   binding: AccountSettingsBinding(),
+      //   transition: Transition.cupertino,
+      // ),
       GetPage(
         name: orders,
         page: () => const OrdersScreen(),
@@ -99,6 +99,12 @@ class Routes {
         name: updateApp,
         page: () => const UpdateAppScreen(),
         transition: Transition.rightToLeftWithFade,
+      ),
+      GetPage(
+        name: settings,
+        page: () => const SettingsScreen(),
+        binding: SettingsBinding(),
+        transition: Transition.leftToRight,
       ),
     ];
   }

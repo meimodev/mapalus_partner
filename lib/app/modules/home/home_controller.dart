@@ -102,7 +102,6 @@ class HomeController extends GetxController {
   Future<void> _initPartnerFCMToken() async {
     Partner partner = await userRepo.firestore.getPartner("089525699078");
     await FirebaseMessaging.instance.subscribeToTopic(partner.id);
-
   }
 
   void _initNewOrderListener() {
@@ -147,8 +146,6 @@ class HomeController extends GetxController {
         }
       }
 
-
-
       isLoading.value = false;
     });
   }
@@ -171,5 +168,9 @@ class HomeController extends GetxController {
 
     products.removeAt(index);
     products.insert(index, product);
+  }
+
+  onPressedSettings() {
+    Get.toNamed(Routes.settings);
   }
 }

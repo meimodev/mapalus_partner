@@ -3,7 +3,7 @@ description: Platform to support local community to hopefully be able to thrive
 
 publish_to: 'none'
 
-version: 1.0.8+8
+version: 1.0.9+9
 
 environment:
   sdk: '>=2.16.2 <3.0.0'
@@ -13,17 +13,17 @@ dependencies:
     sdk: flutter
 
   flutter_screenutil: ^5.3.1
-  flutter_svg: ^1.1.1+1
+  flutter_svg: ^1.1.2
   cupertino_icons: ^1.0.5
   flutter_rating_bar: ^4.0.1
   badges: ^2.0.3
   carousel_slider: ^4.1.1
   firebase_core: ^1.20.0
-  cloud_firestore: ^3.4.2
+  cloud_firestore: ^3.4.3
   get: ^4.6.5
   intl: ^0.17.0
   jiffy: ^5.0.0
-  firebase_auth: ^3.6.1
+  firebase_auth: ^3.6.2
   hive: ^2.2.3
   hive_flutter: ^1.1.0
   google_maps_flutter: ^2.1.10

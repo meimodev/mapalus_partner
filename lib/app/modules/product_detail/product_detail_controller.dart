@@ -10,7 +10,7 @@ class ProductDetailController extends GetxController {
   HomeController homeController = Get.find();
 
   RxBool isAdding = false.obs;
-  late Product product;
+   Product product = Product.empty();
 
   TextEditingController tecName = TextEditingController();
   TextEditingController tecDescription = TextEditingController();
@@ -37,13 +37,12 @@ class ProductDetailController extends GetxController {
 
   @override
   void onInit() {
-    var product = Get.arguments;
-    if (product == null) {
+    var args = Get.arguments;
+    if (args == null) {
       isAdding.value = true;
-      product = Product.empty();
     } else {
       isAdding.value = false;
-      product = product;
+      product = args;
       _initTextFields();
     }
 
@@ -69,6 +68,7 @@ class ProductDetailController extends GetxController {
   }
 
   _initTextFields() {
+
     tecName.text = product.name;
     tecDescription.text = product.description;
     tecPrice.text = product.price.toString();

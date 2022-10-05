@@ -5,24 +5,18 @@ import 'package:mapalus_partner/app/modules/cart/cart_binding.dart';
 import 'package:mapalus_partner/app/modules/cart/cart_screen.dart';
 import 'package:mapalus_partner/app/modules/home/home_binding.dart';
 import 'package:mapalus_partner/app/modules/home/home_screen.dart';
-import 'package:mapalus_partner/app/modules/location/location_binding.dart';
-import 'package:mapalus_partner/app/modules/location/location_screen.dart';
 import 'package:mapalus_partner/app/modules/order_detail/order_detail_binding.dart';
 import 'package:mapalus_partner/app/modules/order_detail/order_detail_screen.dart';
-import 'package:mapalus_partner/app/modules/ordering/ordering_binding.dart';
-import 'package:mapalus_partner/app/modules/ordering/ordering_screen.dart';
 import 'package:mapalus_partner/app/modules/orders/orders_binding.dart';
 import 'package:mapalus_partner/app/modules/orders/orders_screen.dart';
 import 'package:mapalus_partner/app/modules/product_detail/product_detail_binding.dart';
 import 'package:mapalus_partner/app/modules/product_detail/product_detail_screen.dart';
 import 'package:mapalus_partner/app/modules/signing/signing_binding.dart';
 import 'package:mapalus_partner/app/modules/signing/signing_screen.dart';
-import 'package:mapalus_partner/app/modules/splash/splash_screen.dart';
 import 'package:mapalus_partner/app/modules/update_app/update_app_screen.dart';
 
 class Routes {
-  static const String splash = '/';
-  static const String home = '/home';
+  static const String home = '/';
   static const String orders = '/orders';
   static const String orderDetail = '/order-detail';
   static const String productDetail = '/product-detail';
@@ -35,10 +29,6 @@ class Routes {
 
   static List<GetPage> getRoutes() {
     return [
-      GetPage(
-        name: splash,
-        page: () => const SplashScreen(),
-      ),
       GetPage(
         name: home,
         page: () => const HomeScreen(),
@@ -77,18 +67,7 @@ class Routes {
         binding: CartBinding(),
         transition: Transition.fade,
       ),
-      GetPage(
-        name: location,
-        page: () => const LocationScreen(),
-        binding: LocationBinding(),
-        transition: Transition.fade,
-      ),
-      GetPage(
-        name: ordering,
-        page: () => const OrderingScreen(),
-        binding: OrderingBinding(),
-        transition: Transition.fade,
-      ),
+
       GetPage(
         name: signing,
         page: () => const SigningScreen(),

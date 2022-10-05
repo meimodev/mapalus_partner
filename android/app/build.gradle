@@ -34,7 +34,6 @@ if (keystorePropertiesFile.exists()) {
 }
 
 android {
-    compileSdkVersion flutter.compileSdkVersion
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -52,7 +51,9 @@ android {
     defaultConfig {
         applicationId "com.meimodev.mapalus_partner"
         minSdkVersion 24
-        targetSdkVersion flutter.targetSdkVersion
+        compileSdkVersion 33
+        targetSdkVersion 33
+//        targetSdkVersion flutter.targetSdkVersion
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
     }

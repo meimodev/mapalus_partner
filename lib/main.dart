@@ -4,7 +4,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:mapalus_partner/shared/routes.dart';
 import 'package:mapalus_partner/shared/theme.dart';
@@ -25,7 +24,6 @@ void main() async {
   );
   await Hive.initFlutter();
   if (defaultTargetPlatform == TargetPlatform.android) {
-    AndroidGoogleMapsFlutter.useAndroidViewSurface = true;
   }
   await Jiffy.locale("id");
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
@@ -44,11 +42,11 @@ class MyApp extends StatelessWidget {
       designSize: const Size(360, 800),
       minTextAdapt: true,
       splitScreenMode: false,
-      builder: (_) => GetMaterialApp(
+      builder: (context, _) => GetMaterialApp(
         title: 'Mapalus Partner',
         theme: appThemeData,
         debugShowCheckedModeBanner: false,
-        initialRoute: Routes.splash,
+        initialRoute: Routes.home,
         getPages: Routes.getRoutes(),
         // builder: (context, widget) {
         //   // ScreenUtil.setContext(context);

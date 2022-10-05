@@ -26,11 +26,14 @@ class Version {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is Version &&
-          runtimeType == other.runtimeType &&
-          major == other.major &&
-          minor == other.minor &&
-          patch == other.patch;
+          other is Version &&
+              runtimeType == other.runtimeType &&
+              major == other.major &&
+              minor == other.minor &&
+              patch == other.patch;
+
+  bool operator >(Version version) =>
+      major > version.major || minor > version.minor;
 
   @override
   int get hashCode => major.hashCode ^ minor.hashCode ^ patch.hashCode;

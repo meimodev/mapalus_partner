@@ -17,7 +17,7 @@ class OrderInfo {
     required this.deliveryWeight,
     required this.deliveryPrice,
     required this.deliveryCoordinate,
-    required this.deliveryTime,
+    this.deliveryTime = '',
   });
 
   OrderInfo.fromMap(Map<String, dynamic> data)
@@ -55,6 +55,14 @@ class OrderInfo {
 
   String get deliveryCoordinateF {
     return '${deliveryCoordinate.latitude}, ${deliveryCoordinate.longitude}';
+  }
+
+  String deliveryTimeF({bool shorted = false}) {
+    var res = deliveryTime;
+    if (res.contains("BESOK") && shorted) {
+      res.substring(0, deliveryTime.length - 11);
+    }
+    return res;
   }
 
   OrderInfo copyWith({

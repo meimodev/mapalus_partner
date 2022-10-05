@@ -9,22 +9,6 @@ class AccountSettingsController extends GetxController {
 
   UserRepo userRepo = Get.find();
 
-  @override
-  void onInit() {
-    if (userRepo.signedUser != null) {
-      userName.value = userRepo.signedUser!.name;
-      userPhone.value = userRepo.signedUser!.phone;
-    }
-    userRepo.onSuccessSigning = (user) {
-      userName.value = user.name;
-      userPhone.value = user.phone;
-    };
-    userRepo.onSigningOut = () {
-      userName.value = '';
-      userPhone.value = '';
-    };
-    super.onInit();
-  }
 
   onPressedEditAccountInfo() {}
 

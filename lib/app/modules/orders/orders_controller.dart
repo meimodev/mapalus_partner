@@ -20,7 +20,7 @@ class OrdersController extends GetxController {
 
   _populateOrders() async {
     isLoading.value = true;
-    orders.value = await orderRepo.readOrders(userRepo.signedUser!);
+    // orders.value = await orderRepo.readOrders(userRepo.signedUser!);
     isLoading.value = false;
   }
 }

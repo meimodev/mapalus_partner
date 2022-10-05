@@ -254,30 +254,39 @@ class OrderDetailScreen extends GetView<OrderDetailController> {
               ),
             ],
           ),
-          Material(
-            color: Palette.primary,
-            clipBehavior: Clip.hardEdge,
-            borderRadius: BorderRadius.circular(12.sp),
-            child: InkWell(
-              onTap: controller.onPressedViewMaps,
-              child: Padding(
-                padding: EdgeInsets.symmetric(
-                  horizontal: Insets.small.w,
-                  vertical: Insets.small.h,
-                ),
-                child: const Center(
-                  child: Icon(
-                    Icons.place,
-                    color: Palette.accent,
-                  ),
-                ),
-              ),
-            ),
-          ),
+          Row(children: [
+            _buildHelperButton(Icons.place, controller.onPressedViewMaps),
+            SizedBox(width: Insets.small.w * .5),
+            _buildHelperButton(Icons.whatsapp, controller.onPressedViewWhatsApp),
+            SizedBox(width: Insets.small.w * .5),
+            _buildHelperButton(Icons.phone, controller.onPressedViewPhone),
+          ],),
         ],
       ),
     );
   }
+
+  _buildHelperButton(IconData icon, void Function() onPressed, ) => Material(
+    color: Palette.primary,
+    clipBehavior: Clip.hardEdge,
+    borderRadius: BorderRadius.circular(12.sp),
+    child: InkWell(
+      onTap: onPressed,
+      child: Padding(
+        padding: EdgeInsets.symmetric(
+          horizontal: Insets.small.w *.75,
+          vertical: Insets.small.h*.75,
+        ),
+        child:  Center(
+          child: Icon(
+            icon,
+            color: Palette.accent,
+            size: Insets.medium.w * .75,
+          ),
+        ),
+      ),
+    ),
+  );
 
   _buildRowItem(
     BuildContext context,

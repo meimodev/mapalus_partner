@@ -1,12 +1,16 @@
+import 'dart:developer' as dev;
+
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:mapalus_partner/data/models/order.dart';
 import 'package:mapalus_partner/data/models/partner.dart';
 import 'package:mapalus_partner/data/models/product.dart';
+import 'package:mapalus_partner/data/repo/app_repo.dart';
 import 'package:mapalus_partner/data/repo/order_repo.dart';
 import 'package:mapalus_partner/data/repo/product_repo.dart';
 import 'package:mapalus_partner/data/repo/user_repo.dart';
+import 'package:mapalus_partner/data/services/firebase_services.dart';
 import 'package:mapalus_partner/shared/routes.dart';
 import 'package:flutter_ringtone_player/flutter_ringtone_player.dart';
 
@@ -14,6 +18,10 @@ class HomeController extends GetxController {
   UserRepo userRepo = Get.find<UserRepo>();
   OrderRepo orderRepo = Get.find<OrderRepo>();
   ProductRepo productRepo = Get.find<ProductRepo>();
+  AppRepo appRepo = Get.find<AppRepo>();
+
+  ///incredibly dangerous and unmaintainable !! Do not access straight service without repository layer
+  FirestoreService firestoreService = FirestoreService();
 
   RxList<Order> orders = <Order>[].obs;
   RxList<Product> products = <Product>[].obs;
@@ -35,10 +43,21 @@ class HomeController extends GetxController {
   }
 
   @override
-  void onInit() {
+  void onReady() async {
+    final notLatestVersion = !await appRepo.checkIfLatestVersion();
+    if (notLatestVersion) {
+      Get.offNamed(Routes.updateApp);
+      return;
+    }
+
+    final isAlreadySignedIn = await userRepo.getSignedIn();
+    if (isAlreadySignedIn == null) {
+      Get.offNamed(Routes.signing);
+      return;
+    }
     _initPartnerFCMToken();
     _initNewOrderListener();
-    super.onInit();
+    super.onReady();
   }
 
   void onPressedProducts() {
@@ -71,7 +90,8 @@ class HomeController extends GetxController {
     isLoading.value = true;
     var oo = await orderRepo.readAllOrders(0, 0);
     tecProductFilter.text = '';
-    orders.value = List<Order>.from(oo);
+    orders.value = List<Order>.from(oo.reversed);
+    dev.log(orders.first.toString());
 
     //show the list on screen
     isLoading.value = false;
@@ -100,7 +120,7 @@ class HomeController extends GetxController {
   }
 
   Future<void> _initPartnerFCMToken() async {
-    Partner partner = await userRepo.firestore.getPartner("089525699078");
+    Partner partner = await firestoreService.getPartner("089525699078");
     await FirebaseMessaging.instance.subscribeToTopic(partner.id);
   }
 
@@ -114,6 +134,7 @@ class HomeController extends GetxController {
             .reversed
             .toList();
         isLoading.value = false;
+
         return;
       }
 

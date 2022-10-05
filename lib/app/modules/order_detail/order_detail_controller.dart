@@ -11,7 +11,7 @@ import 'package:mapalus_partner/data/repo/order_repo.dart';
 import 'package:mapalus_partner/shared/enums.dart';
 import 'package:mapalus_partner/shared/routes.dart';
 import 'package:mapalus_partner/shared/values.dart';
-import 'package:url_launcher/url_launcher_string.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class OrderDetailController extends GetxController {
   OrderRepo orderRepo = Get.find();
@@ -124,11 +124,46 @@ class OrderDetailController extends GetxController {
     canLoading.value = false;
   }
 
+  void onPressedViewPhone() {
+    final phone = _order.orderingUser.phone;
+    final phoneUri = Uri.parse("tel:$phone");
+    launchUrl(phoneUri);
+  }
+
   onPressedViewMaps() {
-    var latitude = _order.orderInfo.deliveryCoordinate.latitude;
-    var longitude = _order.orderInfo.deliveryCoordinate.longitude;
-    var url =
+    final latitude = _order.orderInfo.deliveryCoordinate.latitude;
+    final longitude = _order.orderInfo.deliveryCoordinate.longitude;
+    final url =
         'https://www.google.com/maps/search/?api=1&query=$latitude,$longitude';
-    launchUrlString(url);
+
+    ///intended use of deprecated method
+    ///because known bug in new implementation launchUrl() that cause gmaps to open in webview
+    launch(url);
+  }
+
+  void onPressedViewWhatsApp() {
+    final phone = _order.orderingUser.phone;
+    final name = _order.orderingUser.name;
+
+    String timeOfTheDay = "Pagi";
+    final nowHour = DateTime.now().hour;
+    if (nowHour > 11 && nowHour <= 14) {
+      timeOfTheDay = "Siang";
+    } else if (nowHour > 14 && nowHour <= 17) {
+      timeOfTheDay = "Sore";
+    } else if (nowHour > 17) {
+      timeOfTheDay = "Malam";
+    }
+    timeOfTheDay = "Selamat $timeOfTheDay";
+
+    final waNumber = phone.replaceFirst("0", "+62");
+    final waUri = Uri.parse(
+        'whatsapp://send?phone=$waNumber&text='
+            '$timeOfTheDay, $name \n'
+        'mohon menunggu ya... \n'
+        'Delivery Team aplikasi MAPALUS sedang dalam perjalanan :)\n'
+            '\n'
+            'Apakah pengantaran sesuai titik di aplikasi MAPALUS ?');
+    launchUrl(waUri);
   }
 }

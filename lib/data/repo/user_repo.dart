@@ -1,173 +1,63 @@
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/foundation.dart';
 import 'package:hive/hive.dart';
 
-import 'package:mapalus_partner/data/models/result.dart';
 import 'package:mapalus_partner/data/models/user_app.dart';
-import 'package:mapalus_partner/data/services/firebase_services.dart';
 
 abstract class UserRepoContract {
-  Future<UserApp?> readSignedInUser();
+  // Future<UserApp?> readSignedInUser();
+  //
+  // Future<bool> checkIfRegistered(String phone);
+  //
+  // Future<UserApp> registerUser(String phone, String name);
+  //
+  // void requestOTP(String phone, Function(Result) onResult);
 
-  Future<bool> checkIfRegistered(String phone);
+  Future<bool> signIn({required String phone, required String password});
 
-  Future<UserApp> registerUser(String phone, String name);
+  Future<UserApp?> getSignedIn();
 
-  void requestOTP(String phone, Function(Result) onResult);
+  Future<bool> signOut();
 }
 
 class UserRepo extends UserRepoContract {
-  UserApp? signedUser;
-  int? resendToken;
-  String? verificationId;
-  FirestoreService firestore = FirestoreService();
-  FirebaseAuth auth = FirebaseAuth.instance;
+  Box<bool>? _signingBox;
 
-  bool canRegister = false;
-
-  Function(UserApp)? onSuccessSigning;
-  VoidCallback? onSigningOut;
+  final _isSignedInKey = 'isSignedIn';
+  final _boxSigningKey = 'signing';
 
   UserRepo() {
-    auth.authStateChanges().listen((User? user) async {
-      if (user != null) {
-        UserApp? userApp = await firestore.getUser(
-          user.phoneNumber!.replaceFirst('+62', '0'),
-        );
-        if (userApp != null) {
-          signing(userApp);
-
-        } else {
-          // user is not registered
-          signedUser = null;
-          canRegister = true;
-        }
-      } else {
-
-        canRegister = false;
-        signedUser = null;
-      }
-    });
-    // checkPreviousSigning();
+    _init();
   }
 
-  Future<void> checkPreviousSigning() async {
-    var box = await Hive.openBox('user_signing');
-    String? name = box.get('name');
-    String? phone = box.get('phone');
-    if (name != null && phone != null) {
-      signedUser = UserApp(phone: phone, name: name);
-    }
-  }
-
-  void signing(UserApp user) {
-    signedUser = user;
-    if (onSuccessSigning != null) {
-      onSuccessSigning!(user);
-    }
-    // var box = Hive.box('user_signing');
-    // box.put('name', user.name);
-    // box.put('phone', user.phone);
+  _init() async {
+    _signingBox = await Hive.openBox(_boxSigningKey);
   }
 
   @override
-  Future<UserApp?> readSignedInUser() {
-    return Future.value(signedUser);
+  Future<bool> signIn({
+    required String phone,
+    required String password,
+  }) async {
+    if (phone == "089525699078" && password == "089525699078") {
+      await _signingBox!.put(_isSignedInKey, true);
+      return true;
+    }
+    return false;
   }
 
   @override
-  Future<bool> checkIfRegistered(String phone) async {
-    return Future.value(await firestore.checkPhoneRegistration(phone));
+  Future<bool> signOut() async {
+    await _signingBox!.clear();
+    return true;
   }
 
   @override
-  Future<UserApp> registerUser(String phone, String name) async {
-    UserApp user = UserApp(phone: phone, name: name);
-    signing(await firestore.createUser(user));
+  Future<UserApp?> getSignedIn() async {
+    final isSigned =
+        _signingBox!.get(_isSignedInKey, defaultValue: false) ;
 
-    return Future.value(
-      user,
-    );
-  }
-
-  @override
-  void requestOTP(String phone, Function(Result) onResult) async {
-    phone = phone.replaceFirst("0", "+62");
-    if (kDebugMode) {
+    if (isSigned!) {
+      return UserApp(phone: '089525699078', name: 'Pasar');
     }
-    await auth.verifyPhoneNumber(
-      phoneNumber: phone,
-      verificationCompleted: (PhoneAuthCredential credential) async {
-        await auth.signInWithCredential(credential);
-        if (!await checkIfRegistered(phone)) {
-          onResult(Result(message: "UNREGISTERED"));
-          return;
-        }
-        onResult(Result(message: "PROCEED"));
-      },
-      verificationFailed: (FirebaseAuthException e) {
-        if (kDebugMode) {
-        }
-        onResult(Result(message: "VERIFICATION_FAILED"));
-      },
-      codeSent: (String verificationId, int? resendToken) {
-        resendToken = resendToken;
-        verificationId = verificationId;
-
-        onResult(Result(message: "SENT"));
-      },
-      codeAutoRetrievalTimeout: (String verificationId) {},
-      forceResendingToken: resendToken,
-    );
-  }
-
-  void checkOTPCode(String smsCode, Function(Result) onResult) async {
-    PhoneAuthCredential credential = PhoneAuthProvider.credential(
-      verificationId: verificationId!,
-      smsCode: smsCode,
-    );
-
-    try {
-      await auth.signInWithCredential(credential);
-    } on FirebaseAuthException catch (e) {
-      if (e.code == "invalid-verification-code") {
-        if (kDebugMode) {
-          print('inv code');
-        }
-        onResult(Result(message: "INVALID_CODE"));
-        return;
-      } else if (e.code == "invalid-verification-id") {
-        if (kDebugMode) {
-          print('inv id');
-        }
-        onResult(Result(message: "INVALID_ID"));
-        return;
-      } else if (e.code == 'session-expired') {
-        if (kDebugMode) {
-          print('session expired');
-        }
-        onResult(Result(message: "EXPIRED"));
-        return;
-      } else {
-        if (kDebugMode) {
-          print('Unidentified error occurred in signInWithCredential');
-          print(e.toString());
-          return;
-        }
-      }
-    }
-    Future.delayed(const Duration(milliseconds: 800));
-    onResult(Result(message: 'OK'));
-  }
-
-  Future<void> signOut() async {
-    if (signedUser != null) {
-      await FirebaseAuth.instance.signOut();
-      signedUser = null;
-    }
-
-    if (onSigningOut != null) {
-      onSigningOut!();
-    }
+    return null;
   }
 }

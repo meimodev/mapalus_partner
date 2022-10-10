@@ -6,11 +6,13 @@ import 'package:mapalus_partner/data/models/product_order.dart';
 import 'package:mapalus_partner/data/models/rating.dart';
 import 'package:mapalus_partner/data/models/user_app.dart';
 import 'package:mapalus_partner/shared/enums.dart';
+import 'package:mapalus_partner/shared/utils.dart';
 import 'package:mapalus_partner/shared/values.dart';
 
 class Order {
   String? id;
   List<ProductOrder> products;
+
   // DeliveryInfo deliveryInfo;
   OrderStatus status;
   String? _orderTimeStamp;
@@ -19,6 +21,8 @@ class Order {
   UserApp orderingUser;
   UserApp? deliveringUser;
   OrderInfo orderInfo;
+  String paymentMethod;
+  int paymentAmount;
 
   Order({
     rating,
@@ -30,7 +34,9 @@ class Order {
     required this.products,
     required this.status,
     required this.orderInfo,
-  }) : rating = Rating.empty() {
+    required this.paymentMethod,
+    this.paymentAmount = 0,
+  }) : rating = Rating.zero() {
     if (orderTimeStamp == null) {
       _orderTimeStamp = Jiffy().format(Values.formatRawDate);
     }
@@ -42,25 +48,37 @@ class Order {
 
   Order.fromMap(Map<String, dynamic> data)
       :
-        // deliveryInfo = DeliveryInfo.fromMap(data['delivery_info']),
-
+  // deliveryInfo = DeliveryInfo.fromMap(data['delivery_info']),
         id = data['id'],
         orderInfo = OrderInfo.fromMap(data['order_info']),
         status = OrderStatus.values.firstWhere(
-          (element) => element.name == data['status'],
+              (element) => element.name == data['status'],
         ),
         _orderTimeStamp = data['order_time'],
         _finishTimeStamp = data['finish_time'] ?? '',
         products = List<ProductOrder>.from(
           (data['products'] as List<dynamic>).map(
-            (e) => ProductOrder.fromMap(e),
+                (e) => ProductOrder.fromMap(e),
           ),
         ),
         rating = Rating.fromMap(data["rating"]),
         orderingUser = UserApp.fromMap(data['ordering_user']),
         deliveringUser = data['delivering_user'] == null
             ? null
-            : UserApp.fromMap(data['delivering_user']);
+            : UserApp.fromMap(data['delivering_user']),
+        paymentMethod = data['payment_method'] ?? '',
+        paymentAmount = data['payment_amount'] ?? 0;
+
+  String get finishTimeStampF {
+    if (finishTimeStamp == null) {
+      return "-";
+    }
+    return finishTimeStamp!.format("E, ddd MMM yyyy");
+  }
+
+  String get idMinified {
+    return id!.replaceRange(0, 12, '');
+  }
 
   String generateId() {
     if (id != null) {
@@ -87,20 +105,26 @@ class Order {
     return null;
   }
 
-  String get idMinified {
-    return id!.replaceRange(0, 12, '');
-  }
-
   void setFinishTimeStamp(Jiffy timeStamp) {
     _finishTimeStamp = timeStamp.format(Values.formatRawDate);
   }
 
+
+  String get paymentMethodF{
+    if (paymentMethod == "CASH") {
+      return "Bayar ditempat ${Utils.formatNumberToCurrency( paymentAmount)}";
+    }
+    return paymentMethod;
+  }
+
   @override
   String toString() {
-    return 'Order{id: $id, products: $products,'
+    return 'Order{id: $id, products: $products, '
         'status: $status, _orderTimeStamp: $_orderTimeStamp, '
         '_finishTimeStamp: $_finishTimeStamp, rating: $rating, '
-        'orderingUser: $orderingUser, deliveringUser: $deliveringUser}';
+        'orderingUser: $orderingUser, deliveringUser: $deliveringUser, '
+        'orderInfo: $orderInfo, paymentMethod: $paymentMethod, '
+        'paymentAmount: $paymentAmount}';
   }
 
   Map<String, dynamic> toMap() {
@@ -119,19 +143,9 @@ class Order {
       'rating': rating.toMap(),
       'ordering_user': orderingUser.toMap(minify: true),
       'delivering_user':
-          deliveringUser != null ? deliveringUser!.toMap() : null,
+      deliveringUser != null ? deliveringUser!.toMap() : null,
+      'payment_method': paymentMethod,
+      'payment_amount': paymentAmount,
     };
   }
-
-  @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is Order &&
-          runtimeType == other.runtimeType &&
-          id == other.id &&
-          products == other.products &&
-          orderingUser == other.orderingUser;
-
-  @override
-  int get hashCode => id.hashCode ^ products.hashCode ^ orderingUser.hashCode;
 }

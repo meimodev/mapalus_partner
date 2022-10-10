@@ -138,8 +138,22 @@ class OrderDetailScreen extends GetView<OrderDetailController> {
                       // ),
                     ],
                   ),
-                  SizedBox(height: Insets.small.h),
+                  SizedBox(height: Insets.small.h * .5),
                   _buildDeliveryInfoLayout(context),
+                  controller.paymentMethod.isNotEmpty
+                      ? Container(
+                    padding: EdgeInsets.symmetric(
+                      vertical: Insets.small.h * .5,
+                    ),
+                    decoration: const BoxDecoration(
+                        border: Border(
+                          bottom: BorderSide(
+                            color: Palette.accent,
+                          ),
+                        )),
+                    child: _buildPaymentInfoLayout(context),
+                  )
+                      : const SizedBox(),
                   SizedBox(height: Insets.small.h),
                   Obx(
                     () => _buildRowItem(
@@ -263,6 +277,34 @@ class OrderDetailScreen extends GetView<OrderDetailController> {
           ],),
         ],
       ),
+    );
+  }
+
+  _buildPaymentInfoLayout(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              "Pembayaran",
+              style: Theme.of(context).textTheme.bodyText1?.copyWith(
+                fontSize: 10.sp,
+                color: Colors.grey,
+                fontWeight: FontWeight.w300,
+              ),
+            ),
+            Text(
+              controller.paymentMethod.value,
+              style: Theme.of(context).textTheme.bodyText1?.copyWith(
+                fontSize: 12.sp,
+              ),
+            ),
+          ],
+        ),
+      ],
     );
   }
 

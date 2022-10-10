@@ -1,3 +1,5 @@
+import 'dart:developer' as dev;
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jiffy/jiffy.dart';
@@ -32,7 +34,10 @@ class OrderDetailController extends GetxController {
   RxString totalPrice = ''.obs;
 
   Rx<OrderStatus> orderStatus = OrderStatus.placed.obs;
-  Rx<Rating> orderRating = Rating.empty().obs;
+  Rx<Rating> orderRating = Rating.zero().obs;
+
+  var paymentMethod = ''.obs;
+  var paymentAmount = 0.obs;
 
   late Order _order;
   bool shouldRefresh = false;
@@ -71,6 +76,12 @@ class OrderDetailController extends GetxController {
     orderingUser = order.orderingUser;
 
     orderStatus.value = order.status;
+
+    paymentMethod.value = order.paymentMethodF;
+
+    paymentAmount.value = order.paymentAmount;
+
+    dev.log(order.toString());
 
     super.onInit();
     canLoading.value = false;
@@ -138,6 +149,7 @@ class OrderDetailController extends GetxController {
 
     ///intended use of deprecated method
     ///because known bug in new implementation launchUrl() that cause gmaps to open in webview
+    // ignore: deprecated_member_use
     launch(url);
   }
 

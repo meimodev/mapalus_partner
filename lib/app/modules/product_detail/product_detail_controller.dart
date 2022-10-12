@@ -18,6 +18,7 @@ class ProductDetailController extends GetxController {
   TextEditingController tecUnit = TextEditingController();
   TextEditingController tecWeight = TextEditingController();
   TextEditingController tecCategory = TextEditingController();
+  TextEditingController tecMinimumPrice = TextEditingController();
   RxBool isAvailable = true.obs;
   RxBool isCustomPrice = false.obs;
 
@@ -75,6 +76,7 @@ class ProductDetailController extends GetxController {
     tecUnit.text = product.unit;
     tecWeight.text = product.weight.toInt().toString();
     tecCategory.text = product.category;
+    tecMinimumPrice.text = product.minimumPrice.toString();
     isAvailable.value = product.isAvailable;
     isCustomPrice.value = product.isCustomPrice;
   }
@@ -85,6 +87,7 @@ class ProductDetailController extends GetxController {
 
   void onPressedCustomPriceCheckbox(bool? value) {
     isCustomPrice.toggle();
+    tecMinimumPrice.text = "0";
   }
 
   void onPressedImage() {
@@ -131,6 +134,7 @@ class ProductDetailController extends GetxController {
     product.category = tecCategory.text.trim();
     product.isAvailable = isAvailable.value;
     product.isCustomPrice = isCustomPrice.value;
+    product.minimumPrice = int.tryParse( tecMinimumPrice.text.trim()) ?? 0;
 
     if (isAdding.isTrue) {
       await productRepo.createProduct(product);

@@ -21,6 +21,7 @@ class Product {
   String _weight;
   bool isCustomPrice;
   String category;
+  int minimumPrice;
 
   Product.fromMap(Map<String, dynamic> data)
       : id = data["id"],
@@ -32,7 +33,8 @@ class Product {
         _status = data["status"],
         _weight = data["weight"],
         isCustomPrice = data["custom_price"],
-        category = data["category"];
+        category = data["category"],
+        minimumPrice = data['minimum_price'] ?? 0;
 
   Product.empty()
       : id = "",
@@ -44,7 +46,8 @@ class Product {
         _status = ProductStatus.unavailable.name,
         _weight = "0",
         isCustomPrice = false,
-        category = "";
+        category = "",
+        minimumPrice = 0;
 
   ProductStatus get status => _status == ProductStatus.available.name
       ? ProductStatus.available
@@ -63,12 +66,15 @@ class Product {
   String get weightF =>
       '${Utils.formatNumberToCurrency(weight).replaceFirst('Rp. ', '')} gram';
 
+  // bool get isQuantityNotEditable =>
+  //     name.contains("l )") || name.contains("g )");
+
   set weight(double weight) => _weight = weight.toString();
 
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is Product && runtimeType == other.runtimeType && id == other.id;
+          other is Product && runtimeType == other.runtimeType && id == other.id;
 
   @override
   int get hashCode => id.hashCode;
@@ -78,7 +84,8 @@ class Product {
     return 'Product{id: $id, name: $name, '
         'description: $description, imageUrl: $imageUrl, '
         'price: $price, unit: $unit, '
-        'status: $status, isCustomPrice: $isCustomPrice, category:$category}';
+        'status: $status, isCustomPrice: $isCustomPrice, '
+        'category:$category minimumPrice $minimumPrice}';
   }
 
   Map<String, dynamic> toMap() {
@@ -93,6 +100,7 @@ class Product {
       'weight': _weight,
       'custom_price': isCustomPrice,
       'category': category,
+      'minimum_price': minimumPrice,
     };
   }
 }

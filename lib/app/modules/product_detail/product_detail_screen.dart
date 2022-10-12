@@ -113,6 +113,13 @@ class ProductDetailScreen extends GetView<ProductDetailController> {
                             ),
                           ],
                         ),
+                        _buildListItem(
+                          context: context,
+                          title: "Minimum price",
+                          value: controller.product.minimumPrice.toString(),
+                          controller: controller.tecMinimumPrice,
+                          numbersOnly: true,
+                        ),
                         SizedBox(height: Insets.large.h),
                         controller.isAdding.isTrue
                             ? const SizedBox()

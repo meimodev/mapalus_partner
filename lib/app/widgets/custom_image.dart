@@ -7,10 +7,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 class CustomImage extends StatelessWidget {
   const CustomImage({
     Key? key,
-    required this.imageUrl,
+    required this.imageUrl, this.boxFit,
   }) : super(key: key);
 
   final String imageUrl;
+  final BoxFit? boxFit;
 
   @override
   Widget build(BuildContext context) {
@@ -28,6 +29,7 @@ class CustomImage extends StatelessWidget {
               FadeInImage.memoryNetwork(
                 placeholder: kTransparentImage,
                 image: imageUrl,
+                fit: boxFit ?? BoxFit.cover,
                 imageErrorBuilder: (context, _, __) {
                   return SvgPicture.asset(
                     'assets/images/mapalus.svg',
@@ -35,7 +37,6 @@ class CustomImage extends StatelessWidget {
                     width: 12.w,
                   );
                 },
-                fit: BoxFit.cover,
               ),
             ],
           );

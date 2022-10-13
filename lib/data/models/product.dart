@@ -69,6 +69,8 @@ class Product {
   // bool get isQuantityNotEditable =>
   //     name.contains("l )") || name.contains("g )");
 
+  String get minimumPriceF => Utils.formatNumberToCurrency(minimumPrice);
+
   set weight(double weight) => _weight = weight.toString();
 
   @override
@@ -84,8 +86,8 @@ class Product {
     return 'Product{id: $id, name: $name, '
         'description: $description, imageUrl: $imageUrl, '
         'price: $price, unit: $unit, '
-        'status: $status, isCustomPrice: $isCustomPrice, '
-        'category:$category minimumPrice $minimumPrice}';
+        'status: ${status.name.toString()}, isCustomPrice: $isCustomPrice, '
+        'category:$category minimumPrice: $minimumPrice}';
   }
 
   Map<String, dynamic> toMap() {

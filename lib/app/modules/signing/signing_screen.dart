@@ -12,12 +12,14 @@ class SigningScreen extends GetView<SigningController> {
 
   @override
   Widget build(BuildContext context) {
+    final isLargeScreen = context.isTablet;
     return ScreenWrapper(
       backgroundColor: Palette.accent,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
+      child: Flex(
+        direction: isLargeScreen ? Axis.horizontal : Axis.vertical,
         children: [
           Expanded(
+            flex: 2,
             child: Container(
               color: Palette.accent,
               child: CarouselSlider(
@@ -54,11 +56,14 @@ class SigningScreen extends GetView<SigningController> {
               ),
             ),
           ),
-          CardSigning(
-            tecPhone: controller.tecPhone,
-            tecPassword: controller.tecPassword,
-            onPressedSigning: controller.onPressedSignIn,
-            controller: controller,
+          Expanded(
+            flex: isLargeScreen ? 1 : 0,
+            child: _BuildCardSigning(
+              tecPhone: controller.tecPhone,
+              tecPassword: controller.tecPassword,
+              onPressedSigning: controller.onPressedSignIn,
+              controller: controller,
+            ),
           ),
         ],
       ),
@@ -103,8 +108,8 @@ class SigningScreen extends GetView<SigningController> {
   }
 }
 
-class CardSigning extends StatelessWidget {
-  const CardSigning({
+class _BuildCardSigning extends StatelessWidget {
+  const _BuildCardSigning({
     Key? key,
     required this.tecPhone,
     required this.tecPassword,
@@ -137,6 +142,7 @@ class CardSigning extends StatelessWidget {
               ? _buildLoading()
               : Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     SizedBox(height: Insets.small.h),
                     _buildTextField(
@@ -196,38 +202,32 @@ class CardSigning extends StatelessWidget {
         color: Palette.editable,
         borderRadius: BorderRadius.circular(9.sp),
       ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          TextField(
-            controller: controller,
-            maxLines: 1,
-            obscureText: obscureText,
-            autocorrect: false,
-            style: TextStyle(
-              color: Palette.accent,
-              fontFamily: fontFamily,
-              fontSize: 12.sp,
-            ),
-            cursorColor: Palette.primary,
-            decoration: InputDecoration(
-              hintStyle: TextStyle(
-                fontFamily: fontFamily,
-                fontSize: 10.sp,
-                color: Palette.accent,
-              ),
-              labelStyle: TextStyle(
-                fontFamily: fontFamily,
-                color: Palette.accent,
-                fontSize: 12.sp,
-              ),
-              isDense: true,
-              border: InputBorder.none,
-              labelText: title,
-            ),
+      child: TextField(
+        controller: controller,
+        maxLines: 1,
+        obscureText: obscureText,
+        autocorrect: false,
+        style: TextStyle(
+          color: Palette.accent,
+          fontFamily: fontFamily,
+          fontSize: 12.sp,
+        ),
+        cursorColor: Palette.primary,
+        decoration: InputDecoration(
+          hintStyle: TextStyle(
+            fontFamily: fontFamily,
+            fontSize: 10.sp,
+            color: Palette.accent,
           ),
-        ],
+          labelStyle: TextStyle(
+            fontFamily: fontFamily,
+            color: Palette.accent,
+            fontSize: 12.sp,
+          ),
+          isDense: true,
+          border: InputBorder.none,
+          labelText: title,
+        ),
       ),
     );
   }

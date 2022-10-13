@@ -120,7 +120,7 @@ class Order {
   @override
   String toString() {
     return 'Order{id: $id, products: $products, '
-        'status: $status, _orderTimeStamp: $_orderTimeStamp, '
+        'status: ${status.name}, _orderTimeStamp: $_orderTimeStamp, '
         '_finishTimeStamp: $_finishTimeStamp, rating: $rating, '
         'orderingUser: $orderingUser, deliveringUser: $deliveringUser, '
         'orderInfo: $orderInfo, paymentMethod: $paymentMethod, '

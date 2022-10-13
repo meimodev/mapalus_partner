@@ -142,17 +142,17 @@ class OrderDetailScreen extends GetView<OrderDetailController> {
                   _buildDeliveryInfoLayout(context),
                   controller.paymentMethod.isNotEmpty
                       ? Container(
-                    padding: EdgeInsets.symmetric(
-                      vertical: Insets.small.h * .5,
-                    ),
-                    decoration: const BoxDecoration(
-                        border: Border(
-                          bottom: BorderSide(
-                            color: Palette.accent,
+                          padding: EdgeInsets.symmetric(
+                            vertical: Insets.small.h * .5,
                           ),
-                        )),
-                    child: _buildPaymentInfoLayout(context),
-                  )
+                          decoration: const BoxDecoration(
+                              border: Border(
+                            bottom: BorderSide(
+                              color: Palette.accent,
+                            ),
+                          )),
+                          child: _buildPaymentInfoLayout(context),
+                        )
                       : const SizedBox(),
                   SizedBox(height: Insets.small.h),
                   Obx(
@@ -268,13 +268,16 @@ class OrderDetailScreen extends GetView<OrderDetailController> {
               ),
             ],
           ),
-          Row(children: [
-            _buildHelperButton(Icons.place, controller.onPressedViewMaps),
-            SizedBox(width: Insets.small.w * .5),
-            _buildHelperButton(Icons.whatsapp, controller.onPressedViewWhatsApp),
-            SizedBox(width: Insets.small.w * .5),
-            _buildHelperButton(Icons.phone, controller.onPressedViewPhone),
-          ],),
+          Row(
+            children: [
+              _buildHelperButton(Icons.place, controller.onPressedViewMaps),
+              SizedBox(width: Insets.small.w * .5),
+              _buildHelperButton(
+                  Icons.whatsapp, controller.onPressedViewWhatsApp),
+              SizedBox(width: Insets.small.w * .5),
+              _buildHelperButton(Icons.phone, controller.onPressedViewPhone),
+            ],
+          ),
         ],
       ),
     );
@@ -291,16 +294,16 @@ class OrderDetailScreen extends GetView<OrderDetailController> {
             Text(
               "Pembayaran",
               style: Theme.of(context).textTheme.bodyText1?.copyWith(
-                fontSize: 10.sp,
-                color: Colors.grey,
-                fontWeight: FontWeight.w300,
-              ),
+                    fontSize: 10.sp,
+                    color: Colors.grey,
+                    fontWeight: FontWeight.w300,
+                  ),
             ),
             Text(
               controller.paymentMethod.value,
               style: Theme.of(context).textTheme.bodyText1?.copyWith(
-                fontSize: 12.sp,
-              ),
+                    fontSize: 12.sp,
+                  ),
             ),
           ],
         ),
@@ -308,27 +311,31 @@ class OrderDetailScreen extends GetView<OrderDetailController> {
     );
   }
 
-  _buildHelperButton(IconData icon, void Function() onPressed, ) => Material(
-    color: Palette.primary,
-    clipBehavior: Clip.hardEdge,
-    borderRadius: BorderRadius.circular(12.sp),
-    child: InkWell(
-      onTap: onPressed,
-      child: Padding(
-        padding: EdgeInsets.symmetric(
-          horizontal: Insets.small.w *.75,
-          vertical: Insets.small.h*.75,
-        ),
-        child:  Center(
-          child: Icon(
-            icon,
-            color: Palette.accent,
-            size: Insets.medium.w * .75,
+  _buildHelperButton(
+    IconData icon,
+    void Function() onPressed,
+  ) =>
+      Material(
+        color: Palette.primary,
+        clipBehavior: Clip.hardEdge,
+        borderRadius: BorderRadius.circular(12.sp),
+        child: InkWell(
+          onTap: onPressed,
+          child: Padding(
+            padding: EdgeInsets.symmetric(
+              horizontal: Insets.small.sp ,
+              vertical: Insets.small.sp ,
+            ),
+            child: Center(
+              child: Icon(
+                icon,
+                color: Palette.accent,
+                size: Insets.medium.sp,
+              ),
+            ),
           ),
         ),
-      ),
-    ),
-  );
+      );
 
   _buildRowItem(
     BuildContext context,

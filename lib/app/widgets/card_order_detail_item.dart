@@ -31,7 +31,7 @@ class CardOrderDetailItem extends StatelessWidget {
       child: Row(
         children: [
           SizedBox(
-            width: 30.w,
+            width: 30.sp,
             child: Center(
               child: Text(
                 index,
@@ -49,7 +49,7 @@ class CardOrderDetailItem extends StatelessWidget {
               children: [
                 Text(
                   productName,
-                  style: Theme.of(context).textTheme.bodyText1?.copyWith(
+                  style: TextStyle(
                         fontSize: 11.sp,
                         fontWeight: FontWeight.w400,
                       ),

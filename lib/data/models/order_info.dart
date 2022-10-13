@@ -22,14 +22,14 @@ class OrderInfo {
 
   OrderInfo.fromMap(Map<String, dynamic> data)
       : productCount = data["product_count"],
-        productPrice = data["product_price"],
+        productPrice = double.parse(data["product_price"].toString()),
         deliveryWeight = data["delivery_weight"],
-        deliveryPrice = data["delivery_price"],
         deliveryDistance = data["delivery_distance"],
         deliveryCoordinate = LatLng(
           data["delivery_coordinate"]["latitude"],
           data["delivery_coordinate"]["longitude"],
         ),
+        deliveryPrice = double.parse(data["delivery_price"].toString()),
         deliveryTime = data['delivery_time'];
 
   String get totalPrice {
@@ -119,5 +119,13 @@ class OrderInfo {
         'longitude': deliveryCoordinate.longitude,
       },
     };
+  }
+
+  @override
+  String toString() {
+    return 'OrderInfo{productCount: $productCount, productPrice: $productPrice, '
+        'deliveryWeight: $deliveryWeight, deliveryPrice: $deliveryPrice, '
+        'deliveryDistance: $deliveryDistance, deliveryCoordinate: '
+        '$deliveryCoordinate, deliveryTime: $deliveryTime}';
   }
 }

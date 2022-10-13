@@ -17,6 +17,11 @@ class CardOrder extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isToday = order.orderTimeStamp!.isSame(
+      Jiffy(),
+      Units.DAY,
+    );
+
     return Material(
       borderRadius: BorderRadius.circular(9.sp),
       color: Palette.cardForeground,
@@ -24,7 +29,7 @@ class CardOrder extends StatelessWidget {
       child: InkWell(
         onTap: onPressed,
         child: Padding(
-          padding: EdgeInsets.all(Insets.small.w),
+          padding: EdgeInsets.all(Insets.medium.sp),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
@@ -43,28 +48,20 @@ class CardOrder extends StatelessWidget {
                   children: [
                     Text(
                       'dipesan',
-                      style: Theme.of(context).textTheme.caption?.copyWith(
-                            fontWeight: FontWeight.w300,
-                            fontSize: 10.sp,
-                          ),
+                      style: TextStyle(
+                        fontWeight: FontWeight.w300,
+                        fontSize: 10.sp,
+                      ),
                     ),
                     Text(
-                      order.orderTimeStamp!.isSame(
-                                Jiffy(),
-                                Units.DAY,
-                              ) &&
-                              order.status == OrderStatus.placed
-                          ? "Hari Ini"
+                      isToday && order.status == OrderStatus.placed
+                          ? "Hari Ini ${order.orderTimeStamp!.format('H:mm')}"
                           : order.orderTimeStamp!.format('E, dd MMM H:mm'),
-                      style: Theme.of(context).textTheme.caption?.copyWith(
-                            fontWeight: order.orderTimeStamp!.isSame(
-                              Jiffy(),
-                              Units.DAY,
-                            )
-                                ? FontWeight.w600
-                                : FontWeight.w300,
-                            color: Palette.textPrimary,
-                          ),
+                      style: TextStyle(
+                        fontWeight: isToday ? FontWeight.w600 : FontWeight.w300,
+                        color: Palette.textPrimary,
+                        fontSize: 10.sp,
+                      ),
                     ),
                   ],
                 ),

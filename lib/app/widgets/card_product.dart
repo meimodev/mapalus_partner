@@ -20,20 +20,18 @@ class CardProduct extends StatelessWidget {
       clipBehavior: Clip.hardEdge,
       color: Palette.cardForeground,
       child: InkWell(
-        onTap: () {
-          onPressed(product);
-        },
+        onTap: () => onPressed(product),
         child: Padding(
           padding: EdgeInsets.symmetric(
             horizontal: Insets.small.w,
-            vertical: Insets.small.h * .5,
+            vertical: Insets.small.sp,
           ),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Container(
-                height: 60.w,
-                width: 60.w,
+                height: 80.sp,
+                width: 80.sp,
                 clipBehavior: Clip.hardEdge,
                 decoration: const BoxDecoration(
                   color: Palette.primary,
@@ -55,6 +53,7 @@ class CardProduct extends StatelessWidget {
                             fontSize: 12.sp,
                           ),
                     ),
+                    SizedBox(height: 3.sp),
                     Row(
                       children: [
                         Text(
@@ -82,8 +81,20 @@ class CardProduct extends StatelessWidget {
                                   ),
                                 ],
                               ),
+                        product.isCustomPrice
+                            ? Text(
+                                " | min ${product.minimumPriceF}",
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyText1
+                                    ?.copyWith(
+                                        fontSize: 10.sp,
+                                        fontWeight: FontWeight.w500),
+                              )
+                            : const SizedBox(),
                       ],
                     ),
+                    SizedBox(height: 3.sp),
                     _buildCategoriesChip(),
                   ],
                 ),
@@ -168,7 +179,7 @@ class CardProduct extends StatelessWidget {
             child: Center(
               child: Padding(
                 padding: EdgeInsets.symmetric(
-                  horizontal: Insets.small.w * .5,
+                  horizontal: Insets.small.sp * .75,
                   vertical: Insets.small.h * .25,
                 ),
                 child: Text(

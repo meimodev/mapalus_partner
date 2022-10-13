@@ -60,12 +60,16 @@ class HomeScreen extends GetView<HomeController> {
                         clipBehavior: Clip.hardEdge,
                         child: InkWell(
                           onTap: controller.onPressedSettings,
-                          child: Padding(
-                            padding: EdgeInsets.all(12.w),
-                            child: SvgPicture.asset(
-                              'assets/images/mapalus_logo.svg',
-                              width: 12.w,
-                              height: 12.w,
+                          child: SizedBox(
+                            height: 40.sp,
+                            width: 40.sp,
+                            child: Padding(
+                              padding: EdgeInsets.all(12.sp),
+                              child: SvgPicture.asset(
+                                'assets/images/mapalus_logo.svg',
+                                width: 12.sp,
+                                height: 12.sp,
+                              ),
                             ),
                           ),
                         ),
@@ -163,8 +167,8 @@ class HomeScreen extends GetView<HomeController> {
                         child: InkWell(
                           onTap: controller.onPressedAddButton,
                           child: SizedBox(
-                            height: 50.h,
-                            width: 50.w,
+                            height: 50.sp,
+                            width: 50.sp,
                             child: Center(
                               child: Text(
                                 '+',
@@ -191,7 +195,7 @@ class HomeScreen extends GetView<HomeController> {
     required bool isShowingProducts,
     required BuildContext context,
   }) {
-    if (isShowingOrders && !isShowingProducts) {
+    if (isShowingOrders) {
       return Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
@@ -200,20 +204,20 @@ class HomeScreen extends GetView<HomeController> {
             child: Obx(
               () => controller.orders.isNotEmpty
                   ? ListView.builder(
-                      padding: EdgeInsets.only(bottom: Insets.large.h * 2),
+                      padding: EdgeInsets.only(
+                        bottom: Insets.large.h * 2,
+                      ),
                       addAutomaticKeepAlives: true,
                       physics: const BouncingScrollPhysics(),
                       itemBuilder: (context, index) {
                         Order order = controller.orders.elementAt(index);
                         return CardOrder(
                             order: order,
-                            onPressed: () {
-                              Navigator.pushNamed(
-                                context,
-                                Routes.orderDetail,
-                                arguments: order,
-                              );
-                            });
+                            onPressed: () => Navigator.pushNamed(
+                                  context,
+                                  Routes.orderDetail,
+                                  arguments: order,
+                                ));
                       },
                       itemCount: controller.orders.length,
                     )
@@ -230,78 +234,78 @@ class HomeScreen extends GetView<HomeController> {
           ),
         ],
       );
-    } else {
-      return Obx(
-        () => Column(
-          children: [
-            Container(
-              padding: EdgeInsets.only(
-                left: Insets.medium.w,
-                right: Insets.medium.w,
-                bottom: Insets.medium.h,
-                top: Insets.medium.h,
+    }
+
+    if (isShowingProducts) {
+      return Column(
+        children: [
+          Container(
+            padding: EdgeInsets.only(
+              left: Insets.medium.w,
+              right: Insets.medium.w,
+              bottom: Insets.medium.h,
+              top: Insets.medium.h,
+            ),
+            child: TextField(
+              controller: controller.tecProductFilter,
+              onChanged: controller.onChangedProductFilter,
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 13.sp,
+                color: Palette.accent,
               ),
-              child: TextField(
-                controller: controller.tecProductFilter,
-                onChanged: controller.onChangedProductFilter,
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 13.sp,
-                  color: Palette.accent,
+              textInputAction: TextInputAction.done,
+              maxLines: 1,
+              decoration: InputDecoration(
+                isDense: true,
+                focusColor: Palette.primary,
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12.sp),
+                  borderSide: const BorderSide(
+                    color: Palette.primary,
+                  ),
                 ),
-                textInputAction: TextInputAction.done,
-                maxLines: 1,
-                decoration: InputDecoration(
-                  isDense: true,
-                  focusColor: Palette.primary,
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12.sp),
-                    borderSide: const BorderSide(
-                      color: Palette.primary,
-                    ),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12.sp),
+                  borderSide: const BorderSide(
+                    color: Palette.accent,
                   ),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12.sp),
-                    borderSide: const BorderSide(
-                      color: Palette.accent,
-                    ),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12.sp),
+                  borderSide: const BorderSide(
+                    color: Palette.primary,
                   ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12.sp),
-                    borderSide: const BorderSide(
-                      color: Palette.primary,
-                    ),
-                  ),
-                  labelText: "Filter",
-                  labelStyle: TextStyle(
-                    fontSize: 12.sp,
-                    color: Colors.grey,
-                  ),
+                ),
+                labelText: "Filter",
+                labelStyle: TextStyle(
+                  fontSize: 12.sp,
+                  color: Colors.grey,
                 ),
               ),
             ),
-            Expanded(
-              child: ListView.builder(
-                padding: EdgeInsets.only(bottom: Insets.large.h * 2),
-                addAutomaticKeepAlives: true,
-                physics: const BouncingScrollPhysics(),
-                itemBuilder: (context, index) {
-                  Product product = controller.products.elementAt(index);
-                  return CardProduct(
-                      product: product,
-                      onPressed: (_) {
-                        Navigator.pushNamed(
-                          context,
-                          Routes.productDetail,
-                          arguments: product,
-                        );
-                      });
-                },
-                itemCount: controller.products.length,
-              ),
+          ),
+          Expanded(
+            child: ListView.builder(
+              padding: EdgeInsets.only(bottom: Insets.large.h * 2),
+              addAutomaticKeepAlives: true,
+              physics: const BouncingScrollPhysics(),
+              itemBuilder: (context, index) {
+                Product product = controller.products.elementAt(index);
+                return CardProduct(
+                    product: product,
+                    onPressed: (_) {
+                      Navigator.pushNamed(
+                        context,
+                        Routes.productDetail,
+                        arguments: product,
+                      );
+                    });
+              },
+              itemCount: controller.products.length,
             ),
-          ],
-        ),
+          ),
+        ],
       );
     }
   }

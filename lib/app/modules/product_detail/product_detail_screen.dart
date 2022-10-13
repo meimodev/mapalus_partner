@@ -27,108 +27,91 @@ class ProductDetailScreen extends GetView<ProductDetailController> {
           Expanded(
             child: SingleChildScrollView(
               physics: const BouncingScrollPhysics(),
+              padding: EdgeInsets.symmetric(horizontal: Insets.medium.w),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   SizedBox(height: Insets.small.h),
                   _buildImageSelector(controller.onPressedImage),
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: Insets.medium.w),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        SizedBox(height: Insets.small.h),
-                        Text(
-                          controller.product.id.isEmpty
-                              ? ""
-                              : "# ${controller.product.id}",
-                          textAlign: TextAlign.center,
-                          style:
-                              Theme.of(context).textTheme.bodyText1?.copyWith(
-                                    fontSize: 14.sp,
-                                    fontWeight: FontWeight.w400,
-                                  ),
-                        ),
-                        SizedBox(height: Insets.small.h),
-                        _buildListItem(
-                          context: context,
-                          title: "Name",
-                          value: controller.product.name,
-                          controller: controller.tecName,
-                        ),
-                        _buildListItem(
-                          context: context,
-                          title: "Description",
-                          value: controller.product.description,
-                          controller: controller.tecDescription,
-                        ),
-                        _buildListItem(
-                          context: context,
-                          title: "Price",
-                          value: controller.product.price.toString(),
-                          controller: controller.tecPrice,
-                          numbersOnly: true,
-                        ),
-                        _buildListItem(
-                            context: context,
-                            title: "Unit",
-                            value: controller.product.unit,
-                            controller: controller.tecUnit,
-                            onTextChanged: (value) {
-                              if (value.toLowerCase() == 'kilogram') {
-                                controller.tecWeight.text = "1000";
-                              }
-                            }),
-                        _buildListItem(
-                          context: context,
-                          title: "Weight in gram",
-                          value: controller.product.weight.toString(),
-                          controller: controller.tecWeight,
-                          numbersOnly: true,
-                        ),
-                        _buildDropdownList(context, (value) {
-                          if (value != null) {
-                            controller.tecCategory.text = value;
-                          }
-                        }, controller.tecCategory.text),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            Obx(
-                              () => _buildCheckbox(
-                                context: context,
-                                title: "Available",
-                                value: controller.isAvailable.value,
-                                onChange: controller.onPressedAvailableCheckbox,
-                              ),
-                            ),
-                            Obx(
-                              () => _buildCheckbox(
-                                context: context,
-                                title: "Custom Price",
-                                value: controller.isCustomPrice.value,
-                                onChange:
-                                    controller.onPressedCustomPriceCheckbox,
-                              ),
-                            ),
-                          ],
-                        ),
-                        _buildListItem(
-                          context: context,
-                          title: "Minimum price",
-                          value: controller.product.minimumPrice.toString(),
-                          controller: controller.tecMinimumPrice,
-                          numbersOnly: true,
-                        ),
-                        SizedBox(height: Insets.large.h),
-                        controller.isAdding.isTrue
-                            ? const SizedBox()
-                            : _buildDeleteButton(
-                                context, controller.onPressedDelete),
-                        SizedBox(height: Insets.large.h),
-                      ],
-                    ),
+                  SizedBox(height: Insets.small.h),
+                  _buildListItem(
+                    context: context,
+                    title: "Name",
+                    value: controller.product.name,
+                    controller: controller.tecName,
                   ),
+                  _buildListItem(
+                    context: context,
+                    title: "Description",
+                    value: controller.product.description,
+                    controller: controller.tecDescription,
+                  ),
+                  _buildListItem(
+                    context: context,
+                    title: "Price",
+                    value: controller.product.price.toString(),
+                    controller: controller.tecPrice,
+                    numbersOnly: true,
+                  ),
+                  _buildListItem(
+                      context: context,
+                      title: "Unit",
+                      value: controller.product.unit,
+                      controller: controller.tecUnit,
+                      onTextChanged: (value) {
+                        if (value.toLowerCase() == 'kilogram') {
+                          controller.tecWeight.text = "1000";
+                        }
+                      }),
+                  _buildListItem(
+                    context: context,
+                    title: "Weight in gram",
+                    value: controller.product.weight.toString(),
+                    controller: controller.tecWeight,
+                    numbersOnly: true,
+                  ),
+                  _buildDropdownList(context, (value) {
+                    if (value != null) {
+                      controller.tecCategory.text = value;
+                    }
+                  }, controller.tecCategory.text),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      Obx(
+                        () => _buildCheckbox(
+                          context: context,
+                          title: "Available",
+                          value: controller.isAvailable.value,
+                          onChange: controller.onPressedAvailableCheckbox,
+                        ),
+                      ),
+                      Obx(
+                        () => _buildCheckbox(
+                          context: context,
+                          title: "Custom Price",
+                          value: controller.isCustomPrice.value,
+                          onChange: controller.onPressedCustomPriceCheckbox,
+                        ),
+                      ),
+                    ],
+                  ),
+                  Obx(
+                    () => controller.isCustomPrice.value
+                        ? _buildListItem(
+                            context: context,
+                            title: "Minimum price",
+                            value: controller.product.minimumPrice.toString(),
+                            controller: controller.tecMinimumPrice,
+                            numbersOnly: true,
+                          )
+                        : const SizedBox(),
+                  ),
+                  SizedBox(height: Insets.large.h),
+                  controller.isAdding.isTrue
+                      ? const SizedBox()
+                      : _buildDeleteButton(context, controller.onPressedDelete),
+                  SizedBox(height: Insets.large.h),
                 ],
               ),
             ),
@@ -242,18 +225,16 @@ class ProductDetailScreen extends GetView<ProductDetailController> {
 
   _buildImageSelector(VoidCallback onPressedImage) {
     return Material(
+      clipBehavior: Clip.hardEdge,
+      color: Palette.primary,
+      shape: const CircleBorder(),
       child: InkWell(
         onTap: onPressedImage,
-        child: Container(
-          height: 150.w,
-          width: 150.w,
-          clipBehavior: Clip.hardEdge,
-          decoration: const BoxDecoration(
-            color: Palette.primary,
-            backgroundBlendMode: BlendMode.clear,
-            shape: BoxShape.circle,
-          ),
+        child: SizedBox(
+          height: 400.sp,
+          width: 400.sp,
           child: CustomImage(
+            boxFit: BoxFit.contain,
             imageUrl: controller.product.imageUrl,
           ),
         ),
@@ -293,7 +274,7 @@ class ProductDetailScreen extends GetView<ProductDetailController> {
     return Material(
       color: Palette.primary,
       borderRadius: BorderRadius.vertical(
-        top: Radius.circular(14.w),
+        top: Radius.circular(9.sp),
       ),
       clipBehavior: Clip.hardEdge,
       child: InkWell(
@@ -322,10 +303,10 @@ class ProductDetailScreen extends GetView<ProductDetailController> {
     Function(String productId) onPressed,
   ) {
     return Material(
-      color: Colors.transparent,
-      shape: const ContinuousRectangleBorder(
-          side: BorderSide(color: Palette.negative)),
+      color: Palette.negative,
+      borderRadius: BorderRadius.circular(9.sp),
       clipBehavior: Clip.hardEdge,
+      elevation: 2,
       child: InkWell(
         onTap: () {
           onPressed(controller.product.id);
@@ -336,10 +317,10 @@ class ProductDetailScreen extends GetView<ProductDetailController> {
             vertical: Insets.small.h,
           ),
           child: Text(
-            "DELETE",
+            "Delete Product",
             textAlign: TextAlign.center,
             style: Theme.of(context).textTheme.bodyText1?.copyWith(
-                  color: Palette.negative,
+                  color: Palette.cardForeground,
                   fontWeight: FontWeight.bold,
                   fontSize: 14.sp,
                 ),
@@ -354,41 +335,50 @@ class ProductDetailScreen extends GetView<ProductDetailController> {
     Function(String?)? onChanged,
     String current,
   ) {
-    return DropDown<String>(
-      showUnderline: false,
-      items: controller.categories,
-      hint: Padding(
-        padding: EdgeInsets.only(
-          left: Insets.small.w,
-        ),
-        child: Text(
-          current.isEmpty ? 'Category' : current,
-          style: Theme.of(context).textTheme.bodyText1?.copyWith(
-                color: Palette.accent,
-                fontSize: 12.sp,
-                fontWeight: current.isEmpty ? FontWeight.w400 : FontWeight.w300,
-              ),
-        ),
+    return Container(
+      margin: EdgeInsets.symmetric(
+        vertical: Insets.small.h * .5,
       ),
-      customWidgets: <Widget>[
-        for (var e in controller.categories)
-          Padding(
-            padding: EdgeInsets.only(
-              left: Insets.small.w,
-            ),
-            child: Text(
-              e,
-              style: Theme.of(context).textTheme.bodyText1?.copyWith(
-                    color: Palette.accent,
-                    fontWeight: e.toLowerCase() == current.toLowerCase()
-                        ? FontWeight.bold
-                        : FontWeight.w400,
-                    fontSize: 12.sp,
-                  ),
-            ),
+      decoration: BoxDecoration(
+        color: Palette.editable,
+        borderRadius: BorderRadius.circular(9.sp),
+      ),
+      child: DropDown<String>(
+        showUnderline: false,
+        items: controller.categories,
+        hint: Padding(
+          padding: EdgeInsets.only(
+            left: Insets.small.w,
           ),
-      ],
-      onChanged: onChanged,
+          child: Text(
+            current.isEmpty ? 'Category' : current,
+            style: Theme.of(context).textTheme.bodyText1?.copyWith(
+                  color: Palette.accent,
+                  fontSize: 12.sp,
+                  fontWeight: current.isEmpty ? FontWeight.w400 : FontWeight.w300,
+                ),
+          ),
+        ),
+        customWidgets: <Widget>[
+          for (var e in controller.categories)
+            Padding(
+              padding: EdgeInsets.only(
+                left: Insets.small.w,
+              ),
+              child: Text(
+                e,
+                style: Theme.of(context).textTheme.bodyText1?.copyWith(
+                      color: Palette.accent,
+                      fontWeight: e.toLowerCase() == current.toLowerCase()
+                          ? FontWeight.bold
+                          : FontWeight.w400,
+                      fontSize: 12.sp,
+                    ),
+              ),
+            ),
+        ],
+        onChanged: onChanged,
+      ),
     );
   }
 }

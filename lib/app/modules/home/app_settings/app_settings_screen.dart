@@ -12,27 +12,33 @@ class AppSettingsScreen extends GetView<AppSettingsController> {
   @override
   Widget build(BuildContext context) {
     return ScreenWrapper(
-      child: Column(
-        children: [
-          const CardNavigation(title: 'App Settings'),
-
-          Expanded(
-            child: SingleChildScrollView(
-              physics: const BouncingScrollPhysics(),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  SizedBox(height: Insets.medium.h),
-                  _BuildDeliveryFeeCard(controller: controller),
-                  _BuildAppInfoCard(controller: controller),
-                  //account with verified phone
-                  //
-                ],
+      child: Obx(
+        ()=> AnimatedSwitcher(
+          duration:const Duration(milliseconds: 400),
+          child: controller.isLoading.value
+              ? const Center(child: CircularProgressIndicator(color: Palette.primary,))
+              : Column(
+            children: [
+              const CardNavigation(title: 'App Settings'),
+              Expanded(
+                child: SingleChildScrollView(
+                  physics: const BouncingScrollPhysics(),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      SizedBox(height: Insets.medium.h),
+                      _BuildDeliveryFeeCard(controller: controller),
+                      _BuildAppInfoCard(controller: controller),
+                      //account with verified phone
+                      //
+                    ],
+                  ),
+                ),
               ),
-            ),
+            ],
           ),
-        ],
-      ),
+        ),
+      )
     );
   }
 }
@@ -59,49 +65,36 @@ class _BuildDeliveryFeeCard extends StatelessWidget {
             _buildListItem(
               context: context,
               title: "Distance Price",
-              value: controller.distancePrice.value,
               controller: controller.tecDistancePrice,
             ),
             _buildListItem(
               context: context,
               title: "Distance Unit",
-              value: controller.distanceUnit.value,
               controller: controller.tecDistanceUnit,
             ),
             _buildListItem(
               context: context,
               title: "Weight Price",
-              value: controller.weightPrice.value,
               controller: controller.tecWeightPrice,
             ),
             _buildListItem(
               context: context,
               title: "Weight Unit",
-              value: controller.weightUnit.value,
               controller: controller.tecWeightUnit,
             ),
             SizedBox(
               height: Insets.medium.h,
             ),
-            Material(
-              color: Palette.primary,
-              elevation: 2,
-              child: InkWell(
-                onTap: () {},
-                child: Padding(
-                  padding: EdgeInsets.all(Insets.small.sp),
-                  child: Center(
-                    child: Text(
-                      "Save Delivery Settings",
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 12.sp,
-                      ),
-                    ),
-                  ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                _BuildButton(
+                  text: "Save Delivery Settings ",
+                  onPressed: controller.onPressedSaveSettings,
                 ),
-              ),
-            )
+              ],
+            ),
           ],
         ),
       ),
@@ -111,7 +104,6 @@ class _BuildDeliveryFeeCard extends StatelessWidget {
   _buildListItem({
     required BuildContext context,
     required String title,
-    required String value,
     required TextEditingController controller,
     Function(String)? onTextChanged,
     bool numbersOnly = true,
@@ -159,24 +151,43 @@ class _BuildDeliveryFeeCard extends StatelessWidget {
                 labelText: title,
               ),
             ),
-            // Obx(
-            //       () => AnimatedSwitcher(
-            //     duration: 400.milliseconds,
-            //     child: controller.errorText.isNotEmpty
-            //         ? Text(
-            //       controller.errorText.value,
-            //       style: Theme.of(context).textTheme.bodyText1?.copyWith(
-            //         color: Palette.negative,
-            //         fontSize: 10.sp,
-            //         fontWeight: FontWeight.w300,
-            //       ),
-            //     )
-            //         : const SizedBox(),
-            //   ),
-            // ),
           ],
         ),
       );
+}
+
+class _BuildButton extends StatelessWidget {
+  const _BuildButton({
+    Key? key,
+    this.onPressed,
+    required this.text,
+  }) : super(key: key);
+
+  final VoidCallback? onPressed;
+  final String text;
+
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      color: Palette.primary,
+      elevation: 2,
+      child: InkWell(
+        onTap: onPressed,
+        child: Padding(
+          padding: EdgeInsets.all(Insets.small.sp),
+          child: Center(
+            child: Text(
+              text,
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 12.sp,
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
 }
 
 class _BuildAppInfoCard extends StatelessWidget {
@@ -197,26 +208,25 @@ class _BuildAppInfoCard extends StatelessWidget {
           border: Border.all(),
         ),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Text(
-              "Verified Account = 20",
+              "VALID UNTIL = ${controller.lastQuery}",
+              textAlign: TextAlign.right,
               style: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 12.sp,
               ),
             ),
             Text(
-              "Verified Account = 20",
+              "Verified Account = ${controller.verifiedAccountCount}",
               style: TextStyle(
-                fontWeight: FontWeight.bold,
                 fontSize: 12.sp,
               ),
             ),
             Text(
-              "Verified Account = 20",
+              "Account with order = ${controller.hadOrderCount}",
               style: TextStyle(
-                fontWeight: FontWeight.bold,
                 fontSize: 12.sp,
               ),
             ),

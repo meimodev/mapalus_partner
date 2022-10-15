@@ -4,6 +4,7 @@ import 'package:mapalus_partner/data/models/order.dart';
 import 'package:mapalus_partner/data/models/partner.dart';
 import 'package:mapalus_partner/data/models/product.dart';
 import 'package:mapalus_partner/data/models/user_app.dart';
+import 'dart:developer' as dev;
 
 class FirestoreService {
   FirebaseFirestore fireStore;
@@ -252,5 +253,75 @@ class FirestoreService {
     CollectionReference app = fireStore.collection('app');
     DocumentSnapshot doc = await app.doc('mapalus_partner').get();
     return doc.data();
+  }
+
+  Future<Object?> getDeliveryModifiers() async {
+    CollectionReference app = fireStore.collection('app');
+    DocumentSnapshot doc = await app.doc('delivery_fee').get();
+    return doc.data();
+  }
+
+  Future<void> setDeliveryModifiers(Map<String, dynamic> post) async {
+    CollectionReference app = fireStore.collection('app');
+
+    app.doc('delivery_fee').set(post).then((_) {
+      if (kDebugMode) {
+        print('[FIRESTORE] DELIVERY FEE successfully updated');
+      }
+    }).onError((e, _) {
+      if (kDebugMode) {
+        print('[FIRESTORE] DELIVERY FEE error while updating $e');
+      }
+    });
+  }
+
+  Future<Object?> getUsersInfo() async {
+    CollectionReference app = fireStore.collection('app');
+    DocumentSnapshot doc = await app.doc('users_info').get();
+    return doc.data();
+  }
+
+  Future<Object?> queryUsersInfo(String dateTimeString) async {
+    CollectionReference app = fireStore.collection('app');
+
+    final users = await getUsers();
+    int usersWithOrder = 0;
+    for(var u in users){
+      final userMap = u as Map<String, dynamic>;
+      final userOrders = List.of( userMap["orders"]);
+      if (userOrders.isNotEmpty) {
+        usersWithOrder++;
+      }
+    }
+
+    final post = {
+      "last_query": dateTimeString,
+      "had_order":usersWithOrder,
+      "verified_count":users.length,
+    };
+
+    app.doc('users_info').set(post).then((_) {
+      if (kDebugMode) {
+        print('[FIRESTORE] USER INFO successfully queried');
+      }
+    }).onError((e, _) {
+      if (kDebugMode) {
+        print('[FIRESTORE] USER iNFO error while querying $e');
+      }
+    });
+    return post;
+  }
+
+  Future<List<Object?>> getUsers() async {
+    CollectionReference users = fireStore.collection('users');
+
+    final data = await users.get();
+
+    List<Object?> res = [];
+    for (var data in data.docs) {
+      res.add(data.data());
+    }
+
+    return res;
   }
 }

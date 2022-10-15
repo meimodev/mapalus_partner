@@ -1,7 +1,10 @@
 import 'package:flutter/foundation.dart';
+import 'package:mapalus_partner/data/models/delivery_modifiers.dart';
+import 'package:mapalus_partner/data/models/users_info.dart';
 import 'package:mapalus_partner/data/models/version.dart';
 import 'package:mapalus_partner/data/services/firebase_services.dart';
 import 'package:package_info_plus/package_info_plus.dart';
+import 'dart:developer' as dev;
 
 class AppRepoContract {}
 
@@ -35,5 +38,27 @@ class AppRepo extends AppRepoContract {
   Future<String> getCurrentVersion() async {
     PackageInfo packageInfo = await PackageInfo.fromPlatform();
     return 'v${packageInfo.version}';
+  }
+
+  Future<DeliveryModifiers> getDeliveryModifiers() async {
+    final result = await firestoreService.getDeliveryModifiers();
+    final res = result as Map<String, dynamic>;
+    return DeliveryModifiers.fromMap(res);
+  }
+
+  Future<void> setDeliveryModifiers(DeliveryModifiers data) async {
+    await firestoreService.setDeliveryModifiers(data.toMap);
+  }
+
+  Future<UsersInfo> getUsersInfo() async {
+    final result = await firestoreService.getUsersInfo();
+    final res = result as Map<String, dynamic>;
+    return UsersInfo.fromMap(res);
+  }
+
+  Future<UsersInfo> queryUsersInfo(String dateTimeString) async {
+    final result = await firestoreService.queryUsersInfo(dateTimeString);
+    final res = result as Map<String, dynamic>;
+    return UsersInfo.fromMap(res);
   }
 }

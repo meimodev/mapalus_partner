@@ -1,4 +1,6 @@
 import 'package:get/get.dart';
+import 'package:mapalus_partner/app/modules/home/app_settings/app_settings_binding.dart';
+import 'package:mapalus_partner/app/modules/home/app_settings/app_settings_screen.dart';
 import 'package:mapalus_partner/app/modules/settings/settings_binding.dart';
 import 'package:mapalus_partner/app/modules/settings/settings_screen.dart';
 import 'package:mapalus_partner/app/modules/cart/cart_binding.dart';
@@ -26,6 +28,8 @@ class Routes {
   static const String signing = '/signing';
   static const String updateApp = '/update-app';
   static const String settings = '/settings';
+  static const String appSettings = '/app-settings';
+
 
   static List<GetPage> getRoutes() {
     return [
@@ -84,6 +88,11 @@ class Routes {
         page: () => const SettingsScreen(),
         binding: SettingsBinding(),
         transition: Transition.leftToRight,
+      ),
+      GetPage(
+        name: appSettings,
+        page: () => const AppSettingsScreen(),
+        binding: AppSettingsBinding(),
       ),
     ];
   }

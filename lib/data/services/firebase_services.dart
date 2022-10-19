@@ -257,7 +257,7 @@ class FirestoreService {
 
   Future<Object?> getDeliveryModifiers() async {
     CollectionReference app = fireStore.collection('app');
-    DocumentSnapshot doc = await app.doc('delivery_fee').get();
+    DocumentSnapshot doc = await app.doc('delivery_fee').get(const GetOptions(source: Source.serverAndCache));
     return doc.data();
   }
 

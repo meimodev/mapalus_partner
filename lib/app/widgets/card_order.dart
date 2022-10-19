@@ -76,7 +76,7 @@ class CardOrder extends StatelessWidget {
                       style: Theme.of(context).textTheme.caption,
                     ),
                     Text(
-                      order.orderInfo.totalPrice,
+                      order.orderInfo.totalPriceF,
                       style: Theme.of(context).textTheme.caption,
                     ),
                   ],

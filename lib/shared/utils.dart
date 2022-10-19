@@ -3,13 +3,32 @@ import 'package:intl/intl.dart';
 import 'dart:math';
 
 class Utils {
-  static String formatNumberToCurrency(dynamic number) {
+  static const String keyFree = 'gratis';
+
+  static String formatNumberToCurrency(dynamic number,
+      {bool canBeFree = false}) {
+    if (number <= 0) {
+      number = 0;
+    }
+    if (number == 0 ) {
+      if (canBeFree) {
+
+        return keyFree;
+      }
+      return "-";
+    }
     var f = NumberFormat('#,###');
     var s = "Rp. ${f.format(number)}".replaceAll(",", ".");
     return s;
   }
 
   static double formatCurrencyToNumber(String currencyNumber) {
+    if (currencyNumber.toLowerCase() == keyFree) {
+      return 0;
+    }
+    if (currencyNumber == "-") {
+      return 0;
+    }
     var string = currencyNumber.replaceAll("Rp. ", "");
     var safe = string.replaceAll(".", "");
     return double.parse(safe);

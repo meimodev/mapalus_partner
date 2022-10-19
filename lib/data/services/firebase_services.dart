@@ -251,7 +251,7 @@ class FirestoreService {
 
   Future<Object?> getAppVersion() async {
     CollectionReference app = fireStore.collection('app');
-    DocumentSnapshot doc = await app.doc('mapalus_partner').get();
+    DocumentSnapshot doc = await app.doc('mapalus_partner').get(const GetOptions(source: Source.serverAndCache));
     return doc.data();
   }
 

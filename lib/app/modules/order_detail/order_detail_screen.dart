@@ -11,6 +11,7 @@ import 'package:mapalus_partner/data/models/rating.dart';
 import 'package:mapalus_partner/shared/enums.dart';
 import 'package:mapalus_partner/shared/theme.dart';
 import 'package:get/get.dart';
+import 'package:readmore/readmore.dart';
 
 class OrderDetailScreen extends GetView<OrderDetailController> {
   const OrderDetailScreen({Key? key}) : super(key: key);
@@ -122,20 +123,6 @@ class OrderDetailScreen extends GetView<OrderDetailController> {
                           timeStamp: controller.orderTime.value,
                         ),
                       ),
-                      const Expanded(
-                        flex: 3,
-                        child: SizedBox(),
-                      ),
-                      // Expanded(
-                      //   flex: 4,
-                      //   child: Obx(
-                      //     () => _buildDeliveryStateCard(
-                      //       context: context,
-                      //       title: 'Selesai',
-                      //       timeStamp: controller.deliveryTime.value,
-                      //     ),
-                      //   ),
-                      // ),
                     ],
                   ),
                   SizedBox(height: Insets.small.h * .5),
@@ -153,6 +140,10 @@ class OrderDetailScreen extends GetView<OrderDetailController> {
                           )),
                           child: _buildPaymentInfoLayout(context),
                         )
+                      : const SizedBox(),
+                  SizedBox(height: Insets.small.h),
+                  controller.note.isNotEmpty
+                      ? _BuildNoteCard(note: controller.note.value)
                       : const SizedBox(),
                   SizedBox(height: Insets.small.h),
                   Obx(
@@ -323,8 +314,8 @@ class OrderDetailScreen extends GetView<OrderDetailController> {
           onTap: onPressed,
           child: Padding(
             padding: EdgeInsets.symmetric(
-              horizontal: Insets.small.sp ,
-              vertical: Insets.small.sp ,
+              horizontal: Insets.small.sp,
+              vertical: Insets.small.sp,
             ),
             child: Center(
               child: Icon(
@@ -492,11 +483,12 @@ class _BuildConfirmationLayout extends StatelessWidget {
       child: InkWell(
         onTap: onPressed,
         child: Padding(
-          padding: EdgeInsets.all(Insets.small.w),
+          padding: EdgeInsets.all(Insets.small.sp),
           child: Center(
             child: Icon(
               icon,
               color: Palette.cardForeground,
+              size: 18.sp,
             ),
           ),
         ),
@@ -555,6 +547,54 @@ class _BuildRatedLayout extends StatelessWidget {
                   fontSize: 10.sp,
                   fontWeight: FontWeight.w300,
                 ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _BuildNoteCard extends StatelessWidget {
+  const _BuildNoteCard({
+    Key? key,
+    required this.note,
+  }) : super(key: key);
+
+  final String note;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      clipBehavior: Clip.hardEdge,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(9.sp),
+        color: Palette.editable,
+      ),
+      padding: EdgeInsets.symmetric(
+        horizontal: Insets.small.sp,
+        vertical: Insets.small.sp,
+      ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Icon(Icons.edit_note_rounded, size: 15.sp),
+          SizedBox(width: 6.w),
+          Expanded(
+            child: ReadMoreText(
+              '$note  ',
+              trimLines: 1,
+              colorClickableText: Palette.primary,
+              trimMode: TrimMode.Line,
+              style: Theme.of(context).textTheme.bodyText1?.copyWith(
+                    fontWeight: FontWeight.w300,
+                    fontSize: 12.sp,
+                  ),
+              delimiter: "  . . .  ",
+              delimiterStyle: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 14.sp,
+              ),
+            ),
           ),
         ],
       ),

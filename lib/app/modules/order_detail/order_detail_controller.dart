@@ -46,6 +46,8 @@ class OrderDetailController extends GetxController {
 
   UserApp? orderingUser;
 
+  var note = "".obs;
+
   @override
   Future<void> onInit() async {
     canLoading.value = true;
@@ -71,7 +73,7 @@ class OrderDetailController extends GetxController {
     deliveryTotal.value = order.orderInfo.deliveryPriceF;
     deliveryTime.value = order.orderInfo.deliveryTime;
     deliveryCoordinate.value = order.orderInfo.deliveryCoordinateF;
-    totalPrice.value = order.orderInfo.totalPrice;
+    totalPrice.value = order.orderInfo.totalPriceF;
     orderRating.value = order.rating;
     orderingUser = order.orderingUser;
 
@@ -80,6 +82,7 @@ class OrderDetailController extends GetxController {
     paymentMethod.value = order.paymentMethodF;
 
     paymentAmount.value = order.paymentAmount;
+    note.value = order.note;
 
     dev.log(order.toString());
 

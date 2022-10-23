@@ -90,7 +90,6 @@ class ProductDetailController extends GetxController {
 
   void onPressedCustomPriceCheckbox(bool? value) {
     isCustomPrice.toggle();
-    tecMinimumPrice.text = "0";
   }
 
   void onPressedImage() {

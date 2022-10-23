@@ -101,17 +101,12 @@ class ProductDetailScreen extends GetView<ProductDetailController> {
                                 ),
                               ],
                             ),
-                            Obx(
-                              () => controller.isCustomPrice.value
-                                  ? _buildListItem(
-                                      context: context,
-                                      title: "Minimum price",
-                                      value: controller.product.minimumPrice
-                                          .toString(),
-                                      controller: controller.tecMinimumPrice,
-                                      numbersOnly: true,
-                                    )
-                                  : const SizedBox(),
+                            _buildListItem(
+                              context: context,
+                              title: "Minimum price",
+                              value: controller.product.minimumPrice.toString(),
+                              controller: controller.tecMinimumPrice,
+                              numbersOnly: true,
                             ),
                             SizedBox(height: Insets.large.h),
                             controller.isAdding.isTrue
@@ -243,7 +238,6 @@ class ProductDetailScreen extends GetView<ProductDetailController> {
           height: 400.sp,
           width: 400.sp,
           child: CustomImage(
-            boxFit: BoxFit.contain,
             imageUrl: controller.product.imageUrl,
           ),
         ),

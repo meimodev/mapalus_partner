@@ -1,8 +1,5 @@
-import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:mapalus_partner/shared/theme.dart';
+import 'package:mapalus_flutter_commons/mapalus_flutter_commons.dart';
 
 class CardSearchBar extends StatelessWidget {
   const CardSearchBar({

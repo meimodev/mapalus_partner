@@ -3,8 +3,6 @@ import 'package:mapalus_partner/app/modules/home/app_settings/app_settings_bindi
 import 'package:mapalus_partner/app/modules/home/app_settings/app_settings_screen.dart';
 import 'package:mapalus_partner/app/modules/settings/settings_binding.dart';
 import 'package:mapalus_partner/app/modules/settings/settings_screen.dart';
-import 'package:mapalus_partner/app/modules/cart/cart_binding.dart';
-import 'package:mapalus_partner/app/modules/cart/cart_screen.dart';
 import 'package:mapalus_partner/app/modules/home/home_binding.dart';
 import 'package:mapalus_partner/app/modules/home/home_screen.dart';
 import 'package:mapalus_partner/app/modules/order_detail/order_detail_binding.dart';
@@ -22,8 +20,6 @@ class Routes {
   static const String orders = '/orders';
   static const String orderDetail = '/order-detail';
   static const String productDetail = '/product-detail';
-  static const String cart = '/cart';
-  static const String location = '/location';
   static const String ordering = '/ordering';
   static const String signing = '/signing';
   static const String updateApp = '/update-app';
@@ -65,12 +61,7 @@ class Routes {
         transition: Transition.cupertino,
         binding: ProductDetailBinding(),
       ),
-      GetPage(
-        name: cart,
-        page: () => const CartScreen(),
-        binding: CartBinding(),
-        transition: Transition.fade,
-      ),
+
 
       GetPage(
         name: signing,

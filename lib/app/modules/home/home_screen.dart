@@ -1,15 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:mapalus_partner/app/modules/home/home_controller.dart';
 import 'package:mapalus_partner/app/widgets/card_order.dart';
 import 'package:mapalus_partner/app/widgets/card_product.dart';
-import 'package:mapalus_partner/app/widgets/screen_wrapper.dart';
-import 'package:mapalus_partner/data/models/order.dart';
-import 'package:mapalus_partner/data/models/product.dart';
 import 'package:mapalus_partner/shared/routes.dart';
-import 'package:mapalus_partner/shared/theme.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:mapalus_flutter_commons/mapalus_flutter_commons.dart';
+
 
 class HomeScreen extends GetView<HomeController> {
   const HomeScreen({Key? key}) : super(key: key);

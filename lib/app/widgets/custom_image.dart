@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:mapalus_partner/shared/theme.dart';
-import 'package:transparent_image/transparent_image.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:mapalus_flutter_commons/mapalus_flutter_commons.dart';
 
 class CustomImage extends StatelessWidget {
   const CustomImage({

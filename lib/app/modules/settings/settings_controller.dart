@@ -1,6 +1,5 @@
 import 'package:get/get.dart';
-import 'package:mapalus_partner/data/models/version.dart';
-import 'package:package_info_plus/package_info_plus.dart';
+import 'package:mapalus_flutter_commons/mapalus_flutter_commons.dart';
 
 class SettingsController extends GetxController {
   RxString textVersion = ''.obs;

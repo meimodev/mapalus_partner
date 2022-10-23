@@ -1,24 +1,16 @@
 import 'dart:developer' as dev;
 
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
-import 'package:mapalus_partner/data/models/order.dart';
-import 'package:mapalus_partner/data/models/partner.dart';
-import 'package:mapalus_partner/data/models/product.dart';
-import 'package:mapalus_partner/data/repo/app_repo.dart';
-import 'package:mapalus_partner/data/repo/order_repo.dart';
-import 'package:mapalus_partner/data/repo/product_repo.dart';
-import 'package:mapalus_partner/data/repo/user_repo.dart';
-import 'package:mapalus_partner/data/services/firebase_services.dart';
 import 'package:mapalus_partner/shared/routes.dart';
-import 'package:flutter_ringtone_player/flutter_ringtone_player.dart';
+import 'package:mapalus_flutter_commons/mapalus_flutter_commons.dart';
 
 class HomeController extends GetxController {
-  UserRepo userRepo = Get.find<UserRepo>();
+  UserRepoPartner userRepo = Get.find<UserRepoPartner>();
   OrderRepo orderRepo = Get.find<OrderRepo>();
   ProductRepo productRepo = Get.find<ProductRepo>();
   AppRepo appRepo = Get.find<AppRepo>();
+  PartnerRepo partnerRepo = Get.find<PartnerRepo>();
 
   ///incredibly dangerous and unmaintainable !! Do not access straight service without repository layer
   FirestoreService firestoreService = FirestoreService();
@@ -44,7 +36,7 @@ class HomeController extends GetxController {
 
   @override
   void onReady() async {
-    final notLatestVersion = !await appRepo.checkIfLatestVersion();
+    final notLatestVersion = !await appRepo.checkIfLatestVersion(false);
     if (notLatestVersion) {
       Get.offNamed(Routes.updateApp);
       return;
@@ -88,7 +80,7 @@ class HomeController extends GetxController {
 
   _loadOrders() async {
     isLoading.value = true;
-    var oo = await orderRepo.readAllOrders(0, 0);
+    var oo = await orderRepo.readOrders();
     tecProductFilter.text = '';
     orders.value = List<Order>.from(oo.reversed);
     dev.log(orders.first.toString());
@@ -101,7 +93,7 @@ class HomeController extends GetxController {
     isLoading.value = true;
     // await Future.delayed(1.seconds);
 
-    var pp = await productRepo.readProducts(0, 0);
+    var pp = await productRepo.readProducts();
     var p = List<Product>.from(pp);
     // p.sort((a, b) => a.name.toLowerCase().compareTo(b.name.toLowerCase()));
 
@@ -120,7 +112,7 @@ class HomeController extends GetxController {
   }
 
   Future<void> _initPartnerFCMToken() async {
-    Partner partner = await firestoreService.getPartner("089525699078");
+    Partner partner = await partnerRepo.readPartner("089525699078");
     await FirebaseMessaging.instance.subscribeToTopic(partner.id);
   }
 

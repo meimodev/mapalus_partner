@@ -2,18 +2,11 @@ import 'dart:developer' as dev;
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:jiffy/jiffy.dart';
 import 'package:mapalus_partner/app/modules/home/home_controller.dart';
 import 'package:mapalus_partner/app/widgets/dialog_confirm.dart';
-import 'package:mapalus_partner/data/models/order.dart';
-import 'package:mapalus_partner/data/models/product_order.dart';
-import 'package:mapalus_partner/data/models/rating.dart';
-import 'package:mapalus_partner/data/models/user_app.dart';
-import 'package:mapalus_partner/data/repo/order_repo.dart';
-import 'package:mapalus_partner/shared/enums.dart';
 import 'package:mapalus_partner/shared/routes.dart';
-import 'package:mapalus_partner/shared/values.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:mapalus_flutter_commons/mapalus_flutter_commons.dart';
+
 
 class OrderDetailController extends GetxController {
   OrderRepo orderRepo = Get.find();
@@ -145,8 +138,8 @@ class OrderDetailController extends GetxController {
   }
 
   onPressedViewMaps() {
-    final latitude = _order.orderInfo.deliveryCoordinate.latitude;
-    final longitude = _order.orderInfo.deliveryCoordinate.longitude;
+    final latitude = _order.orderInfo.deliveryCoordinateLatitude;
+    final longitude = _order.orderInfo.deliveryCoordinateLongitude;
     final url =
         'https://www.google.com/maps/search/?api=1&query=$latitude,$longitude';
 

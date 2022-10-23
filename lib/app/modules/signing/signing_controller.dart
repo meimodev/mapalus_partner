@@ -1,14 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
-import 'package:hive/hive.dart';
-import 'package:mapalus_partner/data/repo/app_repo.dart';
-import 'package:mapalus_partner/data/repo/user_repo.dart';
-import 'package:mapalus_partner/shared/enums.dart';
+import 'package:mapalus_flutter_commons/mapalus_flutter_commons.dart';
 import 'package:mapalus_partner/shared/routes.dart';
 
 class SigningController extends GetxController {
   AppRepo appRepo = Get.find();
-  UserRepo userRepo = Get.find();
+  UserRepoPartner userRepo = Get.find();
 
   TextEditingController tecSigning = TextEditingController();
   Rx<String> errorText = "".obs;
@@ -30,7 +27,7 @@ class SigningController extends GetxController {
     super.onReady();
 
     isLoading.value = true;
-    if (!await appRepo.checkIfLatestVersion()) {
+    if (!await appRepo.checkIfLatestVersion(false)) {
       Get.offNamed(Routes.updateApp);
       return;
     }

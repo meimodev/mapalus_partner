@@ -1,12 +1,8 @@
-import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:mapalus_flutter_commons/mapalus_flutter_commons.dart';
 import 'package:mapalus_partner/app/modules/account_settings/account_settings_controller.dart';
 import 'package:mapalus_partner/app/widgets/card_navigation.dart';
-import 'package:mapalus_partner/app/widgets/screen_wrapper.dart';
-import 'package:mapalus_partner/shared/theme.dart';
 
 class AccountSettingsScreen extends GetView<AccountSettingsController> {
   const AccountSettingsScreen({Key? key}) : super(key: key);

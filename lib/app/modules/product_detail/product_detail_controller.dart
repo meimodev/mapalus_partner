@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mapalus_partner/app/modules/home/home_controller.dart';
 import 'package:mapalus_partner/app/widgets/dialog_confirm.dart';
-import 'package:mapalus_partner/data/models/product.dart';
-import 'package:mapalus_partner/data/repo/product_repo.dart';
+import 'package:mapalus_flutter_commons/mapalus_flutter_commons.dart';
 
 class ProductDetailController extends GetxController {
   ProductRepo productRepo = Get.find();
@@ -36,8 +35,11 @@ class ProductDetailController extends GetxController {
     'Bahan Kue'
   ];
 
+  var isLoading = true.obs;
+
   @override
   void onInit() {
+    isLoading.value = true;
     var args = Get.arguments;
     if (args == null) {
       isAdding.value = true;
@@ -47,6 +49,7 @@ class ProductDetailController extends GetxController {
       _initTextFields();
     }
 
+    isLoading.value = false;
     super.onInit();
   }
 
@@ -95,6 +98,8 @@ class ProductDetailController extends GetxController {
   }
 
   Future<void> onPressedSaveButton() async {
+    isLoading.value = true;
+
     saving.value = true;
     errorText.value = "";
 
@@ -110,6 +115,7 @@ class ProductDetailController extends GetxController {
 
     for (String t in texts) {
       if (t.isEmpty) {
+        isLoading.value = false;
         errorText.value = "Only 'description' that can be empty";
         saving.value = false;
         return;
@@ -119,6 +125,7 @@ class ProductDetailController extends GetxController {
     texts = [tecPrice.text, tecWeight.text];
     for (String t in texts) {
       if (!t.isNumericOnly) {
+        isLoading.value = false;
         errorText.value = "Price & Weight can only contain numbers";
         saving.value = false;
         return;
@@ -156,6 +163,7 @@ class ProductDetailController extends GetxController {
         description: "You're about to delete ${product.name}",
         confirmText: "CONFIRM",
         onPressedConfirm: () async {
+          isLoading.value = true;
           await productRepo.deleteProduct(productId);
           Get.back();
           Get.rawSnackbar(message: "${product.name} deleted");

@@ -1,12 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_dropdown/flutter_dropdown.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mapalus_partner/app/modules/product_detail/product_detail_controller.dart';
 import 'package:mapalus_partner/app/widgets/card_navigation.dart';
-import 'package:mapalus_partner/app/widgets/custom_image.dart';
-import 'package:mapalus_partner/app/widgets/screen_wrapper.dart';
 import 'package:get/get.dart';
-import 'package:mapalus_partner/shared/theme.dart';
+import 'package:mapalus_flutter_commons/mapalus_flutter_commons.dart';
 
 class ProductDetailScreen extends GetView<ProductDetailController> {
   const ProductDetailScreen({Key? key}) : super(key: key);
@@ -14,114 +10,127 @@ class ProductDetailScreen extends GetView<ProductDetailController> {
   @override
   Widget build(BuildContext context) {
     return ScreenWrapper(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Obx(
-            () => CardNavigation(
-              title: controller.isAdding.value
-                  ? 'Tambah Produk Baru'
-                  : "Product Detail",
-            ),
-          ),
-          Expanded(
-            child: SingleChildScrollView(
-              physics: const BouncingScrollPhysics(),
-              padding: EdgeInsets.symmetric(horizontal: Insets.medium.w),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  SizedBox(height: Insets.small.h),
-                  _buildImageSelector(controller.onPressedImage),
-                  SizedBox(height: Insets.small.h),
-                  _buildListItem(
-                    context: context,
-                    title: "Name",
-                    value: controller.product.name,
-                    controller: controller.tecName,
-                  ),
-                  _buildListItem(
-                    context: context,
-                    title: "Description",
-                    value: controller.product.description,
-                    controller: controller.tecDescription,
-                  ),
-                  _buildListItem(
-                    context: context,
-                    title: "Price",
-                    value: controller.product.price.toString(),
-                    controller: controller.tecPrice,
-                    numbersOnly: true,
-                  ),
-                  _buildListItem(
-                      context: context,
-                      title: "Unit",
-                      value: controller.product.unit,
-                      controller: controller.tecUnit,
-                      onTextChanged: (value) {
-                        if (value.toLowerCase() == 'kilogram') {
-                          controller.tecWeight.text = "1000";
-                        }
-                      }),
-                  _buildListItem(
-                    context: context,
-                    title: "Weight in gram",
-                    value: controller.product.weight.toString(),
-                    controller: controller.tecWeight,
-                    numbersOnly: true,
-                  ),
-                  _buildDropdownList(context, (value) {
-                    if (value != null) {
-                      controller.tecCategory.text = value;
-                    }
-                  }, controller.tecCategory.text),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      Obx(
-                        () => _buildCheckbox(
-                          context: context,
-                          title: "Available",
-                          value: controller.isAvailable.value,
-                          onChange: controller.onPressedAvailableCheckbox,
+      child: Obx(
+        () => AnimatedSwitcher(
+          duration: const Duration(milliseconds: 400),
+          child: controller.isLoading.value
+              ? const Center(
+                  child: CircularProgressIndicator(color: Palette.primary))
+              : Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Obx(
+                      () => CardNavigation(
+                        title: controller.isAdding.value
+                            ? 'Tambah Produk Baru'
+                            : "Product Detail",
+                      ),
+                    ),
+                    Expanded(
+                      child: SingleChildScrollView(
+                        physics: const BouncingScrollPhysics(),
+                        padding:
+                            EdgeInsets.symmetric(horizontal: Insets.medium.w),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            SizedBox(height: Insets.small.h),
+                            _buildImageSelector(controller.onPressedImage),
+                            SizedBox(height: Insets.small.h),
+                            _buildListItem(
+                              context: context,
+                              title: "Name",
+                              value: controller.product.name,
+                              controller: controller.tecName,
+                            ),
+                            _buildListItem(
+                              context: context,
+                              title: "Description",
+                              value: controller.product.description,
+                              controller: controller.tecDescription,
+                            ),
+                            _buildListItem(
+                              context: context,
+                              title: "Price",
+                              value: controller.product.price.toString(),
+                              controller: controller.tecPrice,
+                              numbersOnly: true,
+                            ),
+                            _buildListItem(
+                                context: context,
+                                title: "Unit",
+                                value: controller.product.unit,
+                                controller: controller.tecUnit,
+                                onTextChanged: (value) {
+                                  if (value.toLowerCase() == 'kilogram') {
+                                    controller.tecWeight.text = "1000";
+                                  }
+                                }),
+                            _buildListItem(
+                              context: context,
+                              title: "Weight in gram",
+                              value: controller.product.weight.toString(),
+                              controller: controller.tecWeight,
+                              numbersOnly: true,
+                            ),
+                            _buildDropdownList(context, (value) {
+                              if (value != null) {
+                                controller.tecCategory.text = value;
+                              }
+                            }, controller.tecCategory.text),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                Obx(
+                                  () => _buildCheckbox(
+                                    context: context,
+                                    title: "Available",
+                                    value: controller.isAvailable.value,
+                                    onChange:
+                                        controller.onPressedAvailableCheckbox,
+                                  ),
+                                ),
+                                Obx(
+                                  () => _buildCheckbox(
+                                    context: context,
+                                    title: "Custom Price",
+                                    value: controller.isCustomPrice.value,
+                                    onChange:
+                                        controller.onPressedCustomPriceCheckbox,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Obx(
+                              () => controller.isCustomPrice.value
+                                  ? _buildListItem(
+                                      context: context,
+                                      title: "Minimum price",
+                                      value: controller.product.minimumPrice
+                                          .toString(),
+                                      controller: controller.tecMinimumPrice,
+                                      numbersOnly: true,
+                                    )
+                                  : const SizedBox(),
+                            ),
+                            SizedBox(height: Insets.large.h),
+                            controller.isAdding.isTrue
+                                ? const SizedBox()
+                                : _buildDeleteButton(
+                                    context, controller.onPressedDelete),
+                            SizedBox(height: Insets.large.h),
+                          ],
                         ),
                       ),
-                      Obx(
-                        () => _buildCheckbox(
-                          context: context,
-                          title: "Custom Price",
-                          value: controller.isCustomPrice.value,
-                          onChange: controller.onPressedCustomPriceCheckbox,
-                        ),
-                      ),
-                    ],
-                  ),
-                  Obx(
-                    () => controller.isCustomPrice.value
-                        ? _buildListItem(
-                            context: context,
-                            title: "Minimum price",
-                            value: controller.product.minimumPrice.toString(),
-                            controller: controller.tecMinimumPrice,
-                            numbersOnly: true,
-                          )
-                        : const SizedBox(),
-                  ),
-                  SizedBox(height: Insets.large.h),
-                  controller.isAdding.isTrue
-                      ? const SizedBox()
-                      : _buildDeleteButton(context, controller.onPressedDelete),
-                  SizedBox(height: Insets.large.h),
-                ],
-              ),
-            ),
-          ),
-          _buildErrorText(context),
-          _buildSaveButton(
-            context,
-            controller.onPressedSaveButton,
-          ),
-        ],
+                    ),
+                    _buildErrorText(context),
+                    _buildSaveButton(
+                      context,
+                      controller.onPressedSaveButton,
+                    ),
+                  ],
+                ),
+        ),
       ),
     );
   }
@@ -355,7 +364,8 @@ class ProductDetailScreen extends GetView<ProductDetailController> {
             style: Theme.of(context).textTheme.bodyText1?.copyWith(
                   color: Palette.accent,
                   fontSize: 12.sp,
-                  fontWeight: current.isEmpty ? FontWeight.w400 : FontWeight.w300,
+                  fontWeight:
+                      current.isEmpty ? FontWeight.w400 : FontWeight.w300,
                 ),
           ),
         ),

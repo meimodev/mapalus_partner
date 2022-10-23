@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:mapalus_partner/app/modules/settings/settings_controller.dart';
 import 'package:mapalus_partner/app/widgets/card_navigation.dart';
-import 'package:mapalus_partner/app/widgets/screen_wrapper.dart';
 import 'package:mapalus_partner/shared/routes.dart';
-import 'package:mapalus_partner/shared/theme.dart';
+import 'package:mapalus_flutter_commons/mapalus_flutter_commons.dart';
 
 class SettingsScreen extends GetView<SettingsController> {
   const SettingsScreen({Key? key}) : super(key: key);

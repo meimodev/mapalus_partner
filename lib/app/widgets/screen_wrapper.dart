@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mapalus_partner/shared/theme.dart';
+import 'package:mapalus_flutter_commons/mapalus_flutter_commons.dart';
 
 class ScreenWrapper extends StatelessWidget {
   const ScreenWrapper({Key? key, required this.child, this.backgroundColor})

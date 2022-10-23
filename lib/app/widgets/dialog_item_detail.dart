@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:mapalus_partner/app/widgets/text_input_quantity.dart';
-import 'package:mapalus_partner/data/models/product.dart';
-import 'package:mapalus_partner/data/models/product_order.dart';
-import 'package:mapalus_partner/shared/theme.dart';
+import 'package:mapalus_flutter_commons/mapalus_flutter_commons.dart';
 
 import 'button_alter_quantity.dart';
 
@@ -247,7 +243,7 @@ class _DialogItemDetailState extends State<DialogItemDetail> {
   }
 
   Widget _buildAvailableWidgets(BuildContext context) {
-    _onChangeValue(bool isFromPrice) {
+    onChangeValue(bool isFromPrice) {
       double gram = double.parse(tecGram.text);
       double price = double.parse(tecPrice.text);
 
@@ -263,7 +259,7 @@ class _DialogItemDetailState extends State<DialogItemDetail> {
       }
     }
 
-    _adding(int amount, TextEditingController controller, bool isFromPrice) {
+    adding(int amount, TextEditingController controller, bool isFromPrice) {
       late int cur;
       try {
         cur = int.parse(controller.text);
@@ -274,7 +270,7 @@ class _DialogItemDetailState extends State<DialogItemDetail> {
         amount = 0;
       }
       controller.text = (cur + amount).toString();
-      _onChangeValue(isFromPrice);
+      onChangeValue(isFromPrice);
     }
 
     return Column(
@@ -292,13 +288,13 @@ class _DialogItemDetailState extends State<DialogItemDetail> {
           ),
           textEditingController: tecGram,
           onValueChanged: (value) {
-            _onChangeValue(false);
+            onChangeValue(false);
           },
           onAdd: () {
-            _adding(additionAmountUnit, tecGram, false);
+            adding(additionAmountUnit, tecGram, false);
           },
           onSub: () {
-            _adding(-additionAmountUnit, tecGram, false);
+            adding(-additionAmountUnit, tecGram, false);
           },
         ),
         SizedBox(height: 9.h),
@@ -314,13 +310,13 @@ class _DialogItemDetailState extends State<DialogItemDetail> {
           ),
           textEditingController: tecPrice,
           onValueChanged: (value) {
-            _onChangeValue(true);
+            onChangeValue(true);
           },
           onAdd: () {
-            _adding(additionAmountPrice, tecPrice, true);
+            adding(additionAmountPrice, tecPrice, true);
           },
           onSub: () {
-            _adding(-additionAmountPrice, tecPrice, true);
+            adding(-additionAmountPrice, tecPrice, true);
           },
         )
       ],

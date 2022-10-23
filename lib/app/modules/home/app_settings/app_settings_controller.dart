@@ -1,26 +1,10 @@
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
-import 'package:jiffy/jiffy.dart';
-import 'package:mapalus_partner/data/models/delivery_modifiers.dart';
-import 'package:mapalus_partner/data/models/users_info.dart';
-import 'package:mapalus_partner/data/repo/app_repo.dart';
-import 'package:mapalus_partner/shared/values.dart';
-
+import 'package:mapalus_flutter_commons/mapalus_flutter_commons.dart';
 import 'dart:developer' as dev;
 
-extension E on double {
-  String toStringWithoutPointZeroTrail() {
-    final str = toString();
-    final isContainPointZeroTrail = str.substring(str.length - 2) == ".0";
-    if (isContainPointZeroTrail) {
-      return str.substring(0, str.length - 2);
-    }
-    return str;
-  }
-}
-
 class AppSettingsController extends GetxController {
-  AppRepo appRepo = Get.find();
+  PartnerRepo partnerRepo = Get.find();
 
   var tecDistancePrice = TextEditingController();
   var tecDistanceUnit = TextEditingController();
@@ -54,7 +38,7 @@ class AppSettingsController extends GetxController {
       weightUnit: double.parse(tecWeightUnit.text.trim()),
     );
 
-    await appRepo.setDeliveryModifiers(delivery);
+    await partnerRepo.setDeliveryModifiers(delivery);
     await Future.delayed(const Duration(seconds: 2));
     isLoading.value = false;
   }
@@ -66,7 +50,7 @@ class AppSettingsController extends GetxController {
   }
 
   _loadDelivery() async {
-    deliveryModifiers = await appRepo.getDeliveryModifiers();
+    deliveryModifiers = await partnerRepo.getDeliveryModifiers();
     if (deliveryModifiers == null) {
       return;
     }
@@ -79,7 +63,7 @@ class AppSettingsController extends GetxController {
   }
 
   _loadAccountInfo() async {
-    UsersInfo usersInfo = await appRepo.getUsersInfo();
+    UsersInfo usersInfo = await partnerRepo.getUsersInfo();
 
     final lastQuery =
         Jiffy(usersInfo.lastQuery, Values.formatRawDate).endOf(Units.DAY);
@@ -87,7 +71,7 @@ class AppSettingsController extends GetxController {
 
     if (Jiffy().isAfter(lastQueryExpiration)) {
       dev.log("FRESH QUERY");
-      usersInfo = await appRepo.queryUsersInfo(
+      usersInfo = await partnerRepo.queryUsersInfo(
           Jiffy().endOf(Units.DAY).format(Values.formatRawDate));
     }
 

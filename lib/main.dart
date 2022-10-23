@@ -1,20 +1,13 @@
 import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 import 'package:mapalus_partner/shared/routes.dart';
-import 'package:mapalus_partner/shared/theme.dart';
-import 'package:jiffy/jiffy.dart';
+import 'package:mapalus_flutter_commons/mapalus_flutter_commons.dart';
 
 import 'firebase_options.dart';
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-  if (kDebugMode) {
-    print("This is a background message: ${message.messageId}");
-  }
+
 }
 
 void main() async {
@@ -23,8 +16,7 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   await Hive.initFlutter();
-  if (defaultTargetPlatform == TargetPlatform.android) {
-  }
+
   await Jiffy.locale("id");
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 

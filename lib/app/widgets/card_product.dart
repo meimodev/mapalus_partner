@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:mapalus_partner/app/widgets/custom_image.dart';
-import 'package:mapalus_partner/data/models/product.dart';
-import 'package:mapalus_partner/shared/theme.dart';
+import 'package:mapalus_flutter_commons/mapalus_flutter_commons.dart';
 
 class CardProduct extends StatelessWidget {
   const CardProduct({

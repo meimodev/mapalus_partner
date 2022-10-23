@@ -13,7 +13,8 @@ dependencies:
     sdk: flutter
 
   mapalus_flutter_commons:
-    path: ../mapalus_flutter_commons
+#    path: ../mapalus_flutter_commons
+    git: "https://github.com/meimodev/mapalus_flutter_commons.git"
 
   firebase_core: ^2.1.0
   get: ^4.6.5

@@ -15,7 +15,7 @@ class HomeController extends GetxController {
   ///incredibly dangerous and unmaintainable !! Do not access straight service without repository layer
   FirestoreService firestoreService = FirestoreService();
 
-  RxList<Order> orders = <Order>[].obs;
+  RxList<OrderApp> orders = <OrderApp>[].obs;
   RxList<Product> products = <Product>[].obs;
   List<Product> _tempProducts = <Product>[];
 
@@ -82,7 +82,7 @@ class HomeController extends GetxController {
     isLoading.value = true;
     var oo = await orderRepo.readOrders();
     tecProductFilter.text = '';
-    orders.value = List<Order>.from(oo.reversed);
+    orders.value = List<OrderApp>.from(oo.reversed);
     dev.log(orders.first.toString());
 
     //show the list on screen
@@ -121,7 +121,7 @@ class HomeController extends GetxController {
       isLoading.value = true;
       if (orders.isEmpty) {
         orders.value = snapShot.docs
-            .map((e) => Order.fromMap(e.data() as Map<String, dynamic>))
+            .map((e) => OrderApp.fromMap(e.data() as Map<String, dynamic>))
             .toList()
             .reversed
             .toList();
@@ -133,7 +133,7 @@ class HomeController extends GetxController {
       var docChanges = snapShot.docChanges;
       for (var d in docChanges) {
         var map = d.doc.data() as Map<String, dynamic>;
-        var order = Order.fromMap(map);
+        var order = OrderApp.fromMap(map);
         final existIndex =
             orders.indexWhere((element) => element.id == order.id);
 

@@ -35,7 +35,7 @@ class OrderDetailController extends GetxController {
   var paymentMethod = ''.obs;
   var paymentAmount = 0.obs;
 
-  late Order _order;
+  late OrderApp _order;
   bool shouldRefresh = false;
 
   RxBool canLoading = true.obs;
@@ -48,7 +48,7 @@ class OrderDetailController extends GetxController {
   Future<void> onInit() async {
     canLoading.value = true;
     await Future.delayed(600.milliseconds);
-    Order order = Get.arguments as Order;
+    OrderApp order = Get.arguments as OrderApp;
     _order = order;
     productOrders.value = order.products;
     id.value = order.idMinified;

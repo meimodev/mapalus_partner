@@ -37,7 +37,7 @@ class OrdersScreen extends GetView<OrdersController> {
                             physics: const BouncingScrollPhysics(),
                             itemCount: controller.orders.length,
                             itemBuilder: (BuildContext context, int index) {
-                              Order order = controller.orders.elementAt(index);
+                              OrderApp order = controller.orders.elementAt(index);
                               return Padding(
                                 padding: EdgeInsets.symmetric(
                                   vertical: Insets.small.h * .5,

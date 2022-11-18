@@ -206,7 +206,7 @@ class HomeScreen extends GetView<HomeController> {
                       addAutomaticKeepAlives: true,
                       physics: const BouncingScrollPhysics(),
                       itemBuilder: (context, index) {
-                        Order order = controller.orders.elementAt(index);
+                        OrderApp order = controller.orders.elementAt(index);
                         return CardOrder(
                             order: order,
                             onPressed: () => Navigator.pushNamed(

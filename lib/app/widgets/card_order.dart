@@ -8,7 +8,7 @@ class CardOrder extends StatelessWidget {
     required this.onPressed,
   }) : super(key: key);
 
-  final Order order;
+  final OrderApp order;
   final VoidCallback onPressed;
 
   @override

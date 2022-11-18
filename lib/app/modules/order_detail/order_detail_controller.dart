@@ -13,6 +13,7 @@ class OrderDetailController extends GetxController {
   HomeController homeController = Get.find();
 
   RxList<ProductOrder> productOrders = <ProductOrder>[].obs;
+  RxList<ProductOrder> productOrdersChecked = <ProductOrder>[].obs;
   RxString id = ''.obs;
 
   RxString orderTime = ''.obs;
@@ -25,6 +26,8 @@ class OrderDetailController extends GetxController {
   RxString deliveryTime = ''.obs;
   RxString deliveryCoordinate = ''.obs;
   RxString totalPrice = ''.obs;
+
+  RxString totalCheckedPrice = ''.obs;
 
   Rx<OrderStatus> orderStatus = OrderStatus.placed.obs;
   Rx<Rating> orderRating = Rating.zero().obs;
@@ -173,5 +176,24 @@ class OrderDetailController extends GetxController {
             '\n'
             'Apakah pengantaran sesuai titik di aplikasi MAPALUS ?');
     launchUrl(waUri);
+  }
+
+  void onChangeCheck(bool checked, ProductOrder productOrder) {
+    if (checked) {
+      productOrdersChecked.add(productOrder);
+    }  else {
+
+    productOrdersChecked.remove(productOrder);
+    }
+    _calculateCheckedTotalPrice();
+  }
+
+  void _calculateCheckedTotalPrice(){
+    double total = 0;
+    for(final po in productOrdersChecked){
+      total += po.totalPrice;
+    }
+    totalCheckedPrice.value = Utils.formatNumberToCurrency(total.toInt());
+
   }
 }

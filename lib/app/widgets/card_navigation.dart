@@ -4,12 +4,12 @@ import 'package:mapalus_flutter_commons/mapalus_flutter_commons.dart';
 class CardNavigation extends StatelessWidget {
   const CardNavigation({
     Key? key,
-    required this.title,
+    this.title,
     this.isInverted = false,
     this.isCircular = false,
   }) : super(key: key);
 
-  final String title;
+  final String? title;
   final bool isInverted;
   final bool isCircular;
 
@@ -36,15 +36,18 @@ class CardNavigation extends StatelessWidget {
                   color: isInverted ? Palette.editable : Palette.textPrimary,
                 ),
               ),
-              Center(
-                child: Text(
-                  title,
-                  style: Theme.of(context).textTheme.bodyText1?.copyWith(
-                        color:
-                            isInverted ? Palette.editable : Palette.textPrimary,
+              title == null
+                  ? const SizedBox()
+                  : Center(
+                      child: Text(
+                        title!,
+                        style: Theme.of(context).textTheme.bodyText1?.copyWith(
+                              color: isInverted
+                                  ? Palette.editable
+                                  : Palette.textPrimary,
+                            ),
                       ),
-                ),
-              ),
+                    ),
             ],
           ),
         ),

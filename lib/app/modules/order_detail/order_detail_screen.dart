@@ -11,30 +11,79 @@ class OrderDetailScreen extends GetView<OrderDetailController> {
   @override
   Widget build(BuildContext context) {
     return ScreenWrapper(
+      backgroundColor: Palette.accent,
       child: Stack(
         children: [
           Positioned(
-            right: 0,
             left: 0,
             top: 0,
-            bottom: 0,
-            child: Container(
-              color: Palette.accent,
+            right: Insets.medium,
+            child: Row(
+              children: [
+                const CardNavigation(
+                  isInverted: true,
+                  isCircular: true,
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Obx(
+                      () => Text(
+                        'Order #${controller.id.value}',
+                        style: const TextStyle(
+                          color: Palette.cardForeground,
+                        ),
+                      ),
+                    ),
+                    Obx(
+                      () => Text(
+                        '${controller.productCount}',
+                        style: TextStyle(
+                          fontWeight: FontWeight.w300,
+                          fontSize: 10.sp,
+                          color: Palette.cardForeground,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      Obx(
+                        () => Text(
+                          'Pengantaran ${controller.deliveryTime.value}',
+                          style: TextStyle(
+                            fontWeight: FontWeight.w300,
+                            fontSize: 12.sp,
+                            color: Palette.cardForeground,
+                          ),
+                        ),
+                      ),
+                      Obx(
+                        () => Text(
+                          'Dipesan ${controller.orderTime.value}',
+                          style: TextStyle(
+                            fontSize: 10.sp,
+                            fontWeight: FontWeight.w300,
+                            color: Palette.cardForeground,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
             ),
           ),
           Positioned(
             left: 0,
             right: 0,
-            top: 0,
-            bottom: Insets.medium.h,
+            top: Insets.medium * 3,
+            bottom: 0,
             child: Column(
               children: [
-                Obx(
-                  () => CardNavigation(
-                    title: 'Rincian Pesanan #${controller.id.value}',
-                    isInverted: true,
-                  ),
-                ),
                 Expanded(
                   child: Obx(
                     () => AnimatedSwitcher(
@@ -49,7 +98,19 @@ class OrderDetailScreen extends GetView<OrderDetailController> {
                 ),
               ],
             ),
-          )
+          ),
+          Positioned(
+            bottom: 0,
+            right: Insets.small,
+            child: Obx(
+              () => AnimatedSwitcher(
+                duration: const Duration(milliseconds: 400),
+                child: controller.productOrdersChecked.isEmpty
+                    ? const SizedBox()
+                    : _buildItemChecker(context),
+              ),
+            ),
+          ),
         ],
       ),
     );
@@ -68,120 +129,115 @@ class OrderDetailScreen extends GetView<OrderDetailController> {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         Expanded(
-          child: Container(
-            margin: EdgeInsets.symmetric(
-              horizontal: Insets.medium.w * .5,
-            ),
+          child: SingleChildScrollView(
+            physics: const BouncingScrollPhysics(),
             child: Obx(
-              () => ListView.builder(
-                itemCount: controller.productOrders.length,
-                physics: const BouncingScrollPhysics(),
-                itemBuilder: (context, index) {
-                  ProductOrder po = controller.productOrders.elementAt(index);
-                  return CardOrderDetailItem(
-                    productName: po.product.name,
-                    productPrice: po.totalPriceString,
-                    index: (index + 1).toString(),
-                    productWeight: '${po.quantityString} ${po.product.unit}',
-                  );
-                },
-              ),
-            ),
-          ),
-        ),
-        Container(
-          margin: EdgeInsets.symmetric(
-            horizontal: Insets.medium.w * .5,
-          ),
-          padding: EdgeInsets.symmetric(
-            horizontal: Insets.medium.h,
-            vertical: Insets.medium.w * .5,
-          ),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(9.sp),
-            color: Palette.cardForeground,
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Column(
+              () => Column(
                 children: [
-                  Row(
-                    children: [
-                      Obx(
-                        () => _buildDeliveryStateCard(
-                          context: context,
-                          title: 'Dipesan',
-                          timeStamp: controller.orderTime.value,
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: Insets.small.h * .5),
-                  _buildDeliveryInfoLayout(context),
-                  controller.paymentMethod.isNotEmpty
-                      ? Container(
-                          padding: EdgeInsets.symmetric(
-                            vertical: Insets.small.h * .5,
-                          ),
-                          decoration: const BoxDecoration(
-                              border: Border(
-                            bottom: BorderSide(
-                              color: Palette.accent,
+                  for (int i = 0; i < controller.productOrders.length; i++)
+                    CardOrderDetailItem(
+                      productName: controller.productOrders[i].product.name,
+                      productPrice:
+                          controller.productOrders[i].totalPriceString,
+                      index: (i + 1).toString(),
+                      productWeight:
+                          '${controller.productOrders[i].quantityString} ${controller.productOrders[i].product.unit}',
+                      onChangeCheck: (value) {
+                        controller.onChangeCheck(
+                            value, controller.productOrders[i]);
+                      },
+                    ),
+                  const SizedBox(height: Insets.small),
+                  Container(
+                    margin: EdgeInsets.symmetric(
+                      horizontal: Insets.medium.w * .5,
+                    ),
+                    padding: EdgeInsets.symmetric(
+                      horizontal: Insets.medium.h,
+                      vertical: Insets.medium.w * .5,
+                    ),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(9.sp),
+                      color: Palette.cardForeground,
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        Column(
+                          children: [
+                            _buildDeliveryInfoLayout(context),
+                            controller.paymentMethod.isNotEmpty
+                                ? Container(
+                                    padding: EdgeInsets.symmetric(
+                                      vertical: Insets.small.h * .5,
+                                    ),
+                                    decoration: const BoxDecoration(
+                                        border: Border(
+                                      bottom: BorderSide(
+                                        color: Palette.accent,
+                                      ),
+                                    )),
+                                    child: _buildPaymentInfoLayout(context),
+                                  )
+                                : const SizedBox(),
+                            SizedBox(height: Insets.small.h),
+                            controller.note.isNotEmpty
+                                ? _BuildNoteCard(note: controller.note.value)
+                                : const SizedBox(),
+                            SizedBox(height: Insets.small.h),
+                            Obx(
+                              () => _buildRowItem(
+                                context,
+                                "Produk",
+                                controller.productCount.value,
+                                controller.productTotal.value,
+                              ),
                             ),
-                          )),
-                          child: _buildPaymentInfoLayout(context),
-                        )
-                      : const SizedBox(),
-                  SizedBox(height: Insets.small.h),
-                  controller.note.isNotEmpty
-                      ? _BuildNoteCard(note: controller.note.value)
-                      : const SizedBox(),
-                  SizedBox(height: Insets.small.h),
-                  Obx(
-                    () => _buildRowItem(
-                      context,
-                      "Produk",
-                      controller.productCount.value,
-                      controller.productTotal.value,
+                            SizedBox(height: 1.h),
+                            Obx(
+                              () => _buildRowItem(
+                                context,
+                                "Pengantaran",
+                                controller.deliveryCount.value,
+                                controller.deliveryTotal.value,
+                              ),
+                            ),
+                            SizedBox(height: 1.h),
+                            Obx(
+                              () => _buildRowItem(
+                                context,
+                                "Total Pembayaran",
+                                '',
+                                controller.totalPrice.value,
+                                highLight: true,
+                              ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: Insets.medium.h),
+                        _buildConfirmFinishLayout(
+                          context,
+                          orderStatus: controller.orderStatus.value,
+                          rating: controller.orderRating.value,
+                        ),
+                      ],
                     ),
                   ),
-                  SizedBox(height: 1.h),
-                  Obx(
-                    () => _buildRowItem(
-                      context,
-                      "Pengantaran",
-                      controller.deliveryCount.value,
-                      controller.deliveryTotal.value,
-                    ),
-                  ),
-                  SizedBox(height: 1.h),
-                  Obx(
-                    () => _buildRowItem(
-                      context,
-                      "Total Pembayaran",
-                      '',
-                      controller.totalPrice.value,
-                      highLight: true,
-                    ),
-                  ),
+                  const SizedBox(height: Insets.medium),
                 ],
               ),
-              SizedBox(height: Insets.medium.h),
-              _buildConfirmFinishLayout(
-                context,
-                orderStatus: controller.orderStatus.value,
-                rating: controller.orderRating.value,
-              ),
-            ],
+            ),
           ),
         ),
       ],
     );
   }
 
-  _buildConfirmFinishLayout(BuildContext context,
-      {required OrderStatus orderStatus, required Rating rating}) {
+  _buildConfirmFinishLayout(
+    BuildContext context, {
+    required OrderStatus orderStatus,
+    required Rating rating,
+  }) {
     if (orderStatus == OrderStatus.placed) {
       return _BuildConfirmationLayout(
         onPressedNegative: controller.onPressedNegative,
@@ -222,9 +278,6 @@ class OrderDetailScreen extends GetView<OrderDetailController> {
       ),
       decoration: const BoxDecoration(
         border: Border(
-          top: BorderSide(
-            color: Palette.accent,
-          ),
           bottom: BorderSide(
             color: Palette.accent,
           ),
@@ -368,36 +421,23 @@ class OrderDetailScreen extends GetView<OrderDetailController> {
         ],
       );
 
-  _buildDeliveryStateCard({
-    required BuildContext context,
-    required String title,
-    required String timeStamp,
-  }) =>
-      Container(
-        padding: EdgeInsets.symmetric(
-          horizontal: Insets.small.w,
-          vertical: Insets.small.h,
+  _buildItemChecker(BuildContext context) => Container(
+        padding: const EdgeInsets.symmetric(
+          vertical: Insets.small,
+          horizontal: Insets.medium,
         ),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(6.sp),
-          color: Palette.accent,
+        decoration: const BoxDecoration(
+          color: Palette.editable,
+          borderRadius: BorderRadius.vertical(
+            top: Radius.circular(12),
+          ),
         ),
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.end,
           children: [
-            Text(
-              title,
-              style: Theme.of(context).textTheme.caption?.copyWith(
-                    fontSize: 9.sp,
-                    color: Palette.editable,
-                  ),
-            ),
-            Text(
-              timeStamp,
-              style: Theme.of(context).textTheme.caption?.copyWith(
-                    fontSize: 9.sp,
-                    color: Palette.editable,
-                  ),
-            ),
+            Obx(() => Text(
+                "${controller.productOrdersChecked.length} / ${controller.productOrders.length}")),
+            Obx(() => Text(controller.totalCheckedPrice.value)),
           ],
         ),
       );

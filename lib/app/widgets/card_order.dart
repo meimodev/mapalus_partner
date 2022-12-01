@@ -26,62 +26,85 @@ class CardOrder extends StatelessWidget {
         onTap: onPressed,
         child: Padding(
           padding: EdgeInsets.all(Insets.medium.sp),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          child: Column(
             children: [
-              SizedBox(
-                width: 39.w,
-                child: Text(
-                  '#${order.idMinified}',
-                  style: Theme.of(context).textTheme.caption,
-                  textAlign: TextAlign.start,
-                ),
-              ),
-              SizedBox(width: 9.w),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'dipesan',
+              Row(
+                children: [
+                  SizedBox(
+                    width: 36,
+                    child: Text(
+                      '#${order.idMinified}',
                       style: TextStyle(
-                        fontWeight: FontWeight.w300,
                         fontSize: 10.sp,
                       ),
+                      textAlign: TextAlign.center,
                     ),
-                    Text(
-                      isToday && order.status == OrderStatus.placed
-                          ? "Hari Ini ${order.orderTimeStamp!.format('H:mm')}"
-                          : order.orderTimeStamp!.format('E, dd MMM H:mm'),
-                      style: TextStyle(
-                        fontWeight: isToday ? FontWeight.w600 : FontWeight.w300,
-                        color: Palette.textPrimary,
-                        fontSize: 10.sp,
-                      ),
+                  ),
+                  const Text(
+                    " | ",
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
                     ),
-                  ],
-                ),
+                  ),
+                  Text(
+                    order.orderingUser.name,
+                    style: TextStyle(
+                      fontSize: 10.sp,
+                    ),
+                  ),
+                ],
               ),
-              SizedBox(width: 6.w),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      '${order.products.length} produk',
-                      style: Theme.of(context).textTheme.caption,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  SizedBox(width: 9.w),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'dipesan',
+                          style: TextStyle(
+                              fontWeight: FontWeight.w300,
+                              fontSize: 10.sp,
+                              color: Colors.grey),
+                        ),
+                        Text(
+                          isToday && order.status == OrderStatus.placed
+                              ? "Hari Ini ${order.orderTimeStamp!.format('H:mm')}"
+                              : order.orderTimeStamp!.format('E, dd MMM H:mm'),
+                          style: TextStyle(
+                            fontWeight:
+                                isToday ? FontWeight.w600 : FontWeight.w300,
+                            color: Palette.textPrimary,
+                            fontSize: 10.sp,
+                          ),
+                        ),
+                      ],
                     ),
-                    Text(
-                      order.orderInfo.totalPriceF,
-                      style: Theme.of(context).textTheme.caption,
+                  ),
+                  SizedBox(width: 6.w),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          '${order.products.length} produk',
+                          style: Theme.of(context).textTheme.caption,
+                        ),
+                        Text(
+                          order.orderInfo.totalPriceF,
+                          style: Theme.of(context).textTheme.caption,
+                        ),
+                      ],
                     ),
-                  ],
-                ),
-              ),
-              SizedBox(width: 6.w),
-              SizedBox(
-                width: 100.w,
-                child: _buildCardStatus(context),
+                  ),
+                  SizedBox(width: 6.w),
+                  SizedBox(
+                    width: 100.w,
+                    child: _buildCardStatus(context),
+                  ),
+                ],
               ),
             ],
           ),
@@ -116,7 +139,7 @@ class CardOrder extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'diantar',
+            'antar',
             style: Theme.of(context).textTheme.caption?.copyWith(
                   fontWeight: FontWeight.w300,
                   fontSize: 10.sp,

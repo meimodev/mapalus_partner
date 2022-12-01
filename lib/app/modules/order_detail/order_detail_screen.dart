@@ -258,10 +258,10 @@ class OrderDetailScreen extends GetView<OrderDetailController> {
         child: Center(
           child: Text(
             'Order telah dibatalkan',
-            style: Theme.of(context).textTheme.bodyText1?.copyWith(
-                  fontSize: 14.sp,
-                  color: Palette.negative,
-                ),
+            style: TextStyle(
+              fontSize: 14.sp,
+              color: Palette.negative,
+            ),
           ),
         ),
       );
@@ -291,26 +291,34 @@ class OrderDetailScreen extends GetView<OrderDetailController> {
             children: [
               Text(
                 controller.deliveryTime.value,
-                style: Theme.of(context).textTheme.bodyText1?.copyWith(
-                      fontSize: 12.sp,
-                    ),
+                style: TextStyle(
+                  fontSize: 12.sp,
+                  fontWeight: FontWeight.w300,
+                ),
               ),
               Text(
-                "${controller.orderingUser!.name} - ${controller.orderingUser!.phone}",
-                style: Theme.of(context).textTheme.bodyText1?.copyWith(
-                      fontSize: 12.sp,
-                      fontWeight: FontWeight.w300,
-                    ),
+                controller.orderingUser!.name,
+                style: TextStyle(
+                  fontSize: 12.sp,
+                  fontWeight: FontWeight.w300,
+                ),
+              ),
+              SelectableText(
+                controller.orderingUser!.phone,
+                style: TextStyle(
+                  fontSize: 12.sp,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ],
           ),
           Row(
             children: [
               _buildHelperButton(Icons.place, controller.onPressedViewMaps),
-              SizedBox(width: Insets.small.w * .5),
+              const SizedBox(width: Insets.small * .5),
               _buildHelperButton(
                   Icons.whatsapp, controller.onPressedViewWhatsApp),
-              SizedBox(width: Insets.small.w * .5),
+              const SizedBox(width: Insets.small * .5),
               _buildHelperButton(Icons.phone, controller.onPressedViewPhone),
             ],
           ),
@@ -329,17 +337,17 @@ class OrderDetailScreen extends GetView<OrderDetailController> {
           children: [
             Text(
               "Pembayaran",
-              style: Theme.of(context).textTheme.bodyText1?.copyWith(
-                    fontSize: 10.sp,
-                    color: Colors.grey,
-                    fontWeight: FontWeight.w300,
-                  ),
+              style: TextStyle(
+                fontSize: 10.sp,
+                color: Colors.grey,
+                fontWeight: FontWeight.w300,
+              ),
             ),
             Text(
               controller.paymentMethod.value,
-              style: Theme.of(context).textTheme.bodyText1?.copyWith(
-                    fontSize: 12.sp,
-                  ),
+              style: TextStyle(
+                fontSize: 12.sp,
+              ),
             ),
           ],
         ),
@@ -390,7 +398,7 @@ class OrderDetailScreen extends GetView<OrderDetailController> {
               children: [
                 Text(
                   title,
-                  style: Theme.of(context).textTheme.bodyText1?.copyWith(
+                  style: TextStyle(
                         fontSize: 12.sp,
                         fontWeight: FontWeight.w500,
                       ),
@@ -399,7 +407,7 @@ class OrderDetailScreen extends GetView<OrderDetailController> {
                     ? const SizedBox()
                     : Text(
                         sub,
-                        style: Theme.of(context).textTheme.bodyText1?.copyWith(
+                  style: TextStyle(
                               fontSize: 10.sp,
                               fontWeight: FontWeight.w300,
                               color: Colors.grey,
@@ -409,10 +417,10 @@ class OrderDetailScreen extends GetView<OrderDetailController> {
             ),
           ),
           Expanded(
-            child: Text(
+            child: SelectableText(
               value,
               textAlign: TextAlign.end,
-              style: Theme.of(context).textTheme.bodyText1?.copyWith(
+              style: TextStyle(
                     fontSize: 12.sp,
                     fontWeight: FontWeight.w500,
                   ),
@@ -462,11 +470,12 @@ class _BuildFinishingLayout extends StatelessWidget {
             horizontal: Insets.medium.w,
           ),
           child: Center(
-            child: Text('Finish Order',
-                style: Theme.of(context)
-                    .textTheme
-                    .bodyText1
-                    ?.copyWith(fontSize: 14.sp)),
+            child: Text(
+              'Finish Order',
+              style: TextStyle(
+                    fontSize: 14.sp,
+                  ),
+            ),
           ),
         ),
       ),
@@ -567,18 +576,18 @@ class _BuildRatedLayout extends StatelessWidget {
           SizedBox(height: Insets.small.h * .5),
           Text(
             'Dinilai ${rating.ratingTimeStamp.format("dd MMMM yyyy")}',
-            style: Theme.of(context).textTheme.bodyText1?.copyWith(
-                  fontSize: 12.sp,
-                  fontWeight: FontWeight.w300,
-                ),
+            style: TextStyle(
+              fontSize: 12.sp,
+              fontWeight: FontWeight.w300,
+            ),
           ),
           SizedBox(height: Insets.small.h * .5),
           Text(
             " \"${rating.message}\" ",
-            style: Theme.of(context).textTheme.bodyText1?.copyWith(
-                  fontSize: 10.sp,
-                  fontWeight: FontWeight.w300,
-                ),
+            style: TextStyle(
+              fontSize: 10.sp,
+              fontWeight: FontWeight.w300,
+            ),
           ),
         ],
       ),
@@ -617,10 +626,10 @@ class _BuildNoteCard extends StatelessWidget {
               trimLines: 1,
               colorClickableText: Palette.primary,
               trimMode: TrimMode.Line,
-              style: Theme.of(context).textTheme.bodyText1?.copyWith(
-                    fontWeight: FontWeight.w300,
-                    fontSize: 12.sp,
-                  ),
+              style: TextStyle(
+                fontWeight: FontWeight.w300,
+                fontSize: 12.sp,
+              ),
               delimiter: "  . . .  ",
               delimiterStyle: TextStyle(
                 fontWeight: FontWeight.bold,

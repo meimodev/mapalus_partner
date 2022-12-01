@@ -1,5 +1,3 @@
-import 'dart:developer' as dev;
-
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:mapalus_partner/shared/routes.dart';
@@ -59,7 +57,7 @@ class HomeController extends GetxController {
 
   void onPressedOrders() {
     activeNavBottomIndex.value = 1;
-    _loadOrders();
+    _loadTodayOrders();
   }
 
   Future<void> onChangedProductFilter(String value) async {
@@ -78,12 +76,12 @@ class HomeController extends GetxController {
     products.value = pp;
   }
 
-  _loadOrders() async {
+  _loadTodayOrders() async {
     isLoading.value = true;
-    var oo = await orderRepo.readOrders();
+    var oo = await orderRepo.readOrdersToday();
     tecProductFilter.text = '';
     orders.value = List<OrderApp>.from(oo.reversed);
-    dev.log(orders.first.toString());
+    // dev.log(orders.first.toString());
 
     //show the list on screen
     isLoading.value = false;
@@ -107,9 +105,9 @@ class HomeController extends GetxController {
     Get.toNamed(Routes.productDetail, arguments: null);
   }
 
-  void refreshOrders() {
-    _loadOrders();
-  }
+  // void refreshOrders() {
+  //   _loadOrders();
+  // }
 
   Future<void> _initPartnerFCMToken() async {
     Partner partner = await partnerRepo.readPartner("089525699078");
@@ -185,5 +183,16 @@ class HomeController extends GetxController {
 
   onPressedSettings() {
     Get.toNamed(Routes.settings);
+  }
+
+  void onPressedHistory() async {
+    activeNavBottomIndex.value = 3;
+
+    isLoading.value = true;
+    var oo = await orderRepo.readOrders();
+    tecProductFilter.text = '';
+    orders.value = List<OrderApp>.from(oo.reversed);
+
+    isLoading.value = false;
   }
 }

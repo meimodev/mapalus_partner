@@ -105,8 +105,8 @@ class HomeScreen extends GetView<HomeController> {
                               ? const SizedBox()
                               : _buildInfoSection(
                                   isShowingOrders:
-                                      controller.activeNavBottomIndex.value ==
-                                          1,
+                                      controller.activeNavBottomIndex.value !=
+                                          2,
                                   isShowingProducts:
                                       controller.activeNavBottomIndex.value ==
                                           2,
@@ -130,7 +130,7 @@ class HomeScreen extends GetView<HomeController> {
                             )
                           : _buildListSwitcher(
                               isShowingOrders:
-                                  controller.activeNavBottomIndex.value == 1,
+                                  controller.activeNavBottomIndex.value == 1 || controller.activeNavBottomIndex.value == 3 ,
                               isShowingProducts:
                                   controller.activeNavBottomIndex.value == 2,
                               context: context,
@@ -143,6 +143,7 @@ class HomeScreen extends GetView<HomeController> {
                     active: controller.activeNavBottomIndex.value,
                     onPressedProducts: controller.onPressedProducts,
                     onPressedOrders: controller.onPressedOrders,
+                    onPressedHistory: controller.onPressedHistory,
                   ),
                 ),
               ],
@@ -342,11 +343,13 @@ class _BuildBottomNav extends StatelessWidget {
     Key? key,
     required this.onPressedOrders,
     required this.onPressedProducts,
+    required this.onPressedHistory,
     required this.active,
   }) : super(key: key);
 
   final VoidCallback onPressedOrders;
   final VoidCallback onPressedProducts;
+  final VoidCallback onPressedHistory;
   final int active;
 
   @override
@@ -386,6 +389,13 @@ class _BuildBottomNav extends StatelessWidget {
             active: active == 2,
             imageAssetPath: 'assets/vectors/bag.svg',
             onPressed: onPressedProducts,
+          ),
+          _buildBottomNavButton(
+            context: context,
+            title: "Riwayat",
+            active: active == 3,
+            imageAssetPath: 'assets/vectors/orders.svg',
+            onPressed: onPressedHistory,
           ),
         ],
       ),

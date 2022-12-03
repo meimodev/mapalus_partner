@@ -120,7 +120,10 @@ class HomeController extends GetxController {
       if (orders.isEmpty) {
         // Populate order first time screen init
         orders.value = snapShot.docs
-            .map((e) => OrderApp.fromMap(e.data() as Map<String, dynamic>))
+            .where((e) {
+              final o = OrderApp.fromMap(e.data() as Map<String, dynamic>);
+              return o.orderTimeStamp!.isSame(DateTime.now(), Units.DAY);
+            }).map((e) => OrderApp.fromMap(e.data() as Map<String, dynamic>))
             .toList()
             .reversed
             .toList();

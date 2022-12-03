@@ -250,21 +250,15 @@ class OrderDetailScreen extends GetView<OrderDetailController> {
       );
     }
     if (orderStatus == OrderStatus.rejected) {
-      return Container(
-        padding: EdgeInsets.symmetric(
-          horizontal: Insets.small.w,
-          vertical: Insets.small.h,
-        ),
-        child: Center(
+      return Center(
           child: Text(
             'Order telah dibatalkan',
             style: TextStyle(
-              fontSize: 14.sp,
+              fontSize: 12.sp,
               color: Palette.negative,
             ),
           ),
-        ),
-      );
+        );
     }
     if (orderStatus == OrderStatus.finished) {
       return _BuildRatedLayout(rating: rating);
@@ -367,14 +361,14 @@ class OrderDetailScreen extends GetView<OrderDetailController> {
           onTap: onPressed,
           child: Padding(
             padding: EdgeInsets.symmetric(
-              horizontal: Insets.small.sp,
-              vertical: Insets.small.sp,
+              horizontal: Insets.small.sp *.75,
+              vertical: Insets.small.sp *.75,
             ),
             child: Center(
               child: Icon(
                 icon,
                 color: Palette.accent,
-                size: Insets.medium.sp,
+                size: Insets.small.sp * 1.5,
               ),
             ),
           ),

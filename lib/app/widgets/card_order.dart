@@ -121,7 +121,7 @@ class CardOrder extends StatelessWidget {
             'Menunggu konfirmasi',
             style: TextStyle(
               fontWeight: FontWeight.w600,
-              fontSize: 11.sp,
+              fontSize: 10.sp,
             ),
           ),
           SizedBox(height: 3.h),

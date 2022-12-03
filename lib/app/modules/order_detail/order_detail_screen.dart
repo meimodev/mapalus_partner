@@ -29,7 +29,7 @@ class OrderDetailScreen extends GetView<OrderDetailController> {
                   children: [
                     Obx(
                       () => Text(
-                        'Order #${controller.id.value}',
+                        '#${controller.id.value}',
                         style: const TextStyle(
                           color: Palette.cardForeground,
                         ),
@@ -53,7 +53,7 @@ class OrderDetailScreen extends GetView<OrderDetailController> {
                     children: [
                       Obx(
                         () => Text(
-                          'Pengantaran ${controller.deliveryTime.value}',
+                          controller.deliveryTime.value,
                           style: TextStyle(
                             fontWeight: FontWeight.w300,
                             fontSize: 12.sp,

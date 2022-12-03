@@ -168,29 +168,27 @@ class OrderDetailController extends GetxController {
     timeOfTheDay = "Selamat $timeOfTheDay";
 
     final waNumber = phone.replaceFirst("0", "+62");
-    final waUri = Uri.parse(
-        'whatsapp://send?phone=$waNumber&text='
-            '$timeOfTheDay, $name \n'
+    final waUri = Uri.parse('whatsapp://send?phone=$waNumber&text='
+        '$timeOfTheDay, $name \n'
         'mohon menunggu ya... \n'
         'Delivery Team aplikasi MAPALUS sedang dalam perjalanan :)\n'
-            '\n'
-            'Apakah pengantaran sesuai titik di aplikasi MAPALUS ?');
+        '\n'
+        'Apakah pengantaran sesuai titik di aplikasi MAPALUS ?');
     launchUrl(waUri);
   }
 
   void onChangeCheck(bool checked, ProductOrder productOrder) {
     if (checked) {
       productOrdersChecked.add(productOrder);
-    }  else {
-
-    productOrdersChecked.remove(productOrder);
+    } else {
+      productOrdersChecked.remove(productOrder);
     }
     _calculateCheckedTotalPrice();
   }
 
-  void _calculateCheckedTotalPrice(){
+  void _calculateCheckedTotalPrice() {
     double total = 0;
-    for(final po in productOrdersChecked){
+    for (final po in productOrdersChecked) {
       total += po.totalPrice;
     }
     totalCheckedPrice.value = Utils.formatNumberToCurrency(total.toInt());

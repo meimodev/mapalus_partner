@@ -118,6 +118,7 @@ class HomeController extends GetxController {
     orderRepo.firestore.getOrdersStream().listen((snapShot) {
       isLoading.value = true;
       if (orders.isEmpty) {
+        // Populate order first time screen init
         orders.value = snapShot.docs
             .map((e) => OrderApp.fromMap(e.data() as Map<String, dynamic>))
             .toList()

@@ -31,7 +31,7 @@ class CardOrder extends StatelessWidget {
               Row(
                 children: [
                   SizedBox(
-                    width: 36,
+                    width: 36.w,
                     child: Text(
                       '#${order.idMinified}',
                       style: TextStyle(
@@ -102,7 +102,7 @@ class CardOrder extends StatelessWidget {
                   SizedBox(width: 6.w),
                   SizedBox(
                     width: 100.w,
-                    child: _buildCardStatus(context),
+                    child: _buildCardOrderStatus(context),
                   ),
                 ],
               ),
@@ -113,15 +113,16 @@ class CardOrder extends StatelessWidget {
     );
   }
 
-  _buildCardStatus(BuildContext context) {
+  _buildCardOrderStatus(BuildContext context) {
     if (order.status == OrderStatus.placed) {
       return Column(
         children: [
           Text(
             'Menunggu konfirmasi',
-            style: Theme.of(context).textTheme.caption?.copyWith(
-                  fontWeight: FontWeight.w600,
-                ),
+            style: TextStyle(
+              fontWeight: FontWeight.w600,
+              fontSize: 11.sp,
+            ),
           ),
           SizedBox(height: 3.h),
           Align(
@@ -140,16 +141,17 @@ class CardOrder extends StatelessWidget {
         children: [
           Text(
             'antar',
-            style: Theme.of(context).textTheme.caption?.copyWith(
-                  fontWeight: FontWeight.w300,
-                  fontSize: 10.sp,
-                ),
+            style: TextStyle(
+              fontWeight: FontWeight.w300,
+              fontSize: 10.sp,
+            ),
           ),
           Text(
             order.orderInfo.deliveryTime,
-            style: Theme.of(context).textTheme.caption?.copyWith(
-                  fontWeight: FontWeight.w600,
-                ),
+            style: TextStyle(
+              fontWeight: FontWeight.w600,
+              fontSize: 11.sp,
+            ),
           ),
           SizedBox(height: 3.h),
           Align(
@@ -164,29 +166,53 @@ class CardOrder extends StatelessWidget {
     }
     if (order.status == OrderStatus.rejected) {
       return Text(
-        'ditolak',
-        style: Theme.of(context).textTheme.caption?.copyWith(
-              fontWeight: FontWeight.w600,
-              color: Palette.negative,
-            ),
+        'batal',
+        style: TextStyle(
+          fontWeight: FontWeight.w600,
+          color: Palette.negative,
+          fontSize: 11.sp,
+        ),
       );
     }
+    // if (order.status == OrderStatus.delivered) {
+    //   return Column(
+    //     crossAxisAlignment: CrossAxisAlignment.start,
+    //     children: [
+    //       Text(
+    //         'telah diantar',
+    //         style: TextStyle(
+    //           fontWeight: FontWeight.w300,
+    //           fontSize: 10.sp,
+    //         ),
+    //       ),
+    //       Text(
+    //         order.finishTimeStampJ.format("E, dd MMMM"),
+    //         style: TextStyle(
+    //           fontWeight: FontWeight.w600,
+    //           color: Palette.positive,
+    //           fontSize: 11.sp,
+    //         ),
+    //       ),
+    //     ],
+    //   );
+    // }
     if (order.status == OrderStatus.finished) {
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
             'selesai',
-            style: Theme.of(context).textTheme.caption?.copyWith(
-                  fontWeight: FontWeight.w300,
-                  fontSize: 10.sp,
-                ),
+            style: TextStyle(
+              fontWeight: FontWeight.w300,
+              fontSize: 10.sp,
+            ),
           ),
           Text(
-            order.rating.ratingTimeStamp.format("E, dd MMMM"),
-            style: Theme.of(context).textTheme.caption?.copyWith(
-                  fontWeight: FontWeight.w600,
-                ),
+            order.finishTimeStamp!.format("E, dd MMMM"),
+            style: TextStyle(
+              fontWeight: FontWeight.w600,
+              fontSize: 11.sp,
+            ),
           ),
         ],
       );

@@ -294,7 +294,7 @@ class OrderDetailScreen extends GetView<OrderDetailController> {
           ],
         );
       case OrderStatus.finished:
-        return _BuildRatedLayout(rating: rating ?? Rating.zero());
+        return _BuildRatedLayout(order: controller.order.value);
     }
   }
 
@@ -528,13 +528,19 @@ class _BuildDeliverLayout extends StatelessWidget {
             vertical: Insets.small.h,
             horizontal: Insets.medium.w,
           ),
-          child: Center(
-            child: Text(
-              'Antar Pesanan',
-              style: TextStyle(
-                fontSize: 14.sp,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(
+                Icons.local_shipping,
+                color: Palette.accent,
+                size: 15.sp,
               ),
-            ),
+              const SizedBox(width: 6),
+              const Text(
+                'Antar Pesanan',
+              ),
+            ],
           ),
         ),
       ),
@@ -600,13 +606,14 @@ class _BuildConfirmationLayout extends StatelessWidget {
 class _BuildRatedLayout extends StatelessWidget {
   const _BuildRatedLayout({
     Key? key,
-    required this.rating,
+    required this.order,
   }) : super(key: key);
 
-  final Rating rating;
+  final OrderApp order;
 
   @override
   Widget build(BuildContext context) {
+    final rating = order.rating ?? Rating.zero();
     return Container(
       margin: EdgeInsets.only(
         bottom: Insets.medium.h,
@@ -634,7 +641,7 @@ class _BuildRatedLayout extends StatelessWidget {
           ),
           SizedBox(height: Insets.small.h * .5),
           Text(
-            'Dinilai ${rating.ratingTimeStamp.format("dd MMMM yyyy")}',
+            'Dinilai ${order.finishTimeStamp?.format("dd MMMM yyyy") ?? '-'}',
             style: TextStyle(
               fontSize: 12.sp,
               fontWeight: FontWeight.w300,

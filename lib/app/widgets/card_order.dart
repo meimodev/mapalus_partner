@@ -13,19 +13,21 @@ class CardOrder extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isToday = order.orderTimeStamp!.isSame(
+    final isToday = order.orderTimeStamp.isSame(
       Jiffy(),
       Units.DAY,
     );
 
     return Material(
-      borderRadius: BorderRadius.circular(9.sp),
       color: Palette.cardForeground,
       clipBehavior: Clip.hardEdge,
       child: InkWell(
         onTap: onPressed,
         child: Padding(
-          padding: EdgeInsets.all(Insets.medium.sp),
+          padding: EdgeInsets.symmetric(
+            horizontal: Insets.medium.sp,
+            vertical: Insets.small.sp,
+          ),
           child: Column(
             children: [
               Row(
@@ -65,14 +67,15 @@ class CardOrder extends StatelessWidget {
                         Text(
                           'dipesan',
                           style: TextStyle(
-                              fontWeight: FontWeight.w300,
-                              fontSize: 10.sp,
-                              color: Colors.grey),
+                            fontWeight: FontWeight.w300,
+                            fontSize: 9.sp,
+                            color: Colors.grey,
+                          ),
                         ),
                         Text(
                           isToday && order.status == OrderStatus.placed
-                              ? "Hari Ini ${order.orderTimeStamp!.format('H:mm')}"
-                              : order.orderTimeStamp!.format('E, dd MMM H:mm'),
+                              ? "Hari Ini ${order.orderTimeStamp.format('H:mm')}"
+                              : order.orderTimeStamp.format('E, dd MMM H:mm'),
                           style: TextStyle(
                             fontWeight:
                                 isToday ? FontWeight.w600 : FontWeight.w300,
@@ -143,14 +146,14 @@ class CardOrder extends StatelessWidget {
             'antar',
             style: TextStyle(
               fontWeight: FontWeight.w300,
-              fontSize: 10.sp,
+              fontSize: 9.sp,
             ),
           ),
           Text(
             order.orderInfo.deliveryTime,
             style: TextStyle(
               fontWeight: FontWeight.w600,
-              fontSize: 11.sp,
+              fontSize: 10.sp,
             ),
           ),
           SizedBox(height: 3.h),
@@ -165,37 +168,51 @@ class CardOrder extends StatelessWidget {
       );
     }
     if (order.status == OrderStatus.rejected) {
-      return Text(
-        'batal',
-        style: TextStyle(
-          fontWeight: FontWeight.w600,
-          color: Palette.negative,
-          fontSize: 11.sp,
-        ),
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'batal',
+            style: TextStyle(
+              fontWeight: FontWeight.w300,
+              color: Palette.negative,
+              fontSize: 9.sp,
+            ),
+          ),
+          Text(
+            order.confirmTimeStamp?.format("E, dd MMMM") ?? '-',
+            style: TextStyle(
+              fontWeight: FontWeight.w600,
+              color: Palette.negative,
+              fontSize: 10.sp,
+            ),
+          ),
+        ],
       );
     }
-    // if (order.status == OrderStatus.delivered) {
-    //   return Column(
-    //     crossAxisAlignment: CrossAxisAlignment.start,
-    //     children: [
-    //       Text(
-    //         'telah diantar',
-    //         style: TextStyle(
-    //           fontWeight: FontWeight.w300,
-    //           fontSize: 10.sp,
-    //         ),
-    //       ),
-    //       Text(
-    //         order.finishTimeStampJ.format("E, dd MMMM"),
-    //         style: TextStyle(
-    //           fontWeight: FontWeight.w600,
-    //           color: Palette.positive,
-    //           fontSize: 11.sp,
-    //         ),
-    //       ),
-    //     ],
-    //   );
-    // }
+    if (order.status == OrderStatus.delivered) {
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'diantar',
+            style: TextStyle(
+              fontWeight: FontWeight.w300,
+              fontSize: 9.sp,
+              color: Palette.positive,
+            ),
+          ),
+          Text(
+            order.deliverTimeStamp?.format("E, dd MMM HH:mm:ss") ?? '-',
+            style: TextStyle(
+              fontWeight: FontWeight.w600,
+              color: Palette.positive,
+              fontSize: 11.sp,
+            ),
+          ),
+        ],
+      );
+    }
     if (order.status == OrderStatus.finished) {
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,

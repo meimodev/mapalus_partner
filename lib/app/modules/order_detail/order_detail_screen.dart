@@ -29,7 +29,7 @@ class OrderDetailScreen extends GetView<OrderDetailController> {
                   children: [
                     Obx(
                       () => Text(
-                        '#${controller.id.value}',
+                        '#${controller.order.value.idMinified}',
                         style: const TextStyle(
                           color: Palette.cardForeground,
                         ),
@@ -37,7 +37,7 @@ class OrderDetailScreen extends GetView<OrderDetailController> {
                     ),
                     Obx(
                       () => Text(
-                        '${controller.productCount}',
+                        '${controller.order.value.products.length} Produk',
                         style: TextStyle(
                           fontWeight: FontWeight.w300,
                           fontSize: 10.sp,
@@ -53,7 +53,7 @@ class OrderDetailScreen extends GetView<OrderDetailController> {
                     children: [
                       Obx(
                         () => Text(
-                          controller.deliveryTime.value,
+                          controller.order.value.orderInfo.deliveryTime,
                           style: TextStyle(
                             fontWeight: FontWeight.w300,
                             fontSize: 12.sp,
@@ -63,7 +63,7 @@ class OrderDetailScreen extends GetView<OrderDetailController> {
                       ),
                       Obx(
                         () => Text(
-                          'Dipesan ${controller.orderTime.value}',
+                          'Dipesan ${controller.order.value.orderTimeStamp.format("E, dd MMM HH:mm:ss")}',
                           style: TextStyle(
                             fontSize: 10.sp,
                             fontWeight: FontWeight.w300,
@@ -90,7 +90,7 @@ class OrderDetailScreen extends GetView<OrderDetailController> {
                       duration: const Duration(
                         milliseconds: 400,
                       ),
-                      child: controller.canLoading.isTrue
+                      child: controller.isLoading.isTrue
                           ? _buildLoadingLayout()
                           : _buildMainLayout(context),
                     ),
@@ -134,17 +134,20 @@ class OrderDetailScreen extends GetView<OrderDetailController> {
             child: Obx(
               () => Column(
                 children: [
-                  for (int i = 0; i < controller.productOrders.length; i++)
+                  for (int i = 0;
+                      i < controller.order.value.products.length;
+                      i++)
                     CardOrderDetailItem(
-                      productName: controller.productOrders[i].product.name,
+                      productName:
+                          controller.order.value.products[i].product.name,
                       productPrice:
-                          controller.productOrders[i].totalPriceString,
+                          controller.order.value.products[i].totalPriceString,
                       index: (i + 1).toString(),
                       productWeight:
-                          '${controller.productOrders[i].quantityString} ${controller.productOrders[i].product.unit}',
+                          '${controller.order.value.products[i].quantityString} ${controller.order.value.products[i].product.unit}',
                       onChangeCheck: (value) {
                         controller.onChangeCheck(
-                            value, controller.productOrders[i]);
+                            value, controller.order.value.products[i]);
                       },
                     ),
                   const SizedBox(height: Insets.small),
@@ -166,7 +169,7 @@ class OrderDetailScreen extends GetView<OrderDetailController> {
                         Column(
                           children: [
                             _buildDeliveryInfoLayout(context),
-                            controller.paymentMethod.isNotEmpty
+                            controller.order.value.paymentMethod.isNotEmpty
                                 ? Container(
                                     padding: EdgeInsets.symmetric(
                                       vertical: Insets.small.h * .5,
@@ -181,16 +184,17 @@ class OrderDetailScreen extends GetView<OrderDetailController> {
                                   )
                                 : const SizedBox(),
                             SizedBox(height: Insets.small.h),
-                            controller.note.isNotEmpty
-                                ? _BuildNoteCard(note: controller.note.value)
+                            controller.order.value.note.isNotEmpty
+                                ? _BuildNoteCard(
+                                    note: controller.order.value.note)
                                 : const SizedBox(),
                             SizedBox(height: Insets.small.h),
                             Obx(
                               () => _buildRowItem(
                                 context,
                                 "Produk",
-                                controller.productCount.value,
-                                controller.productTotal.value,
+                                "${controller.order.value.products.length} Produk",
+                                controller.order.value.orderInfo.productPriceF,
                               ),
                             ),
                             SizedBox(height: 1.h),
@@ -198,8 +202,9 @@ class OrderDetailScreen extends GetView<OrderDetailController> {
                               () => _buildRowItem(
                                 context,
                                 "Pengantaran",
-                                controller.deliveryCount.value,
-                                controller.deliveryTotal.value,
+                                controller
+                                    .order.value.orderInfo.deliveryWeightF,
+                                controller.order.value.orderInfo.deliveryPriceF,
                               ),
                             ),
                             SizedBox(height: 1.h),
@@ -208,7 +213,7 @@ class OrderDetailScreen extends GetView<OrderDetailController> {
                                 context,
                                 "Total Pembayaran",
                                 '',
-                                controller.totalPrice.value,
+                                controller.order.value.orderInfo.totalPriceF,
                                 highLight: true,
                               ),
                             ),
@@ -216,9 +221,8 @@ class OrderDetailScreen extends GetView<OrderDetailController> {
                         ),
                         SizedBox(height: Insets.medium.h),
                         _buildConfirmFinishLayout(
-                          context,
-                          orderStatus: controller.orderStatus.value,
-                          rating: controller.orderRating.value,
+                          orderStatus: controller.order.value.status,
+                          rating: controller.order.value.rating,
                         ),
                       ],
                     ),
@@ -233,35 +237,64 @@ class OrderDetailScreen extends GetView<OrderDetailController> {
     );
   }
 
-  _buildConfirmFinishLayout(
-    BuildContext context, {
+  _buildConfirmFinishLayout({
     required OrderStatus orderStatus,
-    required Rating rating,
+    required Rating? rating,
   }) {
-    if (orderStatus == OrderStatus.placed) {
-      return _BuildConfirmationLayout(
-        onPressedNegative: controller.onPressedNegative,
-        onPressedPositive: controller.onPressedPositive,
-      );
-    }
-    if (orderStatus == OrderStatus.accepted) {
-      return _BuildFinishingLayout(
-        onPressedFinish: controller.onPressedFinishOrder,
-      );
-    }
-    if (orderStatus == OrderStatus.rejected) {
-      return Center(
-          child: Text(
-            'Order telah dibatalkan',
-            style: TextStyle(
-              fontSize: 12.sp,
-              color: Palette.negative,
-            ),
-          ),
+    switch (orderStatus) {
+      case OrderStatus.placed:
+        return _BuildConfirmationLayout(
+          onPressedNegative: controller.onPressedNegative,
+          onPressedPositive: controller.onPressedPositive,
         );
-    }
-    if (orderStatus == OrderStatus.finished) {
-      return _BuildRatedLayout(rating: rating);
+      case OrderStatus.accepted:
+        return _BuildDeliverLayout(
+          onPressedDeliver: controller.onPressedDeliver,
+        );
+      case OrderStatus.rejected:
+        return Column(
+          children: [
+            Text(
+              'Order telah dibatalkan',
+              style: TextStyle(
+                fontSize: 12.sp,
+                color: Palette.negative,
+              ),
+            ),
+            Text(
+              controller.order.value.confirmTimeStamp
+                      ?.format("E, dd MMMM yyyy HH:mm") ??
+                  "-",
+              style: TextStyle(
+                fontSize: 12.sp,
+                color: Palette.negative,
+              ),
+            ),
+          ],
+        );
+      case OrderStatus.delivered:
+        return Column(
+          children: [
+            Text(
+              'Order telah diantar',
+              style: TextStyle(
+                fontSize: 12.sp,
+                color: Palette.positive,
+              ),
+            ),
+            Text(
+              controller.order.value.deliverTimeStamp
+                      ?.format("E, dd MMMM yyyy HH:mm") ??
+                  "-",
+              style: TextStyle(
+                fontSize: 12.sp,
+                color: Palette.positive,
+              ),
+            ),
+          ],
+        );
+      case OrderStatus.finished:
+        return _BuildRatedLayout(rating: rating ?? Rating.zero());
     }
   }
 
@@ -284,21 +317,21 @@ class OrderDetailScreen extends GetView<OrderDetailController> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                controller.deliveryTime.value,
+                controller.order.value.orderInfo.deliveryTime,
                 style: TextStyle(
                   fontSize: 12.sp,
                   fontWeight: FontWeight.w300,
                 ),
               ),
               Text(
-                controller.orderingUser!.name,
+                controller.order.value.orderingUser.name,
                 style: TextStyle(
                   fontSize: 12.sp,
                   fontWeight: FontWeight.w300,
                 ),
               ),
               SelectableText(
-                controller.orderingUser!.phone,
+                controller.order.value.orderingUser.phone,
                 style: TextStyle(
                   fontSize: 12.sp,
                   fontWeight: FontWeight.bold,
@@ -338,7 +371,7 @@ class OrderDetailScreen extends GetView<OrderDetailController> {
               ),
             ),
             Text(
-              controller.paymentMethod.value,
+              controller.order.value.paymentMethodF,
               style: TextStyle(
                 fontSize: 12.sp,
               ),
@@ -361,8 +394,8 @@ class OrderDetailScreen extends GetView<OrderDetailController> {
           onTap: onPressed,
           child: Padding(
             padding: EdgeInsets.symmetric(
-              horizontal: Insets.small.sp *.75,
-              vertical: Insets.small.sp *.75,
+              horizontal: Insets.small.sp * .75,
+              vertical: Insets.small.sp * .75,
             ),
             child: Center(
               child: Icon(
@@ -393,19 +426,19 @@ class OrderDetailScreen extends GetView<OrderDetailController> {
                 Text(
                   title,
                   style: TextStyle(
-                        fontSize: 12.sp,
-                        fontWeight: FontWeight.w500,
-                      ),
+                    fontSize: 12.sp,
+                    fontWeight: FontWeight.w500,
+                  ),
                 ),
                 highLight
                     ? const SizedBox()
                     : Text(
                         sub,
-                  style: TextStyle(
-                              fontSize: 10.sp,
-                              fontWeight: FontWeight.w300,
-                              color: Colors.grey,
-                            ),
+                        style: TextStyle(
+                          fontSize: 10.sp,
+                          fontWeight: FontWeight.w300,
+                          color: Colors.grey,
+                        ),
                       ),
               ],
             ),
@@ -415,9 +448,9 @@ class OrderDetailScreen extends GetView<OrderDetailController> {
               value,
               textAlign: TextAlign.end,
               style: TextStyle(
-                    fontSize: 12.sp,
-                    fontWeight: FontWeight.w500,
-                  ),
+                fontSize: 12.sp,
+                fontWeight: FontWeight.w500,
+              ),
             ),
           ),
         ],
@@ -438,18 +471,50 @@ class OrderDetailScreen extends GetView<OrderDetailController> {
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
             Obx(() => Text(
-                "${controller.productOrdersChecked.length} / ${controller.productOrders.length}")),
+                "${controller.productOrdersChecked.length} / ${controller.order.value.products.length}")),
             Obx(() => Text(controller.totalCheckedPrice.value)),
           ],
         ),
       );
 }
 
-class _BuildFinishingLayout extends StatelessWidget {
-  const _BuildFinishingLayout({Key? key, required this.onPressedFinish})
+// class _BuildFinishingLayout extends StatelessWidget {
+//   const _BuildFinishingLayout({Key? key, required this.onPressedFinish})
+//       : super(key: key);
+//
+//   final VoidCallback onPressedFinish;
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return Material(
+//       color: Palette.primary,
+//       borderRadius: BorderRadius.circular(12.sp),
+//       child: InkWell(
+//         onTap: onPressedFinish,
+//         child: Padding(
+//           padding: EdgeInsets.symmetric(
+//             vertical: Insets.small.h,
+//             horizontal: Insets.medium.w,
+//           ),
+//           child: Center(
+//             child: Text(
+//               'Finish Order',
+//               style: TextStyle(
+//                 fontSize: 14.sp,
+//               ),
+//             ),
+//           ),
+//         ),
+//       ),
+//     );
+//   }
+// }
+
+class _BuildDeliverLayout extends StatelessWidget {
+  const _BuildDeliverLayout({Key? key, required this.onPressedDeliver})
       : super(key: key);
 
-  final VoidCallback onPressedFinish;
+  final VoidCallback onPressedDeliver;
 
   @override
   Widget build(BuildContext context) {
@@ -457,7 +522,7 @@ class _BuildFinishingLayout extends StatelessWidget {
       color: Palette.primary,
       borderRadius: BorderRadius.circular(12.sp),
       child: InkWell(
-        onTap: onPressedFinish,
+        onTap: onPressedDeliver,
         child: Padding(
           padding: EdgeInsets.symmetric(
             vertical: Insets.small.h,
@@ -465,10 +530,10 @@ class _BuildFinishingLayout extends StatelessWidget {
           ),
           child: Center(
             child: Text(
-              'Finish Order',
+              'Antar Pesanan',
               style: TextStyle(
-                    fontSize: 14.sp,
-                  ),
+                fontSize: 14.sp,
+              ),
             ),
           ),
         ),

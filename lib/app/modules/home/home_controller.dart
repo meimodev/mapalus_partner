@@ -122,8 +122,10 @@ class HomeController extends GetxController {
         orders.value = snapShot.docs
             .where((e) {
               final o = OrderApp.fromMap(e.data() as Map<String, dynamic>);
-              return o.orderTimeStamp!.isSame(DateTime.now(), Units.DAY);
-            }).map((e) => OrderApp.fromMap(e.data() as Map<String, dynamic>))
+              // dev.log(o.toString());
+              return o.orderTimeStamp.isSame(DateTime.now(), Units.DAY);
+            })
+            .map((e) => OrderApp.fromMap(e.data() as Map<String, dynamic>))
             .toList()
             .reversed
             .toList();

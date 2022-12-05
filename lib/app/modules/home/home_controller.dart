@@ -2,6 +2,7 @@ import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:mapalus_partner/shared/routes.dart';
 import 'package:mapalus_flutter_commons/mapalus_flutter_commons.dart';
+import 'dart:developer' as dev;
 
 class HomeController extends GetxController {
   UserRepoPartner userRepo = Get.find<UserRepoPartner>();
@@ -9,9 +10,6 @@ class HomeController extends GetxController {
   ProductRepo productRepo = Get.find<ProductRepo>();
   AppRepo appRepo = Get.find<AppRepo>();
   PartnerRepo partnerRepo = Get.find<PartnerRepo>();
-
-  ///incredibly dangerous and unmaintainable !! Do not access straight service without repository layer
-  FirestoreService firestoreService = FirestoreService();
 
   RxList<OrderApp> orders = <OrderApp>[].obs;
   RxList<Product> products = <Product>[].obs;
@@ -47,6 +45,7 @@ class HomeController extends GetxController {
     }
     _initPartnerFCMToken();
     _initNewOrderListener();
+    _initNotificationHandler();
     super.onReady();
   }
 
@@ -109,6 +108,103 @@ class HomeController extends GetxController {
   //   _loadOrders();
   // }
 
+  _initNotificationHandler() async {
+    const androidChannel = AndroidNotificationChannel(
+      'order_channel', // id
+      'order channel',
+      description: 'used to handle order notification exclusively',
+      importance: Importance.high,
+      enableVibration: true,
+      enableLights: true,
+      playSound: true,
+      showBadge: true,
+    );
+    final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+        FlutterLocalNotificationsPlugin();
+
+    const AndroidInitializationSettings initializationSettingsAndroid =
+        AndroidInitializationSettings('@mipmap/ic_launcher');
+
+    const InitializationSettings initializationSettings =
+        InitializationSettings(
+      android: initializationSettingsAndroid,
+    );
+
+    await flutterLocalNotificationsPlugin.initialize(
+      initializationSettings,
+      onDidReceiveNotificationResponse: (NotificationResponse response) async {
+        dev.log("notification payload ${response.payload}");
+      },
+    );
+
+    // await flutterLocalNotificationsPlugin
+    //     .resolvePlatformSpecificImplementation<
+    //         AndroidFlutterLocalNotificationsPlugin>()
+    //     ?.createNotificationChannel(androidChannel);
+
+    // final initialMessage = await FirebaseMessaging.instance.getInitialMessage();
+    // if (initialMessage != null) {
+    //   _handleMessage(
+    //     message: initialMessage,
+    //     flutterLocalNotificationsPlugin: flutterLocalNotificationsPlugin,
+    //     androidChannel: androidChannel,
+    //   );
+    // }
+
+    FirebaseMessaging.onMessage.listen((event) {
+      _handleMessage(
+        message: event,
+        flutterLocalNotificationsPlugin: flutterLocalNotificationsPlugin,
+        androidChannel: androidChannel,
+      );
+    });
+    // FirebaseMessaging.onMessageOpenedApp.listen((event) {
+    //   _handleMessage(
+    //     message: event,
+    //     flutterLocalNotificationsPlugin: flutterLocalNotificationsPlugin,
+    //     androidChannel: androidChannel,
+    //   );
+    // });
+  }
+
+  _handleMessage({
+    required RemoteMessage message,
+    required FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin,
+    AndroidNotificationChannel? androidChannel,
+  }) {
+    RemoteNotification? notification = message.notification;
+
+    if (notification != null) {
+      AndroidNotification? android = notification.android;
+      if (android != null) {
+        AndroidNotificationDetails androidNotificationDetails =
+            AndroidNotificationDetails(
+          androidChannel!.id,
+          androidChannel.name,
+          channelDescription: androidChannel.description,
+          importance: Importance.max,
+          priority: Priority.high,
+          ticker: 'ticker',
+          enableVibration: true,
+          enableLights: true,
+        );
+
+        NotificationDetails notificationDetails =
+            NotificationDetails(android: androidNotificationDetails);
+
+        //show
+
+        flutterLocalNotificationsPlugin.show(
+          notification.hashCode,
+          notification.title,
+          notification.body,
+          notificationDetails,
+        );
+        return;
+      }
+    }
+  }
+
   Future<void> _initPartnerFCMToken() async {
     Partner partner = await partnerRepo.readPartner("089525699078");
     await FirebaseMessaging.instance.subscribeToTopic(partner.id);
@@ -146,13 +242,13 @@ class HomeController extends GetxController {
           Get.rawSnackbar(
             message: "New Order received | #${order.idMinified}",
           );
-          FlutterRingtonePlayer.play(
-            android: AndroidSounds.notification,
-            ios: IosSounds.glass,
-            looping: false,
-            volume: 1,
-            asAlarm: true,
-          );
+          // FlutterRingtonePlayer.play(
+          //   android: AndroidSounds.notification,
+          //   ios: IosSounds.glass,
+          //   looping: false,
+          //   volume: 1,
+          //   asAlarm: true,
+          // );
         } else {
           // orders.replaceRange(existIndex, existIndex, [order]);
           orders.removeAt(existIndex);

@@ -16,9 +16,9 @@ class OrderDetailController extends GetxController {
 
   RxBool isLoading = true.obs;
 
-  UserApp? orderingUser;
-
   late StreamSubscription orderListener;
+
+  late UserApp freshOrderingUser;
 
   @override
   Future<void> onInit() async {
@@ -39,6 +39,9 @@ class OrderDetailController extends GetxController {
         isLoading.value = false;
       }
     });
+
+    final userMap = await orderRepo.firestore.getUser(order.value.orderingUser.phone);
+    freshOrderingUser = UserApp.fromMap(userMap as Map<String, dynamic>);
 
     isLoading.value = false;
   }
@@ -61,6 +64,16 @@ class OrderDetailController extends GetxController {
         await orderRepo.updateOrderStatus(order: order.value);
         await Future.delayed(600.milliseconds);
 
+        if (freshOrderingUser.fcmToken != null) {
+          NotificationService.instance.sendNotification(
+            title:
+                "Pesanan #${order.value.idMinified} telah dibatalkan partner MAPALUS",
+            message: "Maaf 🙏 atas pembatalan pesanan tersebut, "
+                "MAPALUS akan berusaha memberikan pelayanan terbaik pada pesanan anda selanjutnya ☺",
+            destination: freshOrderingUser.fcmToken,
+          );
+        }
+
         isLoading.value = false;
       },
     ));
@@ -70,19 +83,41 @@ class OrderDetailController extends GetxController {
     isLoading.value = true;
     order.value.status = OrderStatus.accepted;
     await orderRepo.updateOrderStatus(order: order.value);
+
+    if (freshOrderingUser.fcmToken != null) {
+      NotificationService.instance.sendNotification(
+        title: "OK, pesanan telah diterima & sedang diproses ☺",
+        message:
+            "Pesanan #${order.value.idMinified} sudah di konfirmasi oleh partner MAPALUS, "
+            "silahkan menunggu untuk pengantaran di waktu yang telah dipilih ya 🙏",
+        destination: freshOrderingUser.fcmToken,
+      );
+    }
+
     await Future.delayed(600.milliseconds);
     isLoading.value = false;
   }
 
-  void onPressedDeliver() async {
+  onPressedDeliver() async {
     isLoading.value = true;
     order.value.status = OrderStatus.delivered;
     await orderRepo.updateOrderStatus(order: order.value);
     await Future.delayed(600.milliseconds);
+
+    if (freshOrderingUser.fcmToken != null) {
+      NotificationService.instance.sendNotification(
+        title: "YAY! pesanan akan segera datang ☺",
+        message:
+            "Pesanan #${order.value.idMinified} dalam proses pengantaran oleh tim pengantaran MAPALUS, "
+            "mohon menunggu ya 🙏",
+        destination: freshOrderingUser.fcmToken,
+      );
+    }
+
     isLoading.value = false;
   }
 
-  void onPressedViewPhone() {
+  onPressedViewPhone() {
     final phone = order.value.orderingUser.phone;
     final phoneUri = Uri.parse("tel:$phone");
     launchUrl(phoneUri);

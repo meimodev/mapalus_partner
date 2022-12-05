@@ -138,11 +138,11 @@ class OrderDetailScreen extends GetView<OrderDetailController> {
                       i < controller.order.value.products.length;
                       i++)
                     CardOrderDetailItem(
+                      index: (i + 1).toString(),
                       productName:
                           controller.order.value.products[i].product.name,
                       productPrice:
                           controller.order.value.products[i].totalPriceString,
-                      index: (i + 1).toString(),
                       productWeight:
                           '${controller.order.value.products[i].quantityString} ${controller.order.value.products[i].product.unit}',
                       onChangeCheck: (value) {

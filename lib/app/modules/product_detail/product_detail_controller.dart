@@ -33,6 +33,7 @@ class ProductDetailController extends GetxController {
     'Sayuran',
     'Buah',
     'Bahan Kue'
+    'Paket Hemat'
   ];
 
   var isLoading = true.obs;

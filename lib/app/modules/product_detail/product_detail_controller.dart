@@ -32,7 +32,7 @@ class ProductDetailController extends GetxController {
     'Bumbu Dapur',
     'Sayuran',
     'Buah',
-    'Bahan Kue'
+    'Bahan Kue',
     'Paket Hemat'
   ];
 

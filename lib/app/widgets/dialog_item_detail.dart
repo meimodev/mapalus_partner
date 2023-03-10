@@ -89,39 +89,30 @@ class _DialogItemDetailState extends State<DialogItemDetail> {
                                 Text(
                                   widget.product.name,
                                   textAlign: TextAlign.center,
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .bodyText1
-                                      ?.copyWith(
-                                        fontWeight: FontWeight.w400,
-                                        fontSize: 14.sp,
-                                      ),
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w400,
+                                    fontSize: 14.sp,
+                                  ),
                                 ),
                                 SizedBox(height: Insets.small.h),
                                 Text(
                                   '${widget.product.priceF} / ${widget.product.unit}',
                                   textAlign: TextAlign.center,
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .bodyText1
-                                      ?.copyWith(
-                                        fontWeight: FontWeight.w600,
-                                        fontSize: 12.sp,
-                                      ),
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 12.sp,
+                                  ),
                                 ),
                                 SizedBox(height: Insets.medium.h),
                                 Text(
                                   widget.product.description,
                                   maxLines: 4,
                                   textAlign: TextAlign.justify,
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .bodyText1
-                                      ?.copyWith(
-                                        fontWeight: FontWeight.w300,
-                                        fontSize: 12.sp,
-                                        color: Colors.grey,
-                                      ),
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w300,
+                                    fontSize: 12.sp,
+                                    color: Colors.grey,
+                                  ),
                                 ),
                               ],
                             ),
@@ -163,15 +154,12 @@ class _DialogItemDetailState extends State<DialogItemDetail> {
                               widget.product.isAvailable
                                   ? "Masukkan Keranjang"
                                   : "Kembali",
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyText1
-                                  ?.copyWith(
-                                    fontWeight: FontWeight.w400,
-                                    color: widget.product.isAvailable
-                                        ? Palette.textPrimary
-                                        : Colors.grey,
-                                  ),
+                              style: TextStyle(
+                                fontWeight: FontWeight.w400,
+                                color: widget.product.isAvailable
+                                    ? Palette.textPrimary
+                                    : Colors.grey,
+                              ),
                             ),
                           ),
                         ),
@@ -209,7 +197,10 @@ class _DialogItemDetailState extends State<DialogItemDetail> {
                 child: Center(
                   child: SvgPicture.asset(
                     'assets/images/mapalus.svg',
-                    color: Palette.primary,
+                    colorFilter: const ColorFilter.mode(
+                      Palette.primary,
+                      BlendMode.srcIn,
+                    ),
                     width: 60.w,
                   ),
                 ),
@@ -225,18 +216,21 @@ class _DialogItemDetailState extends State<DialogItemDetail> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Text(
+        const Text(
           "Produk sedang tidak tersedia",
-          style: Theme.of(context).textTheme.bodyText1?.copyWith(
-                fontWeight: FontWeight.w400,
-              ),
+          style: TextStyle(
+            fontWeight: FontWeight.w400,
+          ),
         ),
         SizedBox(height: 15.h),
         SvgPicture.asset(
           "assets/vectors/empty.svg",
           width: 60.sp,
           height: 60.sp,
-          color: Colors.grey,
+          colorFilter: const ColorFilter.mode(
+            Colors.grey,
+            BlendMode.srcIn,
+          ),
         ),
       ],
     );
@@ -284,7 +278,10 @@ class _DialogItemDetailState extends State<DialogItemDetail> {
             'assets/vectors/gram.svg',
             width: 15.sp,
             height: 15.sp,
-            color: Palette.accent,
+            colorFilter: const ColorFilter.mode(
+              Palette.accent,
+              BlendMode.srcIn,
+            ),
           ),
           textEditingController: tecGram,
           onValueChanged: (value) {
@@ -306,7 +303,10 @@ class _DialogItemDetailState extends State<DialogItemDetail> {
             'assets/vectors/money.svg',
             width: 15.sp,
             height: 15.sp,
-            color: Palette.accent,
+            colorFilter: const ColorFilter.mode(
+              Palette.accent,
+              BlendMode.srcIn,
+            ),
           ),
           textEditingController: tecPrice,
           onValueChanged: (value) {
@@ -346,9 +346,9 @@ class _DialogItemDetailState extends State<DialogItemDetail> {
               SizedBox(width: 3.w),
               Text(
                 valueLabel,
-                style: Theme.of(context).textTheme.bodyText1?.copyWith(
-                      fontWeight: FontWeight.w300,
-                    ),
+                style: const TextStyle(
+                  fontWeight: FontWeight.w300,
+                ),
               ),
               SizedBox(width: Insets.small.w),
             ],

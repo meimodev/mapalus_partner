@@ -91,7 +91,7 @@ class SigningScreen extends GetView<SigningController> {
                 ),
                 Text(
                   text,
-                  style: Theme.of(context).textTheme.bodyText1?.copyWith(
+                  style: const TextStyle(
                         color: Palette.editable,
                       ),
                 ),
@@ -164,10 +164,7 @@ class _BuildCardSigning extends StatelessWidget {
                                   child: Text(
                                     controller.errorText.value,
                                     textAlign: TextAlign.center,
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodyText1
-                                        ?.copyWith(
+                                    style: TextStyle(
                                           color: Palette.negative,
                                           fontSize: 10.sp,
                                           fontWeight: FontWeight.w300,
@@ -242,7 +239,7 @@ class _BuildCardSigning extends StatelessWidget {
           padding: EdgeInsets.symmetric(vertical: Insets.small.h),
           child: Text('Sign In',
               textAlign: TextAlign.center,
-              style: Theme.of(context).textTheme.bodyText1?.copyWith(
+              style: TextStyle(
                     fontSize: 14.sp,
                     color: Palette.accent,
                   )),

@@ -48,24 +48,27 @@ class SettingsScreen extends GetView<SettingsController> {
                 child: Center(
                   child: SvgPicture.asset(
                     'assets/images/mapalus.svg',
-                    color: Palette.primary,
+                    colorFilter: const ColorFilter.mode(
+                      Palette.primary,
+                      BlendMode.srcIn,
+                    ),
                   ),
                 ),
               ),
               SizedBox(height: Insets.small.h),
               Text(
                 'Pasar Tondano',
-                style: Theme.of(context).textTheme.bodyText1?.copyWith(
-                      color: Colors.grey,
-                      fontSize: 16.sp,
-                    ),
+                style: TextStyle(
+                  color: Colors.grey,
+                  fontSize: 16.sp,
+                ),
               ),
               Text(
                 '0895 2569 9078',
-                style: Theme.of(context).textTheme.bodyText1?.copyWith(
-                      color: Palette.accent,
-                      fontSize: 14.sp,
-                    ),
+                style: TextStyle(
+                  color: Palette.accent,
+                  fontSize: 14.sp,
+                ),
               ),
               SizedBox(
                 height: Insets.medium.h,
@@ -78,7 +81,8 @@ class SettingsScreen extends GetView<SettingsController> {
                     borderRadius: BorderRadius.circular(9.sp),
                   ),
                   child: InkWell(
-                    onTap: ()=> Navigator.pushNamed(context, Routes.appSettings),
+                    onTap: () =>
+                        Navigator.pushNamed(context, Routes.appSettings),
                     child: Padding(
                       padding: EdgeInsets.all(Insets.small.sp),
                       child: Center(
@@ -124,30 +128,30 @@ class SettingsScreen extends GetView<SettingsController> {
             SizedBox(height: Insets.small.h),
             Obx(
               () => Text(
-                controller.textVersion.value,
-                style: Theme.of(context).textTheme.bodyText1?.copyWith(
-                      fontWeight: FontWeight.w500,
-                      fontSize: 15.sp,
-                    ),
+                controller.currentVersion.value,
+                style: TextStyle(
+                  fontWeight: FontWeight.w500,
+                  fontSize: 15.sp,
+                ),
               ),
             ),
             Text(
               'www.meimodev.com',
-              style: Theme.of(context).textTheme.bodyText1?.copyWith(
-                    color: Colors.grey,
-                    fontWeight: FontWeight.w300,
-                    fontSize: 12.sp,
-                  ),
+              style: TextStyle(
+                color: Colors.grey,
+                fontWeight: FontWeight.w300,
+                fontSize: 12.sp,
+              ),
             ),
             Row(
               children: [
                 Text(
-                  'with ♥ 2022 ',
-                  style: Theme.of(context).textTheme.bodyText1?.copyWith(
-                        color: Colors.grey,
-                        fontWeight: FontWeight.w300,
-                        fontSize: 12.sp,
-                      ),
+                  'with ♥ ${Jiffy().year} ',
+                  style: TextStyle(
+                    color: Colors.grey,
+                    fontWeight: FontWeight.w300,
+                    fontSize: 12.sp,
+                  ),
                 ),
                 SvgPicture.asset(
                   'assets/images/logo_meimo.svg',

@@ -106,10 +106,9 @@ class OrderDetailController extends GetxController {
 
     if (freshOrderingUser.fcmToken != null) {
       NotificationService.instance.sendNotification(
-        title: "YAY! pesanan akan segera datang ☺",
+        title: "YAY! pesanan akan segera tiba ☺",
         message:
-            "Pesanan #${order.value.idMinified} dalam proses pengantaran oleh tim pengantaran MAPALUS, "
-            "mohon menunggu ya 🙏",
+            "Pesanan #${order.value.idMinified} sedang diantar, mohon menunggu ya 🙏",
         destination: freshOrderingUser.fcmToken,
       );
     }
@@ -137,26 +136,8 @@ class OrderDetailController extends GetxController {
 
   void onPressedViewWhatsApp() {
     final phone = order.value.orderingUser.phone;
-    final name = order.value.orderingUser.name;
-
-    String timeOfTheDay = "Pagi";
-    final nowHour = DateTime.now().hour;
-    if (nowHour > 11 && nowHour <= 14) {
-      timeOfTheDay = "Siang";
-    } else if (nowHour > 14 && nowHour <= 17) {
-      timeOfTheDay = "Sore";
-    } else if (nowHour > 17) {
-      timeOfTheDay = "Malam";
-    }
-    timeOfTheDay = "Selamat $timeOfTheDay";
-
     final waNumber = phone.replaceFirst("0", "+62");
-    final waUri = Uri.parse('whatsapp://send?phone=$waNumber&text='
-        '$timeOfTheDay, $name \n'
-        'mohon menunggu ya... \n'
-        'Delivery Team aplikasi MAPALUS sedang dalam perjalanan :)\n'
-        '\n'
-        'Apakah pengantaran sesuai titik di aplikasi MAPALUS ?');
+    final waUri = Uri.parse('whatsapp://send?phone=$waNumber');
     launchUrl(waUri);
   }
 

@@ -45,7 +45,7 @@ class CardCategory extends StatelessWidget {
             name,
             softWrap: true,
             textAlign: TextAlign.center,
-            style: Theme.of(context).textTheme.bodyText1!.copyWith(
+            style: TextStyle(
                   color: isSelected ? Palette.textPrimary : Colors.grey,
                 ),
           ),

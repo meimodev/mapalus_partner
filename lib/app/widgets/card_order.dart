@@ -93,11 +93,11 @@ class CardOrder extends StatelessWidget {
                       children: [
                         Text(
                           '${order.products.length} produk',
-                          style: Theme.of(context).textTheme.caption,
+                          style: Theme.of(context).textTheme.bodySmall,
                         ),
                         Text(
                           order.orderInfo.totalPriceF,
-                          style: Theme.of(context).textTheme.caption,
+                          style: Theme.of(context).textTheme.bodySmall,
                         ),
                       ],
                     ),

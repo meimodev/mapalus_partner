@@ -121,7 +121,7 @@ class _CardOrderDetailItemState extends State<CardOrderDetailItem> {
         child: Text(
           text,
           textAlign: TextAlign.center,
-          style: Theme.of(context).textTheme.bodyText1?.copyWith(
+          style: TextStyle(
                 fontSize: 10.sp,
                 fontWeight: FontWeight.w400,
                 color: Palette.textPrimary,

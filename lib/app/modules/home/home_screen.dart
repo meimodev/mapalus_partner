@@ -6,7 +6,6 @@ import 'package:mapalus_partner/app/widgets/card_product.dart';
 import 'package:mapalus_partner/shared/routes.dart';
 import 'package:mapalus_flutter_commons/mapalus_flutter_commons.dart';
 
-
 class HomeScreen extends GetView<HomeController> {
   const HomeScreen({Key? key}) : super(key: key);
 
@@ -78,22 +77,16 @@ class HomeScreen extends GetView<HomeController> {
                           children: [
                             Text(
                               "Mapalus Partner",
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyText1
-                                  ?.copyWith(
-                                    fontSize: 12.sp,
-                                    color: Colors.grey,
-                                  ),
+                              style: TextStyle(
+                                fontSize: 12.sp,
+                                color: Colors.grey,
+                              ),
                             ),
                             Text(
                               "Pasar Tondano",
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyText1
-                                  ?.copyWith(
-                                    fontSize: 16.sp,
-                                  ),
+                              style: TextStyle(
+                                fontSize: 16.sp,
+                              ),
                             ),
                           ],
                         ),
@@ -130,7 +123,9 @@ class HomeScreen extends GetView<HomeController> {
                             )
                           : _buildListSwitcher(
                               isShowingOrders:
-                                  controller.activeNavBottomIndex.value == 1 || controller.activeNavBottomIndex.value == 3 ,
+                                  controller.activeNavBottomIndex.value == 1 ||
+                                      controller.activeNavBottomIndex.value ==
+                                          3,
                               isShowingProducts:
                                   controller.activeNavBottomIndex.value == 2,
                               context: context,
@@ -221,7 +216,7 @@ class HomeScreen extends GetView<HomeController> {
                   : Center(
                       child: Text(
                         'No Order Yet',
-                        style: Theme.of(context).textTheme.bodyText1?.copyWith(
+                        style: TextStyle(
                             color: Palette.accent,
                             fontSize: 15.sp,
                             fontWeight: FontWeight.bold),
@@ -316,11 +311,11 @@ class HomeScreen extends GetView<HomeController> {
       return Obx(
         () => Text(
           'Total orders ${controller.orders.length}',
-          style: Theme.of(context).textTheme.bodyText1?.copyWith(
-                color: Palette.accent,
-                fontWeight: FontWeight.w300,
-                fontSize: 10.sp,
-              ),
+          style: TextStyle(
+            color: Palette.accent,
+            fontWeight: FontWeight.w300,
+            fontSize: 10.sp,
+          ),
         ),
       );
     }
@@ -328,11 +323,11 @@ class HomeScreen extends GetView<HomeController> {
     return Obx(
       () => Text(
         'Total products ${controller.products.length}',
-        style: Theme.of(context).textTheme.bodyText1?.copyWith(
-              color: Palette.accent,
-              fontWeight: FontWeight.w300,
-              fontSize: 10.sp,
-            ),
+        style: TextStyle(
+          color: Palette.accent,
+          fontWeight: FontWeight.w300,
+          fontSize: 10.sp,
+        ),
       ),
     );
   }
@@ -420,17 +415,20 @@ class _BuildBottomNav extends StatelessWidget {
               children: [
                 SvgPicture.asset(
                   imageAssetPath,
-                  color: active ? Palette.primary : Colors.grey,
+                  colorFilter: ColorFilter.mode(
+                    active ? Palette.primary : Colors.grey,
+                    BlendMode.srcIn,
+                  ),
                   width: active ? 21.w : 19.w,
                   height: active ? 21.h : 19.h,
                 ),
                 SizedBox(height: Insets.small.h * .5),
                 Text(
                   title,
-                  style: Theme.of(context).textTheme.bodyText1?.copyWith(
-                        fontSize: 12.sp,
-                        color: active ? Palette.accent : Colors.grey,
-                      ),
+                  style: TextStyle(
+                    fontSize: 12.sp,
+                    color: active ? Palette.accent : Colors.grey,
+                  ),
                 ),
               ],
             ),

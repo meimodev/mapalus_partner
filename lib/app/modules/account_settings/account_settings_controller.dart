@@ -9,6 +9,17 @@ class AccountSettingsController extends GetxController {
 
   UserRepo userRepo = Get.find();
 
+  RxString currentVersion = ''.obs;
+
+  AppRepo appRepo = Get.find();
+
+
+  @override
+  void onInit() {
+    super.onInit();
+
+    initVersion();
+  }
 
   onPressedEditAccountInfo() {}
 
@@ -25,5 +36,9 @@ class AccountSettingsController extends GetxController {
       Routes.signing,
       arguments: "",
     );
+  }
+
+  initVersion() async {
+    currentVersion.value = await appRepo.getCurrentVersion();
   }
 }

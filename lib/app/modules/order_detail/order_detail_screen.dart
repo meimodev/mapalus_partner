@@ -343,8 +343,7 @@ class OrderDetailScreen extends GetView<OrderDetailController> {
             children: [
               _buildHelperButton(Icons.place, controller.onPressedViewMaps),
               const SizedBox(width: Insets.small * .5),
-              _buildHelperButton(
-                  Icons.whatsapp, controller.onPressedViewWhatsApp),
+              _buildHelperButton(Icons.chat, controller.onPressedViewWhatsApp),
               const SizedBox(width: Insets.small * .5),
               _buildHelperButton(Icons.phone, controller.onPressedViewPhone),
             ],
@@ -633,7 +632,10 @@ class _BuildRatedLayout extends StatelessWidget {
             onRatingUpdate: (_) {},
             itemBuilder: (_, int index) => SvgPicture.asset(
               'assets/vectors/star.svg',
-              color: Palette.primary,
+              colorFilter: const ColorFilter.mode(
+                Palette.primary,
+                BlendMode.srcIn,
+              ),
             ),
             updateOnDrag: false,
             ignoreGestures: true,

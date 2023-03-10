@@ -44,9 +44,9 @@ class _DialogRatingState extends State<DialogRating> {
             Text(
               'Masukkan & Penilaian anda\nakan sangat membantu layanan ini',
               textAlign: TextAlign.center,
-              style: Theme.of(context).textTheme.bodyText1?.copyWith(
-                    fontSize: 14.sp,
-                  ),
+              style: TextStyle(
+                fontSize: 14.sp,
+              ),
             ),
             SizedBox(height: Insets.medium.h),
             Container(
@@ -102,7 +102,10 @@ class _DialogRatingState extends State<DialogRating> {
                   itemBuilder: (BuildContext context, int index) =>
                       SvgPicture.asset(
                     'assets/vectors/star.svg',
-                    color: Palette.primary,
+                    colorFilter: const ColorFilter.mode(
+                      Palette.primary,
+                      BlendMode.srcIn,
+                    ),
                   ),
                   updateOnDrag: true,
                   unratedColor: Palette.accent,

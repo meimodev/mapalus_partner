@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' hide Badge;
 import 'package:get/get.dart';
 import 'package:mapalus_flutter_commons/mapalus_flutter_commons.dart';
 import 'package:mapalus_partner/app/modules/account_settings/account_settings_controller.dart';
@@ -52,24 +52,24 @@ class AccountSettingsScreen extends GetView<AccountSettingsController> {
               child: Center(
                 child: SvgPicture.asset(
                   'assets/images/mapalus.svg',
-                  color: Palette.primary,
+                  colorFilter: const ColorFilter.mode( Palette.primary, BlendMode.srcIn,),
                 ),
               ),
             ),
             SizedBox(height: Insets.small.h),
             Text(
               controller.userName.value,
-              style: Theme.of(context).textTheme.bodyText1?.copyWith(
-                    color: Colors.grey,
-                    fontSize: 16.sp,
-                  ),
+              style: TextStyle(
+                color: Colors.grey,
+                fontSize: 16.sp,
+              ),
             ),
             Text(
               controller.userPhone.value,
-              style: Theme.of(context).textTheme.bodyText1?.copyWith(
-                    color: Palette.accent,
-                    fontSize: 14.sp,
-                  ),
+              style: TextStyle(
+                color: Palette.accent,
+                fontSize: 14.sp,
+              ),
             ),
           ],
         ),
@@ -85,13 +85,12 @@ class AccountSettingsScreen extends GetView<AccountSettingsController> {
                 onPressed: controller.onPressedEditAccountInfo,
               ),
               Badge(
-                padding: EdgeInsets.all(3.sp),
                 badgeContent: Text(
                   '99',
-                  style: Theme.of(context).textTheme.bodyText1?.copyWith(
-                        fontSize: 10.sp,
-                        color: Palette.editable,
-                      ),
+                  style: TextStyle(
+                    fontSize: 10.sp,
+                    color: Palette.editable,
+                  ),
                 ),
                 position: BadgePosition.topStart(),
                 child: _buildItemRow(
@@ -130,7 +129,7 @@ class AccountSettingsScreen extends GetView<AccountSettingsController> {
         SizedBox(height: Insets.medium.h),
         Text(
           'Silahkan masuk untuk melanjutkan',
-          style: Theme.of(context).textTheme.bodyText1?.copyWith(
+          style: TextStyle(
                 fontSize: 14.sp,
               ),
         ),
@@ -147,9 +146,9 @@ class AccountSettingsScreen extends GetView<AccountSettingsController> {
                 horizontal: Insets.medium.w,
                 vertical: Insets.medium.w * .5,
               ),
-              child: Text(
+              child: const Text(
                 'Masuk',
-                style: Theme.of(context).textTheme.bodyText1?.copyWith(
+                style: TextStyle(
                       color: Palette.accent,
                     ),
               ),
@@ -173,8 +172,8 @@ class AccountSettingsScreen extends GetView<AccountSettingsController> {
           children: [
             SizedBox(height: Insets.small.h),
             Text(
-              'mapalus v.1.2.441',
-              style: Theme.of(context).textTheme.bodyText1?.copyWith(
+              'mapalus ${controller.currentVersion.value}',
+              style: TextStyle(
                     color: Colors.grey,
                     fontWeight: FontWeight.w300,
                     fontSize: 12.sp,
@@ -182,7 +181,7 @@ class AccountSettingsScreen extends GetView<AccountSettingsController> {
             ),
             Text(
               'www.meimodev.com',
-              style: Theme.of(context).textTheme.bodyText1?.copyWith(
+              style: TextStyle(
                     color: Colors.grey,
                     fontWeight: FontWeight.w300,
                     fontSize: 12.sp,
@@ -191,8 +190,8 @@ class AccountSettingsScreen extends GetView<AccountSettingsController> {
             Row(
               children: [
                 Text(
-                  'with ♥ 2022 ',
-                  style: Theme.of(context).textTheme.bodyText1?.copyWith(
+                  'with ♥ ${Jiffy().year} ',
+                  style: TextStyle(
                         color: Colors.grey,
                         fontWeight: FontWeight.w300,
                         fontSize: 12.sp,
@@ -236,7 +235,7 @@ class AccountSettingsScreen extends GetView<AccountSettingsController> {
               SizedBox(width: Insets.small.w * .5),
               Text(
                 text,
-                style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                style: TextStyle(
                       fontSize: 14.sp,
                     ),
               ),

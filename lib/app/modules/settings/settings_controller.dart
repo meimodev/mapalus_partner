@@ -2,7 +2,9 @@ import 'package:get/get.dart';
 import 'package:mapalus_flutter_commons/mapalus_flutter_commons.dart';
 
 class SettingsController extends GetxController {
-  RxString textVersion = ''.obs;
+  RxString currentVersion = ''.obs;
+
+  AppRepo appRepo = Get.find();
 
   @override
   void onInit() {
@@ -12,11 +14,9 @@ class SettingsController extends GetxController {
   }
 
   _initAppVersionText() async {
-    PackageInfo packageInfo = await PackageInfo.fromPlatform();
-    String version = packageInfo.version;
 
-    Version localVersion = Version.fromList(version.split('.'));
-    textVersion.value =
-        'v ${localVersion.major}.${localVersion.minor}.${localVersion.patch}';
+    currentVersion.value = await appRepo.getCurrentVersion();
+
+
   }
 }

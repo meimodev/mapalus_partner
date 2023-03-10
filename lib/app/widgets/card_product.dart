@@ -46,7 +46,7 @@ class CardProduct extends StatelessWidget {
                   children: [
                     Text(
                       product.name,
-                      style: Theme.of(context).textTheme.bodyText1?.copyWith(
+                      style: TextStyle(
                             fontSize: 12.sp,
                           ),
                     ),
@@ -56,7 +56,7 @@ class CardProduct extends StatelessWidget {
                         Text(
                           '${product.priceF} / ${product.unit}',
                           style:
-                              Theme.of(context).textTheme.bodyText1?.copyWith(
+                          TextStyle(
                                     fontSize: 10.sp,
                                     fontWeight: FontWeight.w300,
                                   ),
@@ -68,10 +68,7 @@ class CardProduct extends StatelessWidget {
                                   const Text(" | "),
                                   Text(
                                     product.weightF,
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodyText1
-                                        ?.copyWith(
+                                    style: TextStyle(
                                           fontSize: 10.sp,
                                           fontWeight: FontWeight.w500,
                                         ),
@@ -81,10 +78,7 @@ class CardProduct extends StatelessWidget {
                         product.isCustomPrice
                             ? Text(
                                 " | min ${product.minimumPriceF}",
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodyText1
-                                    ?.copyWith(
+                                style: TextStyle(
                                         fontSize: 10.sp,
                                         fontWeight: FontWeight.w500),
                               )

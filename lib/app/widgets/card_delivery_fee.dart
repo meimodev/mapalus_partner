@@ -44,7 +44,10 @@ class CardDeliveryFee extends StatelessWidget {
                         'assets/vectors/check.svg',
                         width: 24.sp,
                         height: 24.sp,
-                        color: Palette.accent,
+                        colorFilter: const ColorFilter.mode(
+                          Palette.accent,
+                          BlendMode.srcIn,
+                        ),
                       ),
                       SizedBox(width: Insets.small.w * .85),
                     ]
@@ -57,36 +60,31 @@ class CardDeliveryFee extends StatelessWidget {
                       children: [
                         Text(
                           deliveryTime,
-                          style:
-                              Theme.of(context).textTheme.bodyText1?.copyWith(
-                                    fontSize: 12.sp,
-                                    color: isTomorrow
-                                        ? Colors.grey
-                                        : Palette.textPrimary,
-                                  ),
+                          style: TextStyle(
+                            fontSize: 12.sp,
+                            color:
+                                isTomorrow ? Colors.grey : Palette.textPrimary,
+                          ),
                         ),
                         SizedBox(width: Insets.small.w),
                         isTomorrow
                             ? Text(
                                 'BESOK, 16 Feb',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodyText1
-                                    ?.copyWith(
-                                      color: Colors.grey,
-                                      fontSize: 12.sp,
-                                    ),
+                                style: TextStyle(
+                                  color: Colors.grey,
+                                  fontSize: 12.sp,
+                                ),
                               )
                             : const SizedBox(),
                       ],
                     ),
                     Text(
                       price,
-                      style: Theme.of(context).textTheme.bodyText1?.copyWith(
-                            fontSize: 10.sp,
-                            fontWeight: FontWeight.w500,
-                            color: Colors.grey,
-                          ),
+                      style: TextStyle(
+                        fontSize: 10.sp,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.grey,
+                      ),
                     ),
                   ],
                 ),

@@ -28,18 +28,21 @@ class CardOrdersPeak extends StatelessWidget {
               SizedBox(width: 3.w),
               SvgPicture.asset(
                 "assets/vectors/bag.svg",
-                color: Palette.textPrimary,
+                colorFilter: const ColorFilter.mode(
+                  Palette.textPrimary,
+                  BlendMode.srcIn,
+                ),
                 height: 18.sp,
                 width: 18.sp,
               ),
               SizedBox(width: Insets.small.w * .75),
               Text(
                 'Pesanan anda',
-                style: Theme.of(context).textTheme.bodyText1!.copyWith(
-                      color: Palette.textPrimary,
-                      fontWeight: FontWeight.w400,
-                      fontSize: 12.sp,
-                    ),
+                style: TextStyle(
+                  color: Palette.textPrimary,
+                  fontWeight: FontWeight.w400,
+                  fontSize: 12.sp,
+                ),
               ),
               SizedBox(width: 3.w),
             ],

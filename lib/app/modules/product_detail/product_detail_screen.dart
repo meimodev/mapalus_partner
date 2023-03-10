@@ -211,7 +211,7 @@ class ProductDetailScreen extends GetView<ProductDetailController> {
       children: [
         Text(
           title,
-          style: Theme.of(context).textTheme.bodyText1?.copyWith(
+          style: TextStyle(
                 fontSize: 12.sp,
                 fontWeight: FontWeight.w300,
               ),
@@ -258,7 +258,7 @@ class ProductDetailScreen extends GetView<ProductDetailController> {
                 ),
                 child: Text(
                   controller.errorText.value,
-                  style: Theme.of(context).textTheme.bodyText1?.copyWith(
+                  style: TextStyle(
                         color: Palette.negative,
                         fontSize: 14.sp,
                         fontWeight: FontWeight.w300,
@@ -290,7 +290,7 @@ class ProductDetailScreen extends GetView<ProductDetailController> {
           child: Text(
             controller.isAdding.isTrue ? "Add" : 'Save',
             textAlign: TextAlign.center,
-            style: Theme.of(context).textTheme.bodyText1?.copyWith(
+            style: TextStyle(
                   color: Palette.accent,
                   fontWeight: FontWeight.bold,
                   fontSize: 14.sp,
@@ -322,7 +322,7 @@ class ProductDetailScreen extends GetView<ProductDetailController> {
           child: Text(
             "Delete Product",
             textAlign: TextAlign.center,
-            style: Theme.of(context).textTheme.bodyText1?.copyWith(
+            style: TextStyle (
                   color: Palette.cardForeground,
                   fontWeight: FontWeight.bold,
                   fontSize: 14.sp,
@@ -355,7 +355,7 @@ class ProductDetailScreen extends GetView<ProductDetailController> {
           ),
           child: Text(
             current.isEmpty ? 'Category' : current,
-            style: Theme.of(context).textTheme.bodyText1?.copyWith(
+            style:TextStyle (
                   color: Palette.accent,
                   fontSize: 12.sp,
                   fontWeight:
@@ -371,7 +371,7 @@ class ProductDetailScreen extends GetView<ProductDetailController> {
               ),
               child: Text(
                 e,
-                style: Theme.of(context).textTheme.bodyText1?.copyWith(
+                style: TextStyle (
                       color: Palette.accent,
                       fontWeight: e.toLowerCase() == current.toLowerCase()
                           ? FontWeight.bold

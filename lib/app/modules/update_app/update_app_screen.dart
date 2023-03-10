@@ -19,25 +19,28 @@ class UpdateAppScreen extends StatelessWidget {
                 'assets/images/mapalus.svg',
                 width: 60.sp,
                 height: 60.sp,
-                color: Palette.accent,
+                colorFilter: const ColorFilter.mode(
+                  Palette.accent,
+                  BlendMode.srcIn,
+                ),
               ),
               SizedBox(height: Insets.small.h * .5),
               Text(
                 'Partner App',
-                style: Theme.of(context).textTheme.bodyText1?.copyWith(
-                      fontSize: 10.sp,
-                      fontWeight: FontWeight.bold,
-                      color: Palette.accent,
-                    ),
+                style: TextStyle(
+                  fontSize: 10.sp,
+                  fontWeight: FontWeight.bold,
+                  color: Palette.accent,
+                ),
               ),
               SizedBox(height: Insets.large.h),
               Text(
                 'Please update the app\nto ensure the latest feature & app stability',
                 textAlign: TextAlign.center,
-                style: Theme.of(context).textTheme.bodyText1?.copyWith(
-                      fontSize: 14.sp,
-                      fontWeight: FontWeight.w300,
-                    ),
+                style: TextStyle(
+                  fontSize: 14.sp,
+                  fontWeight: FontWeight.w300,
+                ),
               ),
               SizedBox(height: Insets.small.h),
               Row(
@@ -104,10 +107,10 @@ class UpdateAppScreen extends StatelessWidget {
               SizedBox(width: 6.w),
               Text(
                 title,
-                style: Theme.of(context).textTheme.bodyText1?.copyWith(
-                      fontSize: 12.sp,
-                      color: Palette.accent,
-                    ),
+                style: TextStyle(
+                  fontSize: 12.sp,
+                  color: Palette.accent,
+                ),
               ),
             ],
           ),

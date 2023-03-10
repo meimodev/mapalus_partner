@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' hide Badge;
 import 'package:mapalus_flutter_commons/mapalus_flutter_commons.dart';
 
 class CardSearchBar extends StatelessWidget {
@@ -39,7 +39,10 @@ class CardSearchBar extends StatelessWidget {
                     'assets/vectors/search.svg',
                     height: 15.sp,
                     width: 15.sp,
-                    color: Colors.grey,
+                    colorFilter: const ColorFilter.mode(
+                      Colors.grey,
+                      BlendMode.srcIn,
+                    ),
                   ),
                   SizedBox(width: Insets.small.w * 1),
                   Flexible(
@@ -69,18 +72,16 @@ class CardSearchBar extends StatelessWidget {
             ),
             SizedBox(width: Insets.small.w * .5),
             Badge(
-              elevation: 0,
               showBadge: notificationBadgeCount > 0,
               badgeContent: Center(
                 child: Text(
                   notificationBadgeCount.toString(),
-                  style: Theme.of(context).textTheme.bodyText1?.copyWith(
-                        fontSize: 10.sp,
-                        color: Palette.editable,
-                      ),
+                  style: TextStyle(
+                    fontSize: 10.sp,
+                    color: Palette.editable,
+                  ),
                 ),
               ),
-              padding: EdgeInsets.all(6.sp),
               child: Material(
                 shape: const CircleBorder(),
                 color: Palette.accent,
@@ -94,7 +95,10 @@ class CardSearchBar extends StatelessWidget {
                       'assets/images/mapalus_logo.svg',
                       height: 12.sp,
                       width: 12.sp,
-                      color: Palette.primary,
+                      colorFilter: const ColorFilter.mode(
+                        Palette.primary,
+                        BlendMode.srcIn,
+                      ),
                     ),
                   ),
                 ),

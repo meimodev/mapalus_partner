@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:mapalus_partner/app/modules/home/app_settings/app_settings_controller.dart';
-import 'package:mapalus_partner/app/widgets/card_navigation.dart';
 import 'package:get/get.dart';
 import 'package:mapalus_flutter_commons/mapalus_flutter_commons.dart';
+import 'package:mapalus_partner/app/modules/home/app_settings/app_settings_controller.dart';
+import 'package:mapalus_partner/app/widgets/card_navigation.dart';
 
 class AppSettingsScreen extends GetView<AppSettingsController> {
   const AppSettingsScreen({Key? key}) : super(key: key);
@@ -10,34 +10,36 @@ class AppSettingsScreen extends GetView<AppSettingsController> {
   @override
   Widget build(BuildContext context) {
     return ScreenWrapper(
-      child: Obx(
-        ()=> AnimatedSwitcher(
-          duration:const Duration(milliseconds: 400),
-          child: controller.isLoading.value
-              ? const Center(child: CircularProgressIndicator(color: Palette.primary,))
-              : Column(
-            children: [
-              const CardNavigation(title: 'App Settings'),
-              Expanded(
-                child: SingleChildScrollView(
-                  physics: const BouncingScrollPhysics(),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      SizedBox(height: Insets.medium.h),
-                      _BuildDeliveryFeeCard(controller: controller),
-                      _BuildAppInfoCard(controller: controller),
-                      //account with verified phone
-                      //
-                    ],
+        child: Obx(
+      () => AnimatedSwitcher(
+        duration: const Duration(milliseconds: 400),
+        child: controller.isLoading.value
+            ? const Center(
+                child: CircularProgressIndicator(
+                color: BaseColor.primary3,
+              ))
+            : Column(
+                children: [
+                  const CardNavigation(title: 'App Settings'),
+                  Expanded(
+                    child: SingleChildScrollView(
+                      physics: const BouncingScrollPhysics(),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          Gap.h12,
+                          _BuildDeliveryFeeCard(controller: controller),
+                          _BuildAppInfoCard(controller: controller),
+                          //account with verified phone
+                          //
+                        ],
+                      ),
+                    ),
                   ),
-                ),
+                ],
               ),
-            ],
-          ),
-        ),
-      )
-    );
+      ),
+    ));
   }
 }
 
@@ -50,9 +52,9 @@ class _BuildDeliveryFeeCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.all(Insets.medium.sp),
+      padding: EdgeInsets.all(BaseSize.radiusMd),
       child: Container(
-        padding: EdgeInsets.all(Insets.medium.sp),
+        padding: EdgeInsets.all(BaseSize.radiusMd),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(9.sp),
           color: Colors.white,
@@ -80,9 +82,7 @@ class _BuildDeliveryFeeCard extends StatelessWidget {
               title: "Weight Unit",
               controller: controller.tecWeightUnit,
             ),
-            SizedBox(
-              height: Insets.medium.h,
-            ),
+            Gap.h12,
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               mainAxisSize: MainAxisSize.max,
@@ -109,15 +109,15 @@ class _BuildDeliveryFeeCard extends StatelessWidget {
   }) =>
       Container(
         margin: EdgeInsets.symmetric(
-          vertical: Insets.small.h * .5,
+          vertical: BaseSize.h6,
         ),
         padding: EdgeInsets.symmetric(
-          horizontal: Insets.small.w,
-          vertical: 2.w,
+          horizontal: BaseSize.w6,
+          vertical: 2,
         ),
         decoration: BoxDecoration(
-          color: Palette.editable,
-          borderRadius: BorderRadius.circular(9.sp),
+          color: BaseColor.editable,
+          borderRadius: BorderRadius.circular(BaseSize.radiusMd),
         ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -132,17 +132,17 @@ class _BuildDeliveryFeeCard extends StatelessWidget {
                   numbersOnly ? TextInputType.number : TextInputType.text,
               textInputAction: TextInputAction.next,
               style: TextStyle(
-                color: Palette.accent,
+                color: BaseColor.accent,
                 fontFamily: fontFamily,
                 fontSize: 12.sp,
               ),
-              cursorColor: Palette.primary,
+              cursorColor: BaseColor.primary3,
               decoration: InputDecoration(
                 labelStyle: TextStyle(
                   fontFamily: fontFamily,
                   fontSize: 12.sp,
                   fontWeight: FontWeight.w300,
-                  color: Palette.textPrimary,
+                  color: BaseColor.primaryText,
                 ),
                 isDense: true,
                 border: InputBorder.none,
@@ -167,12 +167,12 @@ class _BuildButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: Palette.primary,
+      color: BaseColor.primary3,
       elevation: 2,
       child: InkWell(
         onTap: onPressed,
         child: Padding(
-          padding: EdgeInsets.all(Insets.small.sp),
+          padding: EdgeInsets.all(BaseSize.radiusMd),
           child: Center(
             child: Text(
               text,
@@ -197,9 +197,9 @@ class _BuildAppInfoCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.all(Insets.medium.sp),
+      padding: EdgeInsets.all(BaseSize.radiusMd),
       child: Container(
-        padding: EdgeInsets.all(Insets.medium.sp),
+        padding: EdgeInsets.all(BaseSize.radiusMd),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(9.sp),
           color: Colors.white,

@@ -23,13 +23,13 @@ class TextInputQuantity extends StatelessWidget {
       width: 147.w,
       height: 45.h,
       decoration: BoxDecoration(
-        color: Palette.editable,
+        color: BaseColor.editable,
         borderRadius: BorderRadius.circular(6.sp),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          SizedBox(width: Insets.small.w),
+          Gap.w12,
           icon != null
               ? SizedBox(
                   height: 45.h,
@@ -37,7 +37,7 @@ class TextInputQuantity extends StatelessWidget {
                   child: icon,
                 )
               : const SizedBox(),
-          SizedBox(width: Insets.small.w * .5),
+          Gap.w12,
           Expanded(
             child: TextField(
               controller: textEditingController,
@@ -47,11 +47,11 @@ class TextInputQuantity extends StatelessWidget {
               autocorrect: false,
               readOnly: isReadOnly,
               style: TextStyle(
-                color: Palette.accent,
+                color: BaseColor.accent,
                 fontFamily: fontFamily,
                 fontSize: 14.sp,
               ),
-              cursorColor: Palette.primary,
+              cursorColor: BaseColor.primary3,
               decoration: InputDecoration(
                 hintStyle: TextStyle(
                   fontFamily: fontFamily,

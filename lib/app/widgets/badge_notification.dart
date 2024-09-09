@@ -15,16 +15,16 @@ class BadgeNotification extends StatelessWidget {
       height: 21.sp,
       width: 21.sp,
       decoration: const BoxDecoration(
-        color: Palette.notification,
+        color: BaseColor.negative,
         shape: BoxShape.circle,
       ),
       child: Center(
         child: Text(
           text,
           style: TextStyle(
-                fontSize: 11.sp,
-                color: Palette.cardForeground,
-              ),
+            fontSize: 11.sp,
+            color: BaseColor.cardBackground1,
+          ),
         ),
       ),
     );

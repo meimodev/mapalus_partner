@@ -1,7 +1,8 @@
+import 'dart:developer' as dev;
+
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:mapalus_flutter_commons/mapalus_flutter_commons.dart';
-import 'dart:developer' as dev;
 
 class AppSettingsController extends GetxController {
   PartnerRepo partnerRepo = Get.find();
@@ -57,26 +58,29 @@ class AppSettingsController extends GetxController {
     dev.log(deliveryModifiers.toString());
     tecDistancePrice.text =
         deliveryModifiers!.distancePrice.toStringWithoutPointZeroTrail();
-    tecDistanceUnit.text = deliveryModifiers!.distanceUnit.toStringWithoutPointZeroTrail();
-    tecWeightPrice.text = deliveryModifiers!.weightPrice.toStringWithoutPointZeroTrail();
-    tecWeightUnit.text = deliveryModifiers!.weightUnit.toStringWithoutPointZeroTrail();
+    tecDistanceUnit.text =
+        deliveryModifiers!.distanceUnit.toStringWithoutPointZeroTrail();
+    tecWeightPrice.text =
+        deliveryModifiers!.weightPrice.toStringWithoutPointZeroTrail();
+    tecWeightUnit.text =
+        deliveryModifiers!.weightUnit.toStringWithoutPointZeroTrail();
   }
 
   _loadAccountInfo() async {
-    UsersInfo usersInfo = await partnerRepo.getUsersInfo();
-
-    final lastQuery =
-        Jiffy(usersInfo.lastQuery, Values.formatRawDate).endOf(Units.DAY);
-    final lastQueryExpiration = lastQuery.clone().add(days: 1).endOf(Units.DAY);
-
-    if (Jiffy().isAfter(lastQueryExpiration)) {
-      dev.log("FRESH QUERY");
-      usersInfo = await partnerRepo.queryUsersInfo(
-          Jiffy().endOf(Units.DAY).format(Values.formatRawDate));
-    }
-
-    this.lastQuery = usersInfo.lastQuery;
-    verifiedAccountCount = usersInfo.verifiedAccountCount;
-    hadOrderCount = usersInfo.hadOrderCount;
+    // UsersInfo usersInfo = await partnerRepo.getUsersInfo();
+    //
+    // final lastQuery =
+    //     Jiffy(usersInfo.lastQuery, Values.formatRawDate).endOf(Units.DAY);
+    // final lastQueryExpiration = lastQuery.clone().add(days: 1).endOf(Units.DAY);
+    //
+    // if (Jiffy().isAfter(lastQueryExpiration)) {
+    //   dev.log("FRESH QUERY");
+    //   usersInfo = await partnerRepo.queryUsersInfo(
+    //       Jiffy().endOf(Units.DAY).format(Values.formatRawDate));
+    // }
+    //
+    // this.lastQuery = usersInfo.lastQuery;
+    // verifiedAccountCount = usersInfo.verifiedAccountCount;
+    // hadOrderCount = usersInfo.hadOrderCount;
   }
 }

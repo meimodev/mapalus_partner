@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:mapalus_flutter_commons/mapalus_flutter_commons.dart';
 import 'package:mapalus_partner/app/modules/settings/settings_controller.dart';
 import 'package:mapalus_partner/app/widgets/card_navigation.dart';
 import 'package:mapalus_partner/shared/routes.dart';
-import 'package:mapalus_flutter_commons/mapalus_flutter_commons.dart';
 
 class SettingsScreen extends GetView<SettingsController> {
   const SettingsScreen({Key? key}) : super(key: key);
@@ -36,26 +36,26 @@ class SettingsScreen extends GetView<SettingsController> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              SizedBox(height: Insets.medium.h),
+              Gap.h12,
               Container(
                 width: 120.sp,
                 height: 120.sp,
                 padding: EdgeInsets.all(24.sp),
                 decoration: const BoxDecoration(
                   shape: BoxShape.circle,
-                  color: Palette.accent,
+                  color: BaseColor.accent,
                 ),
                 child: Center(
                   child: SvgPicture.asset(
                     'assets/images/mapalus.svg',
                     colorFilter: const ColorFilter.mode(
-                      Palette.primary,
+                      BaseColor.primary3,
                       BlendMode.srcIn,
                     ),
                   ),
                 ),
               ),
-              SizedBox(height: Insets.small.h),
+              Gap.h12,
               Text(
                 'Pasar Tondano',
                 style: TextStyle(
@@ -66,17 +66,15 @@ class SettingsScreen extends GetView<SettingsController> {
               Text(
                 '0895 2569 9078',
                 style: TextStyle(
-                  color: Palette.accent,
+                  color: BaseColor.accent,
                   fontSize: 14.sp,
                 ),
               ),
-              SizedBox(
-                height: Insets.medium.h,
-              ),
+              Gap.h12,
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: Insets.small.w),
+                padding: EdgeInsets.symmetric(horizontal: BaseSize.w12),
                 child: Material(
-                  color: Palette.editable,
+                  color: BaseColor.editable,
                   shape: ContinuousRectangleBorder(
                     borderRadius: BorderRadius.circular(9.sp),
                   ),
@@ -84,14 +82,14 @@ class SettingsScreen extends GetView<SettingsController> {
                     onTap: () =>
                         Navigator.pushNamed(context, Routes.appSettings),
                     child: Padding(
-                      padding: EdgeInsets.all(Insets.small.sp),
+                      padding: EdgeInsets.all(BaseSize.radiusMd),
                       child: Center(
                         child: Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             Icon(
                               Icons.warning_amber_rounded,
-                              color: Palette.negative,
+                              color: BaseColor.negative,
                               size: 20.sp,
                             ),
                             SizedBox(width: 3.w),
@@ -118,14 +116,14 @@ class SettingsScreen extends GetView<SettingsController> {
   Widget _buildDevNote(BuildContext context) {
     return Expanded(
       child: Container(
-        padding: EdgeInsets.symmetric(horizontal: Insets.medium.w),
+        padding: EdgeInsets.symmetric(horizontal: BaseSize.w12),
         decoration: BoxDecoration(
           color: Colors.grey.shade100,
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            SizedBox(height: Insets.small.h),
+            Gap.h12,
             Obx(
               () => Text(
                 controller.currentVersion.value,
@@ -146,7 +144,7 @@ class SettingsScreen extends GetView<SettingsController> {
             Row(
               children: [
                 Text(
-                  'with ♥ ${Jiffy().year} ',
+                  'with ♥ ${Jiffy.now().year} ',
                   style: TextStyle(
                     color: Colors.grey,
                     fontWeight: FontWeight.w300,

@@ -24,7 +24,7 @@ class CardDeliveryFee extends StatelessWidget {
         borderRadius: BorderRadius.circular(9.sp),
         side: BorderSide(
           width: 1.5,
-          color: isActive ? Palette.primary : Colors.transparent,
+          color: isActive ? BaseColor.primary3 : Colors.transparent,
         ),
       ),
       color: Colors.grey.shade200,
@@ -33,8 +33,8 @@ class CardDeliveryFee extends StatelessWidget {
         onTap: onPressed,
         child: Container(
           padding: EdgeInsets.symmetric(
-            vertical: Insets.small.h * .5,
-            horizontal: Insets.medium.w * .5,
+            vertical: BaseSize.h12,
+            horizontal: BaseSize.w12,
           ),
           child: Row(
             children: [
@@ -45,11 +45,11 @@ class CardDeliveryFee extends StatelessWidget {
                         width: 24.sp,
                         height: 24.sp,
                         colorFilter: const ColorFilter.mode(
-                          Palette.accent,
+                          BaseColor.accent,
                           BlendMode.srcIn,
                         ),
                       ),
-                      SizedBox(width: Insets.small.w * .85),
+                      Gap.w4,
                     ]
                   : [const SizedBox()],
               Expanded(
@@ -62,11 +62,12 @@ class CardDeliveryFee extends StatelessWidget {
                           deliveryTime,
                           style: TextStyle(
                             fontSize: 12.sp,
-                            color:
-                                isTomorrow ? Colors.grey : Palette.textPrimary,
+                            color: isTomorrow
+                                ? Colors.grey
+                                : BaseColor.primaryText,
                           ),
                         ),
-                        SizedBox(width: Insets.small.w),
+                        Gap.h12,
                         isTomorrow
                             ? Text(
                                 'BESOK, 16 Feb',

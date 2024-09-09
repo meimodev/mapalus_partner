@@ -40,23 +40,26 @@ class AccountSettingsScreen extends GetView<AccountSettingsController> {
         Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            SizedBox(height: Insets.medium.h),
+            Gap.h12,
             Container(
               width: 120.w,
               height: 120.h,
               padding: EdgeInsets.all(24.sp),
               decoration: const BoxDecoration(
                 shape: BoxShape.circle,
-                color: Palette.accent,
+                color: BaseColor.accent,
               ),
               child: Center(
                 child: SvgPicture.asset(
                   'assets/images/mapalus.svg',
-                  colorFilter: const ColorFilter.mode( Palette.primary, BlendMode.srcIn,),
+                  colorFilter: const ColorFilter.mode(
+                    BaseColor.primary3,
+                    BlendMode.srcIn,
+                  ),
                 ),
               ),
             ),
-            SizedBox(height: Insets.small.h),
+            Gap.h6,
             Text(
               controller.userName.value,
               style: TextStyle(
@@ -67,15 +70,15 @@ class AccountSettingsScreen extends GetView<AccountSettingsController> {
             Text(
               controller.userPhone.value,
               style: TextStyle(
-                color: Palette.accent,
+                color: BaseColor.accent,
                 fontSize: 14.sp,
               ),
             ),
           ],
         ),
-        SizedBox(height: Insets.medium.h),
+        Gap.h12,
         Padding(
-          padding: EdgeInsets.symmetric(horizontal: Insets.medium.w),
+          padding: EdgeInsets.symmetric(horizontal: BaseSize.w12),
           child: Column(
             children: [
               _buildItemRow(
@@ -89,7 +92,7 @@ class AccountSettingsScreen extends GetView<AccountSettingsController> {
                   '99',
                   style: TextStyle(
                     fontSize: 10.sp,
-                    color: Palette.editable,
+                    color: BaseColor.editable,
                   ),
                 ),
                 position: BadgePosition.topStart(),
@@ -109,14 +112,14 @@ class AccountSettingsScreen extends GetView<AccountSettingsController> {
             ],
           ),
         ),
-        SizedBox(height: Insets.small.h),
+        Gap.w12,
         Container(
           height: 2.h,
           width: 100.w,
           margin: EdgeInsets.symmetric(
-            horizontal: Insets.medium.w,
+            horizontal: BaseSize.w12,
           ),
-          color: Palette.accent,
+          color: BaseColor.accent,
         ),
       ],
     );
@@ -126,36 +129,36 @@ class AccountSettingsScreen extends GetView<AccountSettingsController> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        SizedBox(height: Insets.medium.h),
+        Gap.h12,
         Text(
           'Silahkan masuk untuk melanjutkan',
           style: TextStyle(
-                fontSize: 14.sp,
-              ),
+            fontSize: 14.sp,
+          ),
         ),
-        SizedBox(height: Insets.small.h),
+        Gap.h12,
         Material(
           clipBehavior: Clip.hardEdge,
-          color: Palette.primary,
+          color: BaseColor.primary3,
           borderRadius: BorderRadius.circular(9.sp),
           elevation: 2,
           child: InkWell(
             onTap: controller.onPressedSignIn,
             child: Padding(
               padding: EdgeInsets.symmetric(
-                horizontal: Insets.medium.w,
-                vertical: Insets.medium.w * .5,
+                horizontal: BaseSize.w12,
+                vertical: BaseSize.h6,
               ),
               child: const Text(
                 'Masuk',
                 style: TextStyle(
-                      color: Palette.accent,
-                    ),
+                  color: BaseColor.accent,
+                ),
               ),
             ),
           ),
         ),
-        SizedBox(height: Insets.medium.h),
+        Gap.h12,
       ],
     );
   }
@@ -163,39 +166,39 @@ class AccountSettingsScreen extends GetView<AccountSettingsController> {
   Widget _buildDevNote(BuildContext context) {
     return Expanded(
       child: Container(
-        padding: EdgeInsets.symmetric(horizontal: Insets.medium.w),
+        padding: EdgeInsets.symmetric(horizontal: BaseSize.w12),
         decoration: BoxDecoration(
           color: Colors.grey.shade100,
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            SizedBox(height: Insets.small.h),
+            Gap.h6,
             Text(
               'mapalus ${controller.currentVersion.value}',
               style: TextStyle(
-                    color: Colors.grey,
-                    fontWeight: FontWeight.w300,
-                    fontSize: 12.sp,
-                  ),
+                color: Colors.grey,
+                fontWeight: FontWeight.w300,
+                fontSize: 12.sp,
+              ),
             ),
             Text(
               'www.meimodev.com',
               style: TextStyle(
-                    color: Colors.grey,
-                    fontWeight: FontWeight.w300,
-                    fontSize: 12.sp,
-                  ),
+                color: Colors.grey,
+                fontWeight: FontWeight.w300,
+                fontSize: 12.sp,
+              ),
             ),
             Row(
               children: [
                 Text(
-                  'with ♥ ${Jiffy().year} ',
+                  'with ♥ ${DateTime.now().year} ',
                   style: TextStyle(
-                        color: Colors.grey,
-                        fontWeight: FontWeight.w300,
-                        fontSize: 12.sp,
-                      ),
+                    color: Colors.grey,
+                    fontWeight: FontWeight.w300,
+                    fontSize: 12.sp,
+                  ),
                 ),
                 SvgPicture.asset(
                   'assets/images/logo_meimo.svg',
@@ -232,12 +235,12 @@ class AccountSettingsScreen extends GetView<AccountSettingsController> {
                   height: 18.sp,
                 ),
               ),
-              SizedBox(width: Insets.small.w * .5),
+              Gap.w12,
               Text(
                 text,
                 style: TextStyle(
-                      fontSize: 14.sp,
-                    ),
+                  fontSize: 14.sp,
+                ),
               ),
             ],
           ),

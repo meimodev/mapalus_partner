@@ -1,8 +1,9 @@
+import 'dart:developer' as dev;
+
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
-import 'package:mapalus_partner/shared/routes.dart';
 import 'package:mapalus_flutter_commons/mapalus_flutter_commons.dart';
-import 'dart:developer' as dev;
+import 'package:mapalus_partner/shared/routes.dart';
 
 class HomeController extends GetxController {
   UserRepoPartner userRepo = Get.find<UserRepoPartner>();
@@ -44,7 +45,7 @@ class HomeController extends GetxController {
       return;
     }
     _initPartnerFCMToken();
-    _initNewOrderListener();
+    // _initNewOrderListener();
     _initNotificationHandler();
     super.onReady();
   }
@@ -77,9 +78,9 @@ class HomeController extends GetxController {
 
   _loadTodayOrders() async {
     isLoading.value = true;
-    var oo = await orderRepo.readOrdersToday();
+    // var oo = await orderRepo.readOrdersToday();
     tecProductFilter.text = '';
-    orders.value = List<OrderApp>.from(oo.reversed);
+    // orders.value = List<OrderApp>.from(oo.reversed);
     // dev.log(orders.first.toString());
 
     //show the list on screen
@@ -90,11 +91,11 @@ class HomeController extends GetxController {
     isLoading.value = true;
     // await Future.delayed(1.seconds);
 
-    var pp = await productRepo.readProducts();
-    var p = List<Product>.from(pp);
+    // var pp = await productRepo.readProducts();
+    // var p = List<Product>.from(pp);
     // p.sort((a, b) => a.name.toLowerCase().compareTo(b.name.toLowerCase()));
 
-    products.value = List<Product>.from(p);
+    // products.value = List<Product>.from(p);
     _tempProducts = List<Product>.of(products);
     //show the list on screen
     isLoading.value = false;
@@ -210,58 +211,58 @@ class HomeController extends GetxController {
     await FirebaseMessaging.instance.subscribeToTopic(partner.id);
   }
 
-  void _initNewOrderListener() {
-    orderRepo.firestore.getOrdersStream().listen((snapShot) {
-      isLoading.value = true;
-      if (orders.isEmpty) {
-        // Populate order first time screen init
-        orders.value = snapShot.docs
-            .where((e) {
-              final o = OrderApp.fromMap(e.data() as Map<String, dynamic>);
-              // dev.log(o.toString());
-              return o.orderTimeStamp.isSame(DateTime.now(), Units.DAY);
-            })
-            .map((e) => OrderApp.fromMap(e.data() as Map<String, dynamic>))
-            .toList()
-            .reversed
-            .toList();
-        isLoading.value = false;
-
-        return;
-      }
-
-      var docChanges = snapShot.docChanges;
-      for (var d in docChanges) {
-        var map = d.doc.data() as Map<String, dynamic>;
-        var order = OrderApp.fromMap(map);
-        final existIndex =
-            orders.indexWhere((element) => element.id == order.id);
-
-        if (existIndex == -1) {
-          orders.insert(0, order);
-          Get.rawSnackbar(
-            message: "New Order received | #${order.idMinified}",
-          );
-          // FlutterRingtonePlayer.play(
-          //   android: AndroidSounds.notification,
-          //   ios: IosSounds.glass,
-          //   looping: false,
-          //   volume: 1,
-          //   asAlarm: true,
-          // );
-        } else {
-          // orders.replaceRange(existIndex, existIndex, [order]);
-          orders.removeAt(existIndex);
-          orders.insert(existIndex, order);
-          // Get.rawSnackbar(
-          //   message: "Order #${order.idMinified} updated",
-          // );
-        }
-      }
-
-      isLoading.value = false;
-    });
-  }
+  // void _initNewOrderListener() {
+  //   orderRepo.firestore.getOrdersStream().listen((snapShot) {
+  //     isLoading.value = true;
+  //     if (orders.isEmpty) {
+  //       // Populate order first time screen init
+  //       orders.value = snapShot.docs
+  //           .where((e) {
+  //             final o = OrderApp.fromMap(e.data() as Map<String, dynamic>);
+  //             // dev.log(o.toString());
+  //             return o.orderTimeStamp.isSame(DateTime.now(), Units.DAY);
+  //           })
+  //           .map((e) => OrderApp.fromMap(e.data() as Map<String, dynamic>))
+  //           .toList()
+  //           .reversed
+  //           .toList();
+  //       isLoading.value = false;
+  //
+  //       return;
+  //     }
+  //
+  //     var docChanges = snapShot.docChanges;
+  //     for (var d in docChanges) {
+  //       var map = d.doc.data() as Map<String, dynamic>;
+  //       var order = OrderApp.fromMap(map);
+  //       final existIndex =
+  //           orders.indexWhere((element) => element.id == order.id);
+  //
+  //       if (existIndex == -1) {
+  //         orders.insert(0, order);
+  //         Get.rawSnackbar(
+  //           message: "New Order received | #${order.idMinified}",
+  //         );
+  //         // FlutterRingtonePlayer.play(
+  //         //   android: AndroidSounds.notification,
+  //         //   ios: IosSounds.glass,
+  //         //   looping: false,
+  //         //   volume: 1,
+  //         //   asAlarm: true,
+  //         // );
+  //       } else {
+  //         // orders.replaceRange(existIndex, existIndex, [order]);
+  //         orders.removeAt(existIndex);
+  //         orders.insert(existIndex, order);
+  //         // Get.rawSnackbar(
+  //         //   message: "Order #${order.idMinified} updated",
+  //         // );
+  //       }
+  //     }
+  //
+  //     isLoading.value = false;
+  //   });
+  // }
 
   void updateProductList(Product product, {bool isDeletion = false}) {
     if (isDeletion) {
@@ -291,9 +292,9 @@ class HomeController extends GetxController {
     activeNavBottomIndex.value = 3;
 
     isLoading.value = true;
-    var oo = await orderRepo.readOrders();
+    // var oo = await orderRepo.readOrders();
     tecProductFilter.text = '';
-    orders.value = List<OrderApp>.from(oo.reversed);
+    // orders.value = List<OrderApp>.from(oo.reversed);
 
     isLoading.value = false;
   }

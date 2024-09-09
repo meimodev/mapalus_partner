@@ -35,7 +35,7 @@ class _DialogRatingState extends State<DialogRating> {
         clipBehavior: Clip.hardEdge,
         padding: EdgeInsets.all(12.sp),
         decoration: BoxDecoration(
-          color: Palette.cardForeground,
+          color: BaseColor.cardBackground1,
           borderRadius: BorderRadius.circular(9.sp),
         ),
         child: Column(
@@ -48,16 +48,16 @@ class _DialogRatingState extends State<DialogRating> {
                 fontSize: 14.sp,
               ),
             ),
-            SizedBox(height: Insets.medium.h),
+            Gap.h12,
             Container(
               height: 210.h,
-              margin: EdgeInsets.symmetric(horizontal: Insets.small.w),
+              margin: EdgeInsets.symmetric(horizontal: BaseSize.w12),
               padding: EdgeInsets.symmetric(
                 horizontal: 9.w,
               ),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(9.sp),
-                color: Palette.editable,
+                color: BaseColor.editable,
               ),
               child: TextField(
                 controller: tecMessage,
@@ -67,11 +67,11 @@ class _DialogRatingState extends State<DialogRating> {
                 scrollPhysics: const BouncingScrollPhysics(),
                 autocorrect: false,
                 style: TextStyle(
-                  color: Palette.accent,
+                  color: BaseColor.accent,
                   fontFamily: fontFamily,
                   fontSize: 14.sp,
                 ),
-                cursorColor: Palette.primary,
+                cursorColor: BaseColor.primary3,
                 decoration: InputDecoration(
                   hintStyle: TextStyle(
                     fontFamily: fontFamily,
@@ -83,7 +83,7 @@ class _DialogRatingState extends State<DialogRating> {
                 ),
               ),
             ),
-            SizedBox(height: Insets.small.h),
+            Gap.h12,
             SizedBox(
               width: 50.w,
               height: 50.h,
@@ -93,7 +93,7 @@ class _DialogRatingState extends State<DialogRating> {
                   minRating: 1,
                   direction: Axis.horizontal,
                   itemCount: 5,
-                  glowColor: Palette.editable.withOpacity(.25),
+                  glowColor: BaseColor.editable.withOpacity(.25),
                   itemSize: 27.sp,
                   itemPadding: EdgeInsets.symmetric(horizontal: 6.w),
                   onRatingUpdate: (rating) {
@@ -103,18 +103,18 @@ class _DialogRatingState extends State<DialogRating> {
                       SvgPicture.asset(
                     'assets/vectors/star.svg',
                     colorFilter: const ColorFilter.mode(
-                      Palette.primary,
+                      BaseColor.primary3,
                       BlendMode.srcIn,
                     ),
                   ),
                   updateOnDrag: true,
-                  unratedColor: Palette.accent,
+                  unratedColor: BaseColor.accent,
                 ),
               ),
             ),
-            SizedBox(height: Insets.small.h),
+            Gap.h12,
             Material(
-              color: Palette.primary,
+              color: BaseColor.primary3,
               borderRadius: BorderRadius.circular(9.sp),
               child: InkWell(
                 onTap: () {
@@ -122,8 +122,8 @@ class _DialogRatingState extends State<DialogRating> {
                 },
                 child: Padding(
                   padding: EdgeInsets.symmetric(
-                    horizontal: Insets.small.w,
-                    vertical: Insets.small.h,
+                    horizontal: BaseSize.w12,
+                    vertical: BaseSize.h12,
                   ),
                   child: const Center(
                     child: Text(

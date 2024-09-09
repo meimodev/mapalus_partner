@@ -23,10 +23,7 @@ class DefaultFirebaseOptions {
       case TargetPlatform.android:
         return android;
       case TargetPlatform.iOS:
-        throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for ios - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
-        );
+        return ios;
       case TargetPlatform.macOS:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for macos - '
@@ -66,4 +63,16 @@ class DefaultFirebaseOptions {
     projectId: 'mapalus-a26af',
     storageBucket: 'mapalus-a26af.appspot.com',
   );
+
+  static const FirebaseOptions ios = FirebaseOptions(
+    apiKey: 'AIzaSyCqyObzq2VZHOZ1fNPM5eNO6CERvYggt-s',
+    appId: '1:342086903599:ios:ffbb8242ebfce3fefc63da',
+    messagingSenderId: '342086903599',
+    projectId: 'mapalus-a26af',
+    storageBucket: 'mapalus-a26af.appspot.com',
+    androidClientId: '342086903599-5d7ht8nn9vn6vgve24g9i0uvbnivf0l1.apps.googleusercontent.com',
+    iosClientId: '342086903599-q3kinoaoub8fi30arvkitatld4rioojc.apps.googleusercontent.com',
+    iosBundleId: 'com.meimodev.mapalusPartner',
+  );
+
 }

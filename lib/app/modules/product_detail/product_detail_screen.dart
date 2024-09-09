@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:mapalus_partner/app/modules/product_detail/product_detail_controller.dart';
-import 'package:mapalus_partner/app/widgets/card_navigation.dart';
 import 'package:get/get.dart';
 import 'package:mapalus_flutter_commons/mapalus_flutter_commons.dart';
+import 'package:mapalus_partner/app/modules/product_detail/product_detail_controller.dart';
+import 'package:mapalus_partner/app/widgets/card_navigation.dart';
 
 class ProductDetailScreen extends GetView<ProductDetailController> {
   const ProductDetailScreen({Key? key}) : super(key: key);
@@ -15,7 +15,8 @@ class ProductDetailScreen extends GetView<ProductDetailController> {
           duration: const Duration(milliseconds: 400),
           child: controller.isLoading.value
               ? const Center(
-                  child: CircularProgressIndicator(color: Palette.primary))
+                  child: CircularProgressIndicator(color: BaseColor.primary3),
+                )
               : Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
@@ -29,14 +30,13 @@ class ProductDetailScreen extends GetView<ProductDetailController> {
                     Expanded(
                       child: SingleChildScrollView(
                         physics: const BouncingScrollPhysics(),
-                        padding:
-                            EdgeInsets.symmetric(horizontal: Insets.medium.w),
+                        padding: EdgeInsets.symmetric(horizontal: BaseSize.w12),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
-                            SizedBox(height: Insets.small.h),
+                            Gap.h12,
                             _buildImageSelector(controller.onPressedImage),
-                            SizedBox(height: Insets.small.h),
+                            Gap.h12,
                             _buildListItem(
                               context: context,
                               title: "Name",
@@ -59,7 +59,7 @@ class ProductDetailScreen extends GetView<ProductDetailController> {
                             _buildListItem(
                                 context: context,
                                 title: "Unit",
-                                value: controller.product.unit,
+                                value: controller.product.unit.name,
                                 controller: controller.tecUnit,
                                 onTextChanged: (value) {
                                   if (value.toLowerCase() == 'kilogram') {
@@ -108,12 +108,12 @@ class ProductDetailScreen extends GetView<ProductDetailController> {
                               controller: controller.tecMinimumPrice,
                               numbersOnly: true,
                             ),
-                            SizedBox(height: Insets.large.h),
+                            Gap.h24,
                             controller.isAdding.isTrue
                                 ? const SizedBox()
                                 : _buildDeleteButton(
                                     context, controller.onPressedDelete),
-                            SizedBox(height: Insets.large.h),
+                            Gap.h24,
                           ],
                         ),
                       ),
@@ -141,15 +141,15 @@ class ProductDetailScreen extends GetView<ProductDetailController> {
   }) {
     return Container(
       margin: EdgeInsets.symmetric(
-        vertical: Insets.small.h * .5,
+        vertical: BaseSize.h6,
       ),
       padding: EdgeInsets.symmetric(
-        horizontal: Insets.small.w,
-        vertical: 2.w,
+        horizontal: BaseSize.w12,
+        vertical: 2,
       ),
       decoration: BoxDecoration(
-        color: Palette.editable,
-        borderRadius: BorderRadius.circular(9.sp),
+        color: BaseColor.editable,
+        borderRadius: BorderRadius.circular(BaseSize.radiusMd),
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -164,17 +164,17 @@ class ProductDetailScreen extends GetView<ProductDetailController> {
                 numbersOnly ? TextInputType.number : TextInputType.text,
             textInputAction: TextInputAction.next,
             style: TextStyle(
-              color: Palette.accent,
+              color: BaseColor.accent,
               fontFamily: fontFamily,
               fontSize: 12.sp,
             ),
-            cursorColor: Palette.primary,
+            cursorColor: BaseColor.primary3,
             decoration: InputDecoration(
               labelStyle: TextStyle(
                 fontFamily: fontFamily,
                 fontSize: 12.sp,
                 fontWeight: FontWeight.w300,
-                color: Palette.textPrimary,
+                color: BaseColor.primaryText,
               ),
               isDense: true,
               border: InputBorder.none,
@@ -188,7 +188,7 @@ class ProductDetailScreen extends GetView<ProductDetailController> {
           //         ? Text(
           //       controller.errorText.value,
           //       style: Theme.of(context).textTheme.bodyText1?.copyWith(
-          //         color: Palette.negative,
+          //         color: BaseColor.negative,
           //         fontSize: 10.sp,
           //         fontWeight: FontWeight.w300,
           //       ),
@@ -212,13 +212,13 @@ class ProductDetailScreen extends GetView<ProductDetailController> {
         Text(
           title,
           style: TextStyle(
-                fontSize: 12.sp,
-                fontWeight: FontWeight.w300,
-              ),
+            fontSize: 12.sp,
+            fontWeight: FontWeight.w300,
+          ),
         ),
         Checkbox(
-          activeColor: Palette.primary,
-          checkColor: Palette.accent,
+          activeColor: BaseColor.primary3,
+          checkColor: BaseColor.accent,
           visualDensity: VisualDensity.comfortable,
           value: value,
           onChanged: onChange,
@@ -230,7 +230,7 @@ class ProductDetailScreen extends GetView<ProductDetailController> {
   _buildImageSelector(VoidCallback onPressedImage) {
     return Material(
       clipBehavior: Clip.hardEdge,
-      color: Palette.primary,
+      color: BaseColor.primary3,
       shape: const CircleBorder(),
       child: InkWell(
         onTap: onPressedImage,
@@ -238,7 +238,7 @@ class ProductDetailScreen extends GetView<ProductDetailController> {
           height: 400.sp,
           width: 400.sp,
           child: CustomImage(
-            imageUrl: controller.product.imageUrl,
+            imageUrl: controller.product.image,
           ),
         ),
       ),
@@ -253,16 +253,16 @@ class ProductDetailScreen extends GetView<ProductDetailController> {
             ? const SizedBox()
             : Padding(
                 padding: EdgeInsets.symmetric(
-                  vertical: Insets.small.h,
-                  horizontal: Insets.medium.w,
+                  vertical: BaseSize.h12,
+                  horizontal: BaseSize.w12,
                 ),
                 child: Text(
                   controller.errorText.value,
                   style: TextStyle(
-                        color: Palette.negative,
-                        fontSize: 14.sp,
-                        fontWeight: FontWeight.w300,
-                      ),
+                    color: BaseColor.negative,
+                    fontSize: 14.sp,
+                    fontWeight: FontWeight.w300,
+                  ),
                   textAlign: TextAlign.center,
                 ),
               ),
@@ -275,9 +275,9 @@ class ProductDetailScreen extends GetView<ProductDetailController> {
     VoidCallback onPressed,
   ) {
     return Material(
-      color: Palette.primary,
+      color: BaseColor.primary3,
       borderRadius: BorderRadius.vertical(
-        top: Radius.circular(9.sp),
+        top: Radius.circular(BaseSize.radiusMd),
       ),
       clipBehavior: Clip.hardEdge,
       child: InkWell(
@@ -285,16 +285,16 @@ class ProductDetailScreen extends GetView<ProductDetailController> {
         child: Container(
           width: double.infinity,
           padding: EdgeInsets.symmetric(
-            vertical: Insets.small.h,
+            vertical: BaseSize.h12,
           ),
           child: Text(
             controller.isAdding.isTrue ? "Add" : 'Save',
             textAlign: TextAlign.center,
             style: TextStyle(
-                  color: Palette.accent,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 14.sp,
-                ),
+              color: BaseColor.accent,
+              fontWeight: FontWeight.bold,
+              fontSize: 14.sp,
+            ),
           ),
         ),
       ),
@@ -306,7 +306,7 @@ class ProductDetailScreen extends GetView<ProductDetailController> {
     Function(String productId) onPressed,
   ) {
     return Material(
-      color: Palette.negative,
+      color: BaseColor.negative,
       borderRadius: BorderRadius.circular(9.sp),
       clipBehavior: Clip.hardEdge,
       elevation: 2,
@@ -317,16 +317,16 @@ class ProductDetailScreen extends GetView<ProductDetailController> {
         child: Container(
           width: double.infinity,
           padding: EdgeInsets.symmetric(
-            vertical: Insets.small.h,
+            vertical: BaseSize.h12,
           ),
           child: Text(
             "Delete Product",
             textAlign: TextAlign.center,
-            style: TextStyle (
-                  color: Palette.cardForeground,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 14.sp,
-                ),
+            style: TextStyle(
+              color: BaseColor.cardBackground1,
+              fontWeight: FontWeight.bold,
+              fontSize: 14.sp,
+            ),
           ),
         ),
       ),
@@ -340,10 +340,10 @@ class ProductDetailScreen extends GetView<ProductDetailController> {
   ) {
     return Container(
       margin: EdgeInsets.symmetric(
-        vertical: Insets.small.h * .5,
+        vertical: BaseSize.h12,
       ),
       decoration: BoxDecoration(
-        color: Palette.editable,
+        color: BaseColor.editable,
         borderRadius: BorderRadius.circular(9.sp),
       ),
       child: DropDown<String>(
@@ -351,33 +351,32 @@ class ProductDetailScreen extends GetView<ProductDetailController> {
         items: controller.categories,
         hint: Padding(
           padding: EdgeInsets.only(
-            left: Insets.small.w,
+            left: BaseSize.w12,
           ),
           child: Text(
             current.isEmpty ? 'Category' : current,
-            style:TextStyle (
-                  color: Palette.accent,
-                  fontSize: 12.sp,
-                  fontWeight:
-                      current.isEmpty ? FontWeight.w400 : FontWeight.w300,
-                ),
+            style: TextStyle(
+              color: BaseColor.accent,
+              fontSize: 12.sp,
+              fontWeight: current.isEmpty ? FontWeight.w400 : FontWeight.w300,
+            ),
           ),
         ),
         customWidgets: <Widget>[
           for (var e in controller.categories)
             Padding(
               padding: EdgeInsets.only(
-                left: Insets.small.w,
+                left: BaseSize.w12,
               ),
               child: Text(
                 e,
-                style: TextStyle (
-                      color: Palette.accent,
-                      fontWeight: e.toLowerCase() == current.toLowerCase()
-                          ? FontWeight.bold
-                          : FontWeight.w400,
-                      fontSize: 12.sp,
-                    ),
+                style: TextStyle(
+                  color: BaseColor.accent,
+                  fontWeight: e.toLowerCase() == current.toLowerCase()
+                      ? FontWeight.bold
+                      : FontWeight.w400,
+                  fontSize: 12.sp,
+                ),
               ),
             ),
         ],

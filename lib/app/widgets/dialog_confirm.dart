@@ -20,10 +20,10 @@ class DialogConfirm extends StatelessWidget {
     return Dialog(
       child: Container(
         padding: EdgeInsets.only(
-          top: Insets.medium.h,
-          left: Insets.medium.w,
-          right: Insets.medium.w,
-          bottom: Insets.small.h,
+          top: BaseSize.h24,
+          left: BaseSize.w12,
+          right: BaseSize.w12,
+          bottom: BaseSize.h12,
         ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -31,24 +31,24 @@ class DialogConfirm extends StatelessWidget {
             Text(
               title ?? 'Perhatian !',
               style: TextStyle(
-                    fontSize: 16.sp,
-                  ),
+                fontSize: 16.sp,
+              ),
             ),
-            SizedBox(height: Insets.small.h),
+            Gap.h12,
             Text(
               description ?? '',
               style: TextStyle(
-                    fontSize: 13.sp,
-                    fontWeight: FontWeight.w300,
-                  ),
+                fontSize: 13.sp,
+                fontWeight: FontWeight.w300,
+              ),
             ),
-            SizedBox(height: Insets.medium.h),
+            Gap.h24,
             Row(
               children: [
                 const Expanded(child: SizedBox()),
                 Material(
                   shape: ContinuousRectangleBorder(
-                    borderRadius: BorderRadius.circular(12.sp),
+                    borderRadius: BorderRadius.circular(BaseSize.radiusSm),
                   ),
                   child: InkWell(
                     onTap: () {
@@ -57,16 +57,15 @@ class DialogConfirm extends StatelessWidget {
                     },
                     child: Container(
                       padding: EdgeInsets.symmetric(
-                        horizontal: Insets.small.w,
-                        vertical: Insets.small.h * .5,
+                        horizontal: BaseSize.w12,
+                        vertical: BaseSize.h12,
                       ),
                       child: Center(
                         child: Text(
                           confirmText ?? 'HAPUS',
-                          style:
-                          const TextStyle(
-                                    color: Palette.primary,
-                                  ),
+                          style: const TextStyle(
+                            color: BaseColor.primary3,
+                          ),
                         ),
                       ),
                     ),

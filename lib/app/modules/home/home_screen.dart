@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:mapalus_flutter_commons/mapalus_flutter_commons.dart';
 import 'package:mapalus_partner/app/modules/home/home_controller.dart';
 import 'package:mapalus_partner/app/widgets/card_order.dart';
 import 'package:mapalus_partner/app/widgets/card_product.dart';
 import 'package:mapalus_partner/shared/routes.dart';
-import 'package:mapalus_flutter_commons/mapalus_flutter_commons.dart';
 
 class HomeScreen extends GetView<HomeController> {
   const HomeScreen({Key? key}) : super(key: key);
@@ -26,10 +26,10 @@ class HomeScreen extends GetView<HomeController> {
               children: [
                 Container(
                   padding: EdgeInsets.symmetric(
-                    vertical: Insets.small.h,
+                    vertical: BaseSize.h12,
                   ),
                   decoration: BoxDecoration(
-                    color: Palette.cardForeground,
+                    color: BaseColor.cardBackground1,
                     borderRadius: const BorderRadius.only(
                       bottomLeft: Radius.circular(30),
                       bottomRight: Radius.circular(30),
@@ -49,7 +49,7 @@ class HomeScreen extends GetView<HomeController> {
                     children: [
                       SizedBox(width: 12.w),
                       Material(
-                        color: Palette.primary,
+                        color: BaseColor.primary3,
                         shape: const CircleBorder(),
                         elevation: 3,
                         clipBehavior: Clip.hardEdge,
@@ -118,7 +118,7 @@ class HomeScreen extends GetView<HomeController> {
                       child: controller.isLoading.value
                           ? const Center(
                               child: CircularProgressIndicator(
-                                color: Palette.primary,
+                                color: BaseColor.primary3,
                               ),
                             )
                           : _buildListSwitcher(
@@ -145,14 +145,14 @@ class HomeScreen extends GetView<HomeController> {
             ),
           ),
           Positioned(
-            right: Insets.medium.w,
+            right: BaseSize.w12,
             bottom: 120.h,
             child: Obx(
               () => AnimatedSwitcher(
                 duration: 400.milliseconds,
                 child: controller.activeNavBottomIndex.value == 2
                     ? Material(
-                        color: Palette.primary,
+                        color: BaseColor.primary3,
                         shape: const CircleBorder(),
                         clipBehavior: Clip.hardEdge,
                         elevation: 3,
@@ -165,7 +165,7 @@ class HomeScreen extends GetView<HomeController> {
                               child: Text(
                                 '+',
                                 style: TextStyle(
-                                  color: Palette.accent,
+                                  color: BaseColor.accent,
                                   fontSize: 30.sp,
                                 ),
                               ),
@@ -191,13 +191,13 @@ class HomeScreen extends GetView<HomeController> {
       return Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          SizedBox(height: Insets.small.h),
+          Gap.h12,
           Expanded(
             child: Obx(
               () => controller.orders.isNotEmpty
                   ? ListView.builder(
                       padding: EdgeInsets.only(
-                        bottom: Insets.large.h * 2,
+                        bottom: BaseSize.h24,
                       ),
                       addAutomaticKeepAlives: true,
                       physics: const BouncingScrollPhysics(),
@@ -217,7 +217,7 @@ class HomeScreen extends GetView<HomeController> {
                       child: Text(
                         'No Order Yet',
                         style: TextStyle(
-                            color: Palette.accent,
+                            color: BaseColor.accent,
                             fontSize: 15.sp,
                             fontWeight: FontWeight.bold),
                       ),
@@ -233,10 +233,10 @@ class HomeScreen extends GetView<HomeController> {
         children: [
           Container(
             padding: EdgeInsets.only(
-              left: Insets.medium.w,
-              right: Insets.medium.w,
-              bottom: Insets.medium.h,
-              top: Insets.medium.h,
+              left: BaseSize.w12,
+              right: BaseSize.w12,
+              bottom: BaseSize.h12,
+              top: BaseSize.h12,
             ),
             child: TextField(
               controller: controller.tecProductFilter,
@@ -244,29 +244,29 @@ class HomeScreen extends GetView<HomeController> {
               style: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 13.sp,
-                color: Palette.accent,
+                color: BaseColor.accent,
               ),
               textInputAction: TextInputAction.done,
               maxLines: 1,
               decoration: InputDecoration(
                 isDense: true,
-                focusColor: Palette.primary,
+                focusColor: BaseColor.primary3,
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12.sp),
                   borderSide: const BorderSide(
-                    color: Palette.primary,
+                    color: BaseColor.primary3,
                   ),
                 ),
                 enabledBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12.sp),
                   borderSide: const BorderSide(
-                    color: Palette.accent,
+                    color: BaseColor.accent,
                   ),
                 ),
                 focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12.sp),
                   borderSide: const BorderSide(
-                    color: Palette.primary,
+                    color: BaseColor.primary3,
                   ),
                 ),
                 labelText: "Filter",
@@ -279,7 +279,7 @@ class HomeScreen extends GetView<HomeController> {
           ),
           Expanded(
             child: ListView.builder(
-              padding: EdgeInsets.only(bottom: Insets.large.h * 2),
+              padding: EdgeInsets.only(bottom: BaseSize.h24),
               addAutomaticKeepAlives: true,
               physics: const BouncingScrollPhysics(),
               itemBuilder: (context, index) {
@@ -312,7 +312,7 @@ class HomeScreen extends GetView<HomeController> {
         () => Text(
           'Total orders ${controller.orders.length}',
           style: TextStyle(
-            color: Palette.accent,
+            color: BaseColor.accent,
             fontWeight: FontWeight.w300,
             fontSize: 10.sp,
           ),
@@ -324,7 +324,7 @@ class HomeScreen extends GetView<HomeController> {
       () => Text(
         'Total products ${controller.products.length}',
         style: TextStyle(
-          color: Palette.accent,
+          color: BaseColor.accent,
           fontWeight: FontWeight.w300,
           fontSize: 10.sp,
         ),
@@ -352,7 +352,7 @@ class _BuildBottomNav extends StatelessWidget {
     return Container(
       clipBehavior: Clip.hardEdge,
       decoration: BoxDecoration(
-        color: Palette.cardForeground,
+        color: BaseColor.cardBackground1,
         borderRadius: const BorderRadius.only(
           topLeft: Radius.circular(30),
           topRight: Radius.circular(30),
@@ -409,25 +409,25 @@ class _BuildBottomNav extends StatelessWidget {
         child: InkWell(
           onTap: onPressed,
           child: Padding(
-            padding: EdgeInsets.symmetric(vertical: Insets.small.h),
+            padding: EdgeInsets.symmetric(vertical: BaseSize.h12),
             child: Column(
               mainAxisSize: MainAxisSize.max,
               children: [
                 SvgPicture.asset(
                   imageAssetPath,
                   colorFilter: ColorFilter.mode(
-                    active ? Palette.primary : Colors.grey,
+                    active ? BaseColor.primary3 : Colors.grey,
                     BlendMode.srcIn,
                   ),
                   width: active ? 21.w : 19.w,
                   height: active ? 21.h : 19.h,
                 ),
-                SizedBox(height: Insets.small.h * .5),
+                SizedBox(height: BaseSize.h6),
                 Text(
                   title,
                   style: TextStyle(
                     fontSize: 12.sp,
-                    color: active ? Palette.accent : Colors.grey,
+                    color: active ? BaseColor.accent : Colors.grey,
                   ),
                 ),
               ],

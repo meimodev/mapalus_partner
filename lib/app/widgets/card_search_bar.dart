@@ -17,16 +17,16 @@ class CardSearchBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: Palette.editable,
-        borderRadius: BorderRadius.circular(Roundness.large.sp),
+        color: BaseColor.editable,
+        borderRadius: BorderRadius.circular(BaseSize.radiusLg),
       ),
       padding: EdgeInsets.symmetric(
-        vertical: Insets.small.h * .5,
-        horizontal: Insets.small.h * .5,
+        vertical: BaseSize.h12,
+        horizontal: BaseSize.h12,
       ),
       child: Padding(
         padding: EdgeInsets.symmetric(
-          horizontal: Insets.small.w * .25,
+          horizontal: BaseSize.w12,
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -34,7 +34,7 @@ class CardSearchBar extends StatelessWidget {
             Expanded(
               child: Row(
                 children: [
-                  SizedBox(width: Insets.small.w * .5),
+                  Gap.w12,
                   SvgPicture.asset(
                     'assets/vectors/search.svg',
                     height: 15.sp,
@@ -44,18 +44,18 @@ class CardSearchBar extends StatelessWidget {
                       BlendMode.srcIn,
                     ),
                   ),
-                  SizedBox(width: Insets.small.w * 1),
+                  Gap.w12,
                   Flexible(
                     child: TextField(
                       onSubmitted: onSubmitted,
                       maxLines: 1,
                       autocorrect: false,
                       style: TextStyle(
-                        color: Palette.accent,
+                        color: BaseColor.accent,
                         fontFamily: fontFamily,
                         fontSize: 12.sp,
                       ),
-                      cursorColor: Palette.primary,
+                      cursorColor: BaseColor.primary3,
                       decoration: InputDecoration(
                         hintStyle: TextStyle(
                           fontFamily: fontFamily,
@@ -70,7 +70,7 @@ class CardSearchBar extends StatelessWidget {
                 ],
               ),
             ),
-            SizedBox(width: Insets.small.w * .5),
+            Gap.w12,
             Badge(
               showBadge: notificationBadgeCount > 0,
               badgeContent: Center(
@@ -78,13 +78,13 @@ class CardSearchBar extends StatelessWidget {
                   notificationBadgeCount.toString(),
                   style: TextStyle(
                     fontSize: 10.sp,
-                    color: Palette.editable,
+                    color: BaseColor.editable,
                   ),
                 ),
               ),
               child: Material(
                 shape: const CircleBorder(),
-                color: Palette.accent,
+                color: BaseColor.accent,
                 child: InkWell(
                   onTap: onLogoPressed,
                   child: Container(
@@ -96,7 +96,7 @@ class CardSearchBar extends StatelessWidget {
                       height: 12.sp,
                       width: 12.sp,
                       colorFilter: const ColorFilter.mode(
-                        Palette.primary,
+                        BaseColor.primaryText,
                         BlendMode.srcIn,
                       ),
                     ),

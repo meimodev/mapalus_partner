@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:mapalus_flutter_commons/mapalus_flutter_commons.dart';
 import 'package:mapalus_partner/app/modules/order_detail/order_detail_controller.dart';
 import 'package:mapalus_partner/app/widgets/card_navigation.dart';
 import 'package:mapalus_partner/app/widgets/card_order_detail_item.dart';
-import 'package:mapalus_flutter_commons/mapalus_flutter_commons.dart';
-import 'package:get/get.dart';
 
 class OrderDetailScreen extends GetView<OrderDetailController> {
   const OrderDetailScreen({Key? key}) : super(key: key);
@@ -11,13 +11,13 @@ class OrderDetailScreen extends GetView<OrderDetailController> {
   @override
   Widget build(BuildContext context) {
     return ScreenWrapper(
-      backgroundColor: Palette.accent,
+      backgroundColor: BaseColor.accent,
       child: Stack(
         children: [
           Positioned(
             left: 0,
             top: 0,
-            right: Insets.medium,
+            right: BaseSize.w12,
             child: Row(
               children: [
                 const CardNavigation(
@@ -29,9 +29,9 @@ class OrderDetailScreen extends GetView<OrderDetailController> {
                   children: [
                     Obx(
                       () => Text(
-                        '#${controller.order.value.idMinified}',
+                        '#${controller.order.value}',
                         style: const TextStyle(
-                          color: Palette.cardForeground,
+                          color: BaseColor.cardBackground1,
                         ),
                       ),
                     ),
@@ -41,7 +41,7 @@ class OrderDetailScreen extends GetView<OrderDetailController> {
                         style: TextStyle(
                           fontWeight: FontWeight.w300,
                           fontSize: 10.sp,
-                          color: Palette.cardForeground,
+                          color: BaseColor.cardBackground1,
                         ),
                       ),
                     ),
@@ -53,21 +53,21 @@ class OrderDetailScreen extends GetView<OrderDetailController> {
                     children: [
                       Obx(
                         () => Text(
-                          controller.order.value.orderInfo.deliveryTime,
+                          "controller.order.value.orderInfo.deliveryTime",
                           style: TextStyle(
                             fontWeight: FontWeight.w300,
                             fontSize: 12.sp,
-                            color: Palette.cardForeground,
+                            color: BaseColor.cardBackground1,
                           ),
                         ),
                       ),
                       Obx(
                         () => Text(
-                          'Dipesan ${controller.order.value.orderTimeStamp.format("E, dd MMM HH:mm:ss")}',
+                          'Dipesan ${controller.order.value}',
                           style: TextStyle(
                             fontSize: 10.sp,
                             fontWeight: FontWeight.w300,
-                            color: Palette.cardForeground,
+                            color: BaseColor.cardBackground1,
                           ),
                         ),
                       ),
@@ -80,7 +80,7 @@ class OrderDetailScreen extends GetView<OrderDetailController> {
           Positioned(
             left: 0,
             right: 0,
-            top: Insets.medium * 3,
+            top: BaseSize.h24,
             bottom: 0,
             child: Column(
               children: [
@@ -101,7 +101,7 @@ class OrderDetailScreen extends GetView<OrderDetailController> {
           ),
           Positioned(
             bottom: 0,
-            right: Insets.small,
+            right: BaseSize.w12,
             child: Obx(
               () => AnimatedSwitcher(
                 duration: const Duration(milliseconds: 400),
@@ -119,7 +119,7 @@ class OrderDetailScreen extends GetView<OrderDetailController> {
   _buildLoadingLayout() {
     return const Center(
       child: CircularProgressIndicator(
-        color: Palette.primary,
+        color: BaseColor.primary3,
       ),
     );
   }
@@ -141,27 +141,26 @@ class OrderDetailScreen extends GetView<OrderDetailController> {
                       index: (i + 1).toString(),
                       productName:
                           controller.order.value.products[i].product.name,
-                      productPrice:
-                          controller.order.value.products[i].totalPriceString,
+                      productPrice: "controller.order.value.products[i]",
                       productWeight:
-                          '${controller.order.value.products[i].quantityString} ${controller.order.value.products[i].product.unit}',
+                          '${controller.order.value.products[i]} ${controller.order.value.products[i].product.unit}',
                       onChangeCheck: (value) {
                         controller.onChangeCheck(
                             value, controller.order.value.products[i]);
                       },
                     ),
-                  const SizedBox(height: Insets.small),
+                  Gap.h12,
                   Container(
                     margin: EdgeInsets.symmetric(
-                      horizontal: Insets.medium.w * .5,
+                      horizontal: BaseSize.w12,
                     ),
                     padding: EdgeInsets.symmetric(
-                      horizontal: Insets.medium.h,
-                      vertical: Insets.medium.w * .5,
+                      horizontal: BaseSize.w12,
+                      vertical: BaseSize.h12,
                     ),
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(9.sp),
-                      color: Palette.cardForeground,
+                      borderRadius: BorderRadius.circular(BaseSize.radiusMd),
+                      color: BaseColor.cardBackground1,
                     ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -169,32 +168,32 @@ class OrderDetailScreen extends GetView<OrderDetailController> {
                         Column(
                           children: [
                             _buildDeliveryInfoLayout(context),
-                            controller.order.value.paymentMethod.isNotEmpty
+                            controller.order.value.payment.amount != 0
                                 ? Container(
                                     padding: EdgeInsets.symmetric(
-                                      vertical: Insets.small.h * .5,
+                                      vertical: BaseSize.h12,
                                     ),
                                     decoration: const BoxDecoration(
                                         border: Border(
                                       bottom: BorderSide(
-                                        color: Palette.accent,
+                                        color: BaseColor.accent,
                                       ),
                                     )),
                                     child: _buildPaymentInfoLayout(context),
                                   )
                                 : const SizedBox(),
-                            SizedBox(height: Insets.small.h),
+                            SizedBox(height: BaseSize.h12),
                             controller.order.value.note.isNotEmpty
                                 ? _BuildNoteCard(
                                     note: controller.order.value.note)
                                 : const SizedBox(),
-                            SizedBox(height: Insets.small.h),
+                            SizedBox(height: BaseSize.h12),
                             Obx(
                               () => _buildRowItem(
                                 context,
                                 "Produk",
                                 "${controller.order.value.products.length} Produk",
-                                controller.order.value.orderInfo.productPriceF,
+                                "controller.order.value.orderInfo.",
                               ),
                             ),
                             SizedBox(height: 1.h),
@@ -202,24 +201,22 @@ class OrderDetailScreen extends GetView<OrderDetailController> {
                               () => _buildRowItem(
                                 context,
                                 "Pengantaran",
-                                controller
-                                    .order.value.orderInfo.deliveryWeightF,
-                                controller.order.value.orderInfo.deliveryPriceF,
+                                "controller.order.value.orderInfo",
+                                "controller.order.value.orderInfo.deliveryPriceF",
                               ),
                             ),
-                            SizedBox(height: 1.h),
                             Obx(
                               () => _buildRowItem(
                                 context,
                                 "Total Pembayaran",
                                 '',
-                                controller.order.value.orderInfo.totalPriceF,
+                                "controller.order.value.orderInfo.totalPriceF",
                                 highLight: true,
                               ),
                             ),
                           ],
                         ),
-                        SizedBox(height: Insets.medium.h),
+                        Gap.h24,
                         _buildConfirmFinishLayout(
                           orderStatus: controller.order.value.status,
                           rating: controller.order.value.rating,
@@ -227,7 +224,7 @@ class OrderDetailScreen extends GetView<OrderDetailController> {
                       ],
                     ),
                   ),
-                  const SizedBox(height: Insets.medium),
+                  Gap.h24,
                 ],
               ),
             ),
@@ -258,16 +255,14 @@ class OrderDetailScreen extends GetView<OrderDetailController> {
               'Order telah dibatalkan',
               style: TextStyle(
                 fontSize: 12.sp,
-                color: Palette.negative,
+                color: BaseColor.negative,
               ),
             ),
             Text(
-              controller.order.value.confirmTimeStamp
-                      ?.format("E, dd MMMM yyyy HH:mm") ??
-                  "-",
+              "controller.order.",
               style: TextStyle(
                 fontSize: 12.sp,
-                color: Palette.negative,
+                color: BaseColor.negative,
               ),
             ),
           ],
@@ -279,34 +274,35 @@ class OrderDetailScreen extends GetView<OrderDetailController> {
               'Order telah diantar',
               style: TextStyle(
                 fontSize: 12.sp,
-                color: Palette.positive,
+                color: BaseColor.positive,
               ),
             ),
             Text(
-              controller.order.value.deliverTimeStamp
-                      ?.format("E, dd MMMM yyyy HH:mm") ??
-                  "-",
+              "controller.order.value",
               style: TextStyle(
                 fontSize: 12.sp,
-                color: Palette.positive,
+                color: BaseColor.positive,
               ),
             ),
           ],
         );
       case OrderStatus.finished:
         return _BuildRatedLayout(order: controller.order.value);
+      case OrderStatus.canceled:
+        // TODO: Handle this case.
+        break;
     }
   }
 
   _buildDeliveryInfoLayout(BuildContext context) {
     return Container(
       padding: EdgeInsets.symmetric(
-        vertical: Insets.small.h * .5,
+        vertical: BaseSize.h12,
       ),
       decoration: const BoxDecoration(
         border: Border(
           bottom: BorderSide(
-            color: Palette.accent,
+            color: BaseColor.accent,
           ),
         ),
       ),
@@ -317,21 +313,21 @@ class OrderDetailScreen extends GetView<OrderDetailController> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                controller.order.value.orderInfo.deliveryTime,
+                "controller.order.value.orderInfo.deliveryTime",
                 style: TextStyle(
                   fontSize: 12.sp,
                   fontWeight: FontWeight.w300,
                 ),
               ),
               Text(
-                controller.order.value.orderingUser.name,
+                "controller.order.value.orderingUser.name",
                 style: TextStyle(
                   fontSize: 12.sp,
                   fontWeight: FontWeight.w300,
                 ),
               ),
               SelectableText(
-                controller.order.value.orderingUser.phone,
+                "controller.order.value.orderingUser.phone",
                 style: TextStyle(
                   fontSize: 12.sp,
                   fontWeight: FontWeight.bold,
@@ -342,9 +338,9 @@ class OrderDetailScreen extends GetView<OrderDetailController> {
           Row(
             children: [
               _buildHelperButton(Icons.place, controller.onPressedViewMaps),
-              const SizedBox(width: Insets.small * .5),
+              Gap.h12,
               _buildHelperButton(Icons.chat, controller.onPressedViewWhatsApp),
-              const SizedBox(width: Insets.small * .5),
+              Gap.h12,
               _buildHelperButton(Icons.phone, controller.onPressedViewPhone),
             ],
           ),
@@ -370,7 +366,7 @@ class OrderDetailScreen extends GetView<OrderDetailController> {
               ),
             ),
             Text(
-              controller.order.value.paymentMethodF,
+              "controller.order.value.paymentMethodF",
               style: TextStyle(
                 fontSize: 12.sp,
               ),
@@ -386,22 +382,16 @@ class OrderDetailScreen extends GetView<OrderDetailController> {
     void Function() onPressed,
   ) =>
       Material(
-        color: Palette.primary,
+        color: BaseColor.primary3,
         clipBehavior: Clip.hardEdge,
         borderRadius: BorderRadius.circular(12.sp),
         child: InkWell(
           onTap: onPressed,
-          child: Padding(
-            padding: EdgeInsets.symmetric(
-              horizontal: Insets.small.sp * .75,
-              vertical: Insets.small.sp * .75,
-            ),
-            child: Center(
-              child: Icon(
-                icon,
-                color: Palette.accent,
-                size: Insets.small.sp * 1.5,
-              ),
+          child: Center(
+            child: Icon(
+              icon,
+              color: BaseColor.accent,
+              size: BaseSize.radiusMd,
             ),
           ),
         ),
@@ -456,12 +446,12 @@ class OrderDetailScreen extends GetView<OrderDetailController> {
       );
 
   _buildItemChecker(BuildContext context) => Container(
-        padding: const EdgeInsets.symmetric(
-          vertical: Insets.small,
-          horizontal: Insets.medium,
+        padding: EdgeInsets.symmetric(
+          vertical: BaseSize.h12,
+          horizontal: BaseSize.h12,
         ),
         decoration: const BoxDecoration(
-          color: Palette.editable,
+          color: BaseColor.editable,
           borderRadius: BorderRadius.vertical(
             top: Radius.circular(12),
           ),
@@ -486,7 +476,7 @@ class OrderDetailScreen extends GetView<OrderDetailController> {
 //   @override
 //   Widget build(BuildContext context) {
 //     return Material(
-//       color: Palette.primary,
+//       color: BaseColor.primary,
 //       borderRadius: BorderRadius.circular(12.sp),
 //       child: InkWell(
 //         onTap: onPressedFinish,
@@ -518,24 +508,24 @@ class _BuildDeliverLayout extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: Palette.primary,
+      color: BaseColor.primary3,
       borderRadius: BorderRadius.circular(12.sp),
       child: InkWell(
         onTap: onPressedDeliver,
         child: Padding(
           padding: EdgeInsets.symmetric(
-            vertical: Insets.small.h,
-            horizontal: Insets.medium.w,
+            vertical: BaseSize.h12,
+            horizontal: BaseSize.w12,
           ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Icon(
                 Icons.local_shipping,
-                color: Palette.accent,
+                color: BaseColor.accent,
                 size: 15.sp,
               ),
-              const SizedBox(width: 6),
+              Gap.w8,
               const Text(
                 'Antar Pesanan',
               ),
@@ -564,12 +554,12 @@ class _BuildConfirmationLayout extends StatelessWidget {
       children: [
         _buildButton(
           icon: Icons.clear,
-          backgroundColor: Palette.negative,
+          backgroundColor: BaseColor.negative,
           onPressed: onPressedNegative,
         ),
         _buildButton(
           icon: Icons.check,
-          backgroundColor: Palette.positive,
+          backgroundColor: BaseColor.positive,
           onPressed: onPressedPositive,
         ),
       ],
@@ -588,11 +578,11 @@ class _BuildConfirmationLayout extends StatelessWidget {
       child: InkWell(
         onTap: onPressed,
         child: Padding(
-          padding: EdgeInsets.all(Insets.small.sp),
+          padding: EdgeInsets.all(BaseSize.radiusMd),
           child: Center(
             child: Icon(
               icon,
-              color: Palette.cardForeground,
+              color: BaseColor.cardBackground1,
               size: 18.sp,
             ),
           ),
@@ -612,46 +602,49 @@ class _BuildRatedLayout extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final rating = order.rating ?? Rating.zero();
+    final rating = order.rating;
+    if (rating == null) {
+      return const SizedBox();
+    }
     return Container(
       margin: EdgeInsets.only(
-        bottom: Insets.medium.h,
-        top: Insets.small.h * .5,
+        bottom: BaseSize.h12,
+        top: BaseSize.h6,
       ),
       child: Column(
         children: [
           RatingBar.builder(
-            initialRating: rating.number.toDouble(),
-            minRating: rating.number.toDouble(),
-            maxRating: rating.number.toDouble(),
+            initialRating: rating.rate.toDouble(),
+            minRating: rating.rate.toDouble(),
+            maxRating: rating.rate.toDouble(),
             direction: Axis.horizontal,
             itemCount: 5,
-            glowColor: Palette.editable.withOpacity(.25),
+            glowColor: BaseColor.editable.withOpacity(.25),
             itemSize: 27.sp,
             itemPadding: EdgeInsets.symmetric(horizontal: 6.w),
             onRatingUpdate: (_) {},
             itemBuilder: (_, int index) => SvgPicture.asset(
               'assets/vectors/star.svg',
               colorFilter: const ColorFilter.mode(
-                Palette.primary,
+                BaseColor.primary3,
                 BlendMode.srcIn,
               ),
             ),
             updateOnDrag: false,
             ignoreGestures: true,
-            unratedColor: Palette.accent,
+            unratedColor: BaseColor.accent,
           ),
-          SizedBox(height: Insets.small.h * .5),
+          Gap.h12,
           Text(
-            'Dinilai ${order.finishTimeStamp?.format("dd MMMM yyyy") ?? '-'}',
+            'Dinilai ${order.lastUpdate.ddMmmmYyyy}',
             style: TextStyle(
               fontSize: 12.sp,
               fontWeight: FontWeight.w300,
             ),
           ),
-          SizedBox(height: Insets.small.h * .5),
+          Gap.h6,
           Text(
-            " \"${rating.message}\" ",
+            rating.message,
             style: TextStyle(
               fontSize: 10.sp,
               fontWeight: FontWeight.w300,
@@ -677,11 +670,11 @@ class _BuildNoteCard extends StatelessWidget {
       clipBehavior: Clip.hardEdge,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(9.sp),
-        color: Palette.editable,
+        color: BaseColor.editable,
       ),
       padding: EdgeInsets.symmetric(
-        horizontal: Insets.small.sp,
-        vertical: Insets.small.sp,
+        horizontal: BaseSize.w12,
+        vertical: BaseSize.h12,
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -690,9 +683,9 @@ class _BuildNoteCard extends StatelessWidget {
           SizedBox(width: 6.w),
           Expanded(
             child: ReadMoreText(
-              '$note  ',
+              '$note ',
               trimLines: 1,
-              colorClickableText: Palette.primary,
+              colorClickableText: BaseColor.primary3,
               trimMode: TrimMode.Line,
               style: TextStyle(
                 fontWeight: FontWeight.w300,

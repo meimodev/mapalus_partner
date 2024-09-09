@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:mapalus_flutter_commons/mapalus_flutter_commons.dart';
 import 'package:mapalus_partner/app/modules/orders/orders_controller.dart';
 import 'package:mapalus_partner/app/widgets/card_navigation.dart';
 import 'package:mapalus_partner/app/widgets/card_order.dart';
-import 'package:mapalus_flutter_commons/mapalus_flutter_commons.dart';
 import 'package:mapalus_partner/shared/routes.dart';
 
 class OrdersScreen extends GetView<OrdersController> {
@@ -25,22 +25,23 @@ class OrdersScreen extends GetView<OrdersController> {
                 child: controller.isLoading.value
                     ? const Center(
                         child: CircularProgressIndicator(
-                          color: Palette.primary,
+                          color: BaseColor.primary3,
                         ),
                       )
                     : Padding(
                         padding: EdgeInsets.symmetric(
-                          horizontal: Insets.medium.w,
+                          horizontal: BaseSize.w12,
                         ),
                         child: Obx(
                           () => ListView.builder(
                             physics: const BouncingScrollPhysics(),
                             itemCount: controller.orders.length,
                             itemBuilder: (BuildContext context, int index) {
-                              OrderApp order = controller.orders.elementAt(index);
+                              OrderApp order =
+                                  controller.orders.elementAt(index);
                               return Padding(
                                 padding: EdgeInsets.symmetric(
-                                  vertical: Insets.small.h * .5,
+                                  vertical: BaseSize.h12,
                                 ),
                                 child: CardOrder(
                                   order: order,

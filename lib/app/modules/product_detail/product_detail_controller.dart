@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:mapalus_flutter_commons/mapalus_flutter_commons.dart';
 import 'package:mapalus_partner/app/modules/home/home_controller.dart';
 import 'package:mapalus_partner/app/widgets/dialog_confirm.dart';
-import 'package:mapalus_flutter_commons/mapalus_flutter_commons.dart';
 
 class ProductDetailController extends GetxController {
   ProductRepo productRepo = Get.find();
   HomeController homeController = Get.find();
 
   RxBool isAdding = false.obs;
-   Product product = Product.empty();
+  Product product = const Product();
 
   TextEditingController tecName = TextEditingController();
   TextEditingController tecDescription = TextEditingController();
@@ -73,16 +73,15 @@ class ProductDetailController extends GetxController {
   }
 
   _initTextFields() {
-
     tecName.text = product.name;
     tecDescription.text = product.description;
     tecPrice.text = product.price.toString();
-    tecUnit.text = product.unit;
+    // tecUnit.text = product.unit;
     tecWeight.text = product.weight.toInt().toString();
     tecCategory.text = product.category;
     tecMinimumPrice.text = product.minimumPrice.toString();
-    isAvailable.value = product.isAvailable;
-    isCustomPrice.value = product.isCustomPrice;
+    // isAvailable.value = product.isAvailable;
+    // isCustomPrice.value = product.isCustomPrice;
   }
 
   void onPressedAvailableCheckbox(bool? value) {
@@ -133,15 +132,15 @@ class ProductDetailController extends GetxController {
     }
 
     //save the updated product
-    product.name = tecName.text.trim();
-    product.description = tecDescription.text.trim();
-    product.price = int.parse(tecPrice.text.trim());
-    product.unit = tecUnit.text.trim();
-    product.weight = double.parse(tecWeight.text.trim());
-    product.category = tecCategory.text.trim();
-    product.isAvailable = isAvailable.value;
-    product.isCustomPrice = isCustomPrice.value;
-    product.minimumPrice = int.tryParse( tecMinimumPrice.text.trim()) ?? 0;
+    // product.name = tecName.text.trim();
+    // product.description = tecDescription.text.trim();
+    // product.price = int.parse(tecPrice.text.trim());
+    // product.unit = tecUnit.text.trim();
+    // product.weight = double.parse(tecWeight.text.trim());
+    // product.category = tecCategory.text.trim();
+    // product.isAvailable = isAvailable.value;
+    // product.isCustomPrice = isCustomPrice.value;
+    // product.minimumPrice = int.tryParse( tecMinimumPrice.text.trim()) ?? 0;
 
     if (isAdding.isTrue) {
       await productRepo.createProduct(product);

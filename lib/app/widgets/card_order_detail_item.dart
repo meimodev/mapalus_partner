@@ -28,23 +28,23 @@ class _CardOrderDetailItemState extends State<CardOrderDetailItem> {
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: Palette.accent,
+      color: BaseColor.accent,
       child: InkWell(
-        onTap: (){
+        onTap: () {
           setState(() {
             checked = !checked;
           });
           widget.onChangeCheck(checked);
         },
         child: Container(
-          padding: const EdgeInsets.symmetric(
-            vertical: Insets.small,
+          padding: EdgeInsets.symmetric(
+            vertical: BaseSize.h12,
           ),
-          margin: const EdgeInsets.symmetric(horizontal: Insets.small),
+          margin: EdgeInsets.symmetric(horizontal: BaseSize.w12),
           decoration: const BoxDecoration(
             border: Border(
               bottom: BorderSide(
-                color: Palette.cardForeground,
+                color: BaseColor.cardBackground1,
               ),
             ),
           ),
@@ -58,7 +58,7 @@ class _CardOrderDetailItemState extends State<CardOrderDetailItem> {
                     style: TextStyle(
                       fontSize: 16.sp,
                       fontWeight: FontWeight.w400,
-                      color: Palette.cardForeground,
+                      color: BaseColor.cardBackground1,
                     ),
                   ),
                 ),
@@ -73,14 +73,14 @@ class _CardOrderDetailItemState extends State<CardOrderDetailItem> {
                       style: TextStyle(
                         fontSize: 11.sp,
                         fontWeight: FontWeight.w400,
-                        color: Palette.cardForeground,
+                        color: BaseColor.cardBackground1,
                       ),
                     ),
                     SizedBox(height: 3.h),
                     Row(
                       children: [
                         _buildWeightAndPriceCard(context, widget.productPrice),
-                        SizedBox(width: 6.w),
+                        Gap.w4,
                         _buildWeightAndPriceCard(context, widget.productWeight),
                       ],
                     ),
@@ -89,7 +89,7 @@ class _CardOrderDetailItemState extends State<CardOrderDetailItem> {
               ),
               Checkbox(
                 value: checked,
-                activeColor: Palette.primary,
+                activeColor: BaseColor.primary3,
                 visualDensity: VisualDensity.compact,
                 onChanged: (value) {
                   setState(() {
@@ -116,16 +116,16 @@ class _CardOrderDetailItemState extends State<CardOrderDetailItem> {
         ),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(3.sp),
-          color: Palette.cardForeground,
+          color: BaseColor.cardBackground1,
         ),
         child: Text(
           text,
           textAlign: TextAlign.center,
           style: TextStyle(
-                fontSize: 10.sp,
-                fontWeight: FontWeight.w400,
-                color: Palette.textPrimary,
-              ),
+            fontSize: 10.sp,
+            fontWeight: FontWeight.w400,
+            color: BaseColor.primaryText,
+          ),
         ),
       );
 }

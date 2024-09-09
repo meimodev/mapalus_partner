@@ -13,20 +13,15 @@ class CardOrder extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isToday = order.orderTimeStamp.isSame(
-      Jiffy(),
-      Units.DAY,
-    );
-
     return Material(
-      color: Palette.cardForeground,
+      color: BaseColor.cardBackground1,
       clipBehavior: Clip.hardEdge,
       child: InkWell(
         onTap: onPressed,
         child: Padding(
           padding: EdgeInsets.symmetric(
-            horizontal: Insets.medium.sp,
-            vertical: Insets.small.sp,
+            horizontal: BaseSize.w12,
+            vertical: BaseSize.h12,
           ),
           child: Column(
             children: [
@@ -35,7 +30,7 @@ class CardOrder extends StatelessWidget {
                   SizedBox(
                     width: 36.w,
                     child: Text(
-                      '#${order.idMinified}',
+                      '#${order.id}',
                       style: TextStyle(
                         fontSize: 10.sp,
                       ),
@@ -49,7 +44,7 @@ class CardOrder extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    order.orderingUser.name,
+                    order.orderBy.name,
                     style: TextStyle(
                       fontSize: 10.sp,
                     ),
@@ -73,13 +68,10 @@ class CardOrder extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          isToday && order.status == OrderStatus.placed
-                              ? "Hari Ini ${order.orderTimeStamp.format('H:mm')}"
-                              : order.orderTimeStamp.format('E, dd MMM H:mm'),
+                          order.status.name,
                           style: TextStyle(
-                            fontWeight:
-                                isToday ? FontWeight.w600 : FontWeight.w300,
-                            color: Palette.textPrimary,
+                            fontWeight: FontWeight.w600,
+                            color: BaseColor.primaryText,
                             fontSize: 10.sp,
                           ),
                         ),
@@ -96,7 +88,7 @@ class CardOrder extends StatelessWidget {
                           style: Theme.of(context).textTheme.bodySmall,
                         ),
                         Text(
-                          order.orderInfo.totalPriceF,
+                          "order.orderInfo.totalPriceF",
                           style: Theme.of(context).textTheme.bodySmall,
                         ),
                       ],
@@ -132,7 +124,7 @@ class CardOrder extends StatelessWidget {
             alignment: Alignment.centerLeft,
             child: Container(
               height: 1.h,
-              color: Palette.primary,
+              color: BaseColor.primary3,
             ),
           ),
         ],
@@ -150,7 +142,7 @@ class CardOrder extends StatelessWidget {
             ),
           ),
           Text(
-            order.orderInfo.deliveryTime,
+            "order.orderInfo.deliveryTime",
             style: TextStyle(
               fontWeight: FontWeight.w600,
               fontSize: 10.sp,
@@ -161,7 +153,7 @@ class CardOrder extends StatelessWidget {
             alignment: Alignment.centerLeft,
             child: Container(
               height: 1.h,
-              color: Palette.accent,
+              color: BaseColor.accent,
             ),
           ),
         ],
@@ -175,15 +167,15 @@ class CardOrder extends StatelessWidget {
             'batal',
             style: TextStyle(
               fontWeight: FontWeight.w300,
-              color: Palette.negative,
+              color: BaseColor.negative,
               fontSize: 9.sp,
             ),
           ),
           Text(
-            order.confirmTimeStamp?.format("E, dd MMMM") ?? '-',
+            order.lastUpdate.EddMMMHHmm,
             style: TextStyle(
               fontWeight: FontWeight.w600,
-              color: Palette.negative,
+              color: BaseColor.negative,
               fontSize: 10.sp,
             ),
           ),
@@ -199,14 +191,14 @@ class CardOrder extends StatelessWidget {
             style: TextStyle(
               fontWeight: FontWeight.w300,
               fontSize: 9.sp,
-              color: Palette.positive,
+              color: BaseColor.positive,
             ),
           ),
           Text(
-            order.deliverTimeStamp?.format("E, dd MMM HH:mm:ss") ?? '-',
+            order.lastUpdate.EddMMMHHmm,
             style: TextStyle(
               fontWeight: FontWeight.w600,
-              color: Palette.positive,
+              color: BaseColor.positive,
               fontSize: 11.sp,
             ),
           ),
@@ -225,7 +217,7 @@ class CardOrder extends StatelessWidget {
             ),
           ),
           Text(
-            order.finishTimeStamp!.format("E, dd MMMM"),
+            order.lastUpdate.EddMMMHHmm,
             style: TextStyle(
               fontWeight: FontWeight.w600,
               fontSize: 11.sp,

@@ -38,6 +38,14 @@
           }
         },
         {
+          "client_id": "342086903599-s9gmccfailr0e11plbnn0amnuj59n2ih.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.meimodev.mapalus",
+            "certificate_hash": "2cde0e9c2c7f806e032ee60edb0cd306b06aa0b8"
+          }
+        },
+        {
           "client_id": "342086903599-c6kr6f12l72duk60vcke0sfs15q42rrh.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -87,6 +95,50 @@
           "android_info": {
             "package_name": "com.meimodev.mapalus_partner",
             "certificate_hash": "534924913a41ad7adebaaaaf810ec80060569c4f"
+          }
+        },
+        {
+          "client_id": "342086903599-c6kr6f12l72duk60vcke0sfs15q42rrh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyChe_02W038hgDONB_56zl_PO9WI58tH6w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "342086903599-c6kr6f12l72duk60vcke0sfs15q42rrh.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "342086903599-lcvmngkbd93uivgp6tqe2khd68adhflo.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.meimodev."
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:342086903599:android:1505a51895d15e20fc63da",
+        "android_client_info": {
+          "package_name": "com.meimodev.mapaluspos2.mapalus_pos_2"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "342086903599-6g7f2oijqkhlc6o4k04gs4jf956mnip3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.meimodev.mapaluspos2.mapalus_pos_2",
+            "certificate_hash": "608bb11bb5ce6b4a9005bef8aea49ac670fc9279"
           }
         },
         {

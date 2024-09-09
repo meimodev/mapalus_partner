@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:mapalus_partner/app/widgets/text_input_quantity.dart';
 import 'package:mapalus_flutter_commons/mapalus_flutter_commons.dart';
+import 'package:mapalus_partner/app/widgets/text_input_quantity.dart';
 
 import 'button_alter_quantity.dart';
 
@@ -32,7 +32,7 @@ class _DialogItemDetailState extends State<DialogItemDetail> {
   void initState() {
     initAmount = 1;
     additionAmountUnit = 1;
-    additionAmountPrice = widget.product.price;
+    additionAmountPrice = widget.product.price.toInt();
 
     tecGram.text = initAmount.toString();
     tecPrice.text = widget.product.price.toString();
@@ -67,7 +67,7 @@ class _DialogItemDetailState extends State<DialogItemDetail> {
                 clipBehavior: Clip.hardEdge,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.all(Radius.circular(9.sp)),
-                  color: Palette.cardForeground,
+                  color: BaseColor.cardBackground1,
                 ),
                 height: 470.h,
                 child: Column(
@@ -77,7 +77,7 @@ class _DialogItemDetailState extends State<DialogItemDetail> {
                     Expanded(
                       child: Padding(
                         padding: EdgeInsets.symmetric(
-                          horizontal: Insets.medium.w,
+                          horizontal: BaseSize.w12,
                         ),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -94,16 +94,16 @@ class _DialogItemDetailState extends State<DialogItemDetail> {
                                     fontSize: 14.sp,
                                   ),
                                 ),
-                                SizedBox(height: Insets.small.h),
+                                Gap.h12,
                                 Text(
-                                  '${widget.product.priceF} / ${widget.product.unit}',
+                                  '${widget.product.price} / ${widget.product.unit}',
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
                                     fontWeight: FontWeight.w600,
                                     fontSize: 12.sp,
                                   ),
                                 ),
-                                SizedBox(height: Insets.medium.h),
+                                Gap.h12,
                                 Text(
                                   widget.product.description,
                                   maxLines: 4,
@@ -118,9 +118,10 @@ class _DialogItemDetailState extends State<DialogItemDetail> {
                             ),
                             Padding(
                               padding: EdgeInsets.symmetric(
-                                vertical: Insets.medium.h,
+                                vertical: BaseSize.h12,
                               ),
-                              child: widget.product.isAvailable
+                              child: widget.product.status ==
+                                      ProductStatus.available
                                   ? _buildAvailableWidgets(context)
                                   : _buildUnavailableWidgets(context),
                             ),
@@ -129,13 +130,14 @@ class _DialogItemDetailState extends State<DialogItemDetail> {
                       ),
                     ),
                     Material(
-                      color: widget.product.isAvailable
-                          ? Palette.primary
-                          : Palette.editable,
+                      color: widget.product.status == ProductStatus.available
+                          ? BaseColor.primary3
+                          : BaseColor.editable,
                       borderRadius: BorderRadius.all(Radius.circular(9.sp)),
                       child: InkWell(
                         onTap: () {
-                          if (widget.product.isAvailable) {
+                          if (widget.product.status ==
+                              ProductStatus.available) {
                             widget.onPressedAddToCart(
                               ProductOrder(
                                 product: widget.product,
@@ -147,17 +149,17 @@ class _DialogItemDetailState extends State<DialogItemDetail> {
                           Navigator.pop(context);
                         },
                         child: Container(
-                          padding:
-                              EdgeInsets.symmetric(vertical: Insets.small.h),
+                          padding: EdgeInsets.symmetric(vertical: BaseSize.h12),
                           child: Center(
                             child: Text(
-                              widget.product.isAvailable
+                              widget.product.status == ProductStatus.available
                                   ? "Masukkan Keranjang"
                                   : "Kembali",
                               style: TextStyle(
                                 fontWeight: FontWeight.w400,
-                                color: widget.product.isAvailable
-                                    ? Palette.textPrimary
+                                color: widget.product.status ==
+                                        ProductStatus.available
+                                    ? BaseColor.primaryText
                                     : Colors.grey,
                               ),
                             ),
@@ -176,15 +178,16 @@ class _DialogItemDetailState extends State<DialogItemDetail> {
               child: Container(
                 height: 210.h,
                 width: 210.w,
-                foregroundDecoration: !widget.product.isAvailable
-                    ? BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: Colors.grey.withOpacity(.5),
-                      )
-                    : null,
+                foregroundDecoration:
+                    widget.product.status == ProductStatus.available
+                        ? BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: Colors.grey.withOpacity(.5),
+                          )
+                        : null,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  color: Palette.accent,
+                  color: BaseColor.accent,
                   boxShadow: [
                     BoxShadow(
                       spreadRadius: .5,
@@ -198,7 +201,7 @@ class _DialogItemDetailState extends State<DialogItemDetail> {
                   child: SvgPicture.asset(
                     'assets/images/mapalus.svg',
                     colorFilter: const ColorFilter.mode(
-                      Palette.primary,
+                      BaseColor.primary3,
                       BlendMode.srcIn,
                     ),
                     width: 60.w,
@@ -279,7 +282,7 @@ class _DialogItemDetailState extends State<DialogItemDetail> {
             width: 15.sp,
             height: 15.sp,
             colorFilter: const ColorFilter.mode(
-              Palette.accent,
+              BaseColor.accent,
               BlendMode.srcIn,
             ),
           ),
@@ -298,13 +301,13 @@ class _DialogItemDetailState extends State<DialogItemDetail> {
         _buildQuantityRow(
           context: context,
           valueLabel: 'rupiah',
-          isCustomPrice: widget.product.isCustomPrice,
+          isCustomPrice: widget.product.customPrice,
           icon: SvgPicture.asset(
             'assets/vectors/money.svg',
             width: 15.sp,
             height: 15.sp,
             colorFilter: const ColorFilter.mode(
-              Palette.accent,
+              BaseColor.accent,
               BlendMode.srcIn,
             ),
           ),
@@ -350,7 +353,7 @@ class _DialogItemDetailState extends State<DialogItemDetail> {
                   fontWeight: FontWeight.w300,
                 ),
               ),
-              SizedBox(width: Insets.small.w),
+              Gap.w12,
             ],
           ),
         ),

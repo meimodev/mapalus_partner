@@ -15,13 +15,13 @@ class CardProduct extends StatelessWidget {
   Widget build(BuildContext context) {
     return Material(
       clipBehavior: Clip.hardEdge,
-      color: Palette.cardForeground,
+      color: BaseColor.cardBackground1,
       child: InkWell(
         onTap: () => onPressed(product),
         child: Padding(
           padding: EdgeInsets.symmetric(
-            horizontal: Insets.small.w,
-            vertical: Insets.small.sp,
+            horizontal: BaseSize.w12,
+            vertical: BaseSize.w12,
           ),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -31,15 +31,15 @@ class CardProduct extends StatelessWidget {
                 width: 80.sp,
                 clipBehavior: Clip.hardEdge,
                 decoration: const BoxDecoration(
-                  color: Palette.primary,
+                  color: BaseColor.primary3,
                   backgroundBlendMode: BlendMode.clear,
                   shape: BoxShape.circle,
                 ),
                 child: CustomImage(
-                  imageUrl: product.imageUrl,
+                  imageUrl: product.image,
                 ),
               ),
-              SizedBox(width: Insets.small.w),
+              Gap.w12,
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -47,40 +47,39 @@ class CardProduct extends StatelessWidget {
                     Text(
                       product.name,
                       style: TextStyle(
-                            fontSize: 12.sp,
-                          ),
+                        fontSize: 12.sp,
+                      ),
                     ),
                     SizedBox(height: 3.sp),
                     Row(
                       children: [
                         Text(
-                          '${product.priceF} / ${product.unit}',
-                          style:
-                          TextStyle(
-                                    fontSize: 10.sp,
-                                    fontWeight: FontWeight.w300,
-                                  ),
+                          '${product.price} / ${product.unit}',
+                          style: TextStyle(
+                            fontSize: 10.sp,
+                            fontWeight: FontWeight.w300,
+                          ),
                         ),
-                        product.unit.trim().toLowerCase() == 'kilogram'
+                        product.unit.name.toLowerCase() == 'kilogram'
                             ? const SizedBox()
                             : Row(
                                 children: [
                                   const Text(" | "),
                                   Text(
-                                    product.weightF,
+                                    product.weight.toString(),
                                     style: TextStyle(
-                                          fontSize: 10.sp,
-                                          fontWeight: FontWeight.w500,
-                                        ),
+                                      fontSize: 10.sp,
+                                      fontWeight: FontWeight.w500,
+                                    ),
                                   ),
                                 ],
                               ),
-                        product.isCustomPrice
+                        product.customPrice
                             ? Text(
-                                " | min ${product.minimumPriceF}",
+                                " | min ${product.minimumPrice}",
                                 style: TextStyle(
-                                        fontSize: 10.sp,
-                                        fontWeight: FontWeight.w500),
+                                    fontSize: 10.sp,
+                                    fontWeight: FontWeight.w500),
                               )
                             : const SizedBox(),
                       ],
@@ -90,10 +89,10 @@ class CardProduct extends StatelessWidget {
                   ],
                 ),
               ),
-              SizedBox(width: Insets.small.w),
+              Gap.w12,
               _buildStatusIcons(
-                isAvailable: product.isAvailable,
-                isCustomPrice: product.isCustomPrice,
+                isAvailable: product.status == ProductStatus.available,
+                isCustomPrice: product.customPrice,
               ),
             ],
           ),
@@ -114,7 +113,7 @@ class CardProduct extends StatelessWidget {
             : Container(
                 padding: EdgeInsets.all(9.sp),
                 decoration: const BoxDecoration(
-                  color: Palette.accent,
+                  color: BaseColor.accent,
                   shape: BoxShape.circle,
                 ),
                 child: Text(
@@ -122,7 +121,7 @@ class CardProduct extends StatelessWidget {
                   style: TextStyle(
                     fontSize: 15.sp,
                     fontWeight: FontWeight.bold,
-                    color: Palette.negative,
+                    color: BaseColor.negative,
                   ),
                 ),
               ),
@@ -131,7 +130,7 @@ class CardProduct extends StatelessWidget {
             ? Container(
                 padding: EdgeInsets.all(9.sp),
                 decoration: const BoxDecoration(
-                  color: Palette.accent,
+                  color: BaseColor.accent,
                   shape: BoxShape.circle,
                 ),
                 child: Text(
@@ -139,7 +138,7 @@ class CardProduct extends StatelessWidget {
                   style: TextStyle(
                     fontSize: 11.sp,
                     fontWeight: FontWeight.bold,
-                    color: Palette.primary,
+                    color: BaseColor.primary3,
                   ),
                 ),
               )
@@ -164,22 +163,16 @@ class CardProduct extends StatelessWidget {
         for (var c in categoryList)
           Container(
             decoration: BoxDecoration(
-              color: Palette.accent,
+              color: BaseColor.accent,
               borderRadius: BorderRadius.circular(30.sp),
             ),
             child: Center(
-              child: Padding(
-                padding: EdgeInsets.symmetric(
-                  horizontal: Insets.small.sp * .75,
-                  vertical: Insets.small.h * .25,
-                ),
-                child: Text(
-                  c,
-                  style: TextStyle(
-                    fontFamily: 'Roboto',
-                    color: Palette.primary,
-                    fontSize: 8.sp,
-                  ),
+              child: Text(
+                c,
+                style: TextStyle(
+                  fontFamily: 'Roboto',
+                  color: BaseColor.primary3,
+                  fontSize: 8.sp,
                 ),
               ),
             ),

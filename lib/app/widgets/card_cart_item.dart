@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:mapalus_partner/app/widgets/dialog_confirm.dart';
 import 'package:mapalus_flutter_commons/mapalus_flutter_commons.dart';
+import 'package:mapalus_partner/app/widgets/dialog_confirm.dart';
 
 class CardCartItem extends StatelessWidget {
   const CardCartItem({
@@ -18,15 +18,15 @@ class CardCartItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.symmetric(
-        horizontal: Insets.medium.w * .5,
-        vertical: Insets.small.h * .5,
+        horizontal: BaseSize.w12,
+        vertical: BaseSize.h12,
       ),
       padding: EdgeInsets.symmetric(
-        horizontal: Insets.medium.w * .5,
-        vertical: Insets.small.h,
+        horizontal: BaseSize.w12,
+        vertical: BaseSize.h12,
       ),
       decoration: BoxDecoration(
-          color: Palette.cardForeground,
+          color: BaseColor.cardBackground1,
           borderRadius: BorderRadius.circular(9.sp)),
       child: Row(
         children: [
@@ -41,7 +41,7 @@ class CardCartItem extends StatelessWidget {
               ),
             ),
           ),
-          SizedBox(width: Insets.small.w),
+          Gap.h12,
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -53,7 +53,7 @@ class CardCartItem extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  "${productOrder.product.priceF} / ${productOrder.product.unit}",
+                  "${productOrder.product} / ${productOrder.product.unit}",
                   style: TextStyle(
                     fontWeight: FontWeight.w300,
                     fontSize: 12.sp,
@@ -66,7 +66,7 @@ class CardCartItem extends StatelessWidget {
               ],
             ),
           ),
-          SizedBox(width: Insets.small.w),
+          Gap.h12,
           Material(
             color: Colors.transparent,
             child: InkWell(
@@ -87,7 +87,7 @@ class CardCartItem extends StatelessWidget {
                     width: 21.sp,
                     height: 21.sp,
                     colorFilter: const ColorFilter.mode(
-                      Palette.negative,
+                      BaseColor.negative,
                       BlendMode.srcIn,
                     ),
                   ),
@@ -171,7 +171,7 @@ class CardCartItem extends StatelessWidget {
 //             horizontal: 6.w,
 //           ),
 //           decoration: BoxDecoration(
-//             color: Palette.editable,
+//             color: BaseColor.editable,
 //             borderRadius: BorderRadius.circular(3.sp),
 //           ),
 //           child: TextField(
@@ -180,11 +180,11 @@ class CardCartItem extends StatelessWidget {
 //             maxLines: 1,
 //             autocorrect: false,
 //             style: TextStyle(
-//               color: Palette.accent,
+//               color: BaseColor.accent,
 //               fontFamily: fontFamily,
 //               fontSize: 12.sp,
 //             ),
-//             cursorColor: Palette.primary,
+//             cursorColor: BaseColor.primary,
 //             decoration: InputDecoration(
 //                 hintStyle: TextStyle(
 //                   color: Colors.grey,
@@ -227,7 +227,7 @@ class CardCartItem extends StatelessWidget {
 //   }) {
 //     return Material(
 //       clipBehavior: Clip.hardEdge,
-//       color: Palette.editable,
+//       color: BaseColor.editable,
 //       borderRadius: BorderRadius.circular(3.sp),
 //       child: InkWell(
 //         onTap: onPressed,
@@ -264,13 +264,13 @@ class _BuildAlterQuantity extends StatelessWidget {
         SizedBox(height: 6.h),
         _buildAlterRowItem(
           context: context,
-          value: productOrder.quantityString,
-          unit: productOrder.product.unit,
+          value: productOrder.quantity.toString(),
+          unit: productOrder.product.unit.name,
         ),
         SizedBox(height: 6.h),
         _buildAlterRowItem(
           context: context,
-          value: productOrder.totalPriceString,
+          value: productOrder.totalPrice.formatNumberToCurrency(),
           unit: 'Rupiah',
         ),
       ],
@@ -291,7 +291,7 @@ class _BuildAlterQuantity extends StatelessWidget {
             horizontal: 6.w,
           ),
           decoration: BoxDecoration(
-            color: Palette.editable,
+            color: BaseColor.editable,
             borderRadius: BorderRadius.circular(3.sp),
           ),
           child: Row(
@@ -300,7 +300,7 @@ class _BuildAlterQuantity extends StatelessWidget {
               Text(
                 value,
                 style: TextStyle(
-                  color: Palette.accent,
+                  color: BaseColor.accent,
                   fontFamily: fontFamily,
                   fontSize: 12.sp,
                 ),

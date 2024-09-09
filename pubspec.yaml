@@ -13,8 +13,8 @@ dependencies:
     sdk: flutter
 
   mapalus_flutter_commons:
-#    path: ../mapalus_flutter_commons
-    git: "https://github.com/meimodev/mapalus_flutter_commons.git"
+    path: ../mapalus_flutter_commons
+#    git: "https://github.com/meimodev/mapalus_flutter_commons.git"
 
   firebase_core: ^2.1.0
   get: ^4.6.5
@@ -27,7 +27,7 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
 
-  flutter_lints: ^2.0.1
+  flutter_lints: ^4.0.0
 
 flutter_icons:
   android: true

@@ -1,14 +1,12 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:mapalus_partner/shared/routes.dart';
 import 'package:mapalus_flutter_commons/mapalus_flutter_commons.dart';
+import 'package:mapalus_partner/shared/routes.dart';
 
 import 'firebase_options.dart';
 
-Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-
-}
+Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {}
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -16,8 +14,9 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   await Hive.initFlutter();
+  await HiveService().init();
 
-  await Jiffy.locale("id");
+  await Jiffy.setLocale("id");
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
   await FirebaseMessaging.instance.setAutoInitEnabled(true);
@@ -40,15 +39,8 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         initialRoute: Routes.home,
         getPages: Routes.getRoutes(),
-        // builder: (context, widget) {
-        //   // ScreenUtil.setContext(context);
-        //   return MediaQuery(
-        //     data: MediaQuery.of(context).copyWith(
-        //       textScaleFactor: 1.0,
-        //     ),
-        //     child: widget!,
-        //   );
-        // },
+
+
       ),
     );
   }

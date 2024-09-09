@@ -20,7 +20,7 @@ class CardCategory extends StatelessWidget {
     return Column(
       children: [
         Material(
-          color: isSelected ? Palette.accent : Palette.cardForeground,
+          color: isSelected ? BaseColor.accent : BaseColor.cardBackground1,
           elevation: isSelected ? 0 : 3,
           borderRadius: BorderRadius.all(
             Radius.circular(12.sp),
@@ -32,13 +32,13 @@ class CardCategory extends StatelessWidget {
               padding: EdgeInsets.all(12.sp),
               child: Icon(
                 iconData,
-                color: isSelected ? Palette.primary : Palette.accent,
+                color: isSelected ? BaseColor.primary3 : BaseColor.accent,
                 size: 30.sp,
               ),
             ),
           ),
         ),
-        SizedBox(height: Insets.small.h * .5),
+        Gap.h12,
         SizedBox(
           width: 60.w,
           child: Text(
@@ -46,8 +46,8 @@ class CardCategory extends StatelessWidget {
             softWrap: true,
             textAlign: TextAlign.center,
             style: TextStyle(
-                  color: isSelected ? Palette.textPrimary : Colors.grey,
-                ),
+              color: isSelected ? BaseColor.primaryText : Colors.grey,
+            ),
           ),
         ),
       ],

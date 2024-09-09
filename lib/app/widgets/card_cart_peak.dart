@@ -41,7 +41,7 @@ class CardCartPeak extends StatelessWidget {
     return Material(
       clipBehavior: Clip.hardEdge,
       elevation: 9,
-      color: Palette.accent,
+      color: BaseColor.accent,
       borderRadius: BorderRadius.circular(30.sp),
       child: InkWell(
         onTap: onPressed,
@@ -49,14 +49,14 @@ class CardCartPeak extends StatelessWidget {
           width: 210.w,
           child: Padding(
             padding: EdgeInsets.symmetric(
-              vertical: Insets.small.w,
-              horizontal: Insets.small.w,
+              vertical: BaseSize.h12,
+              horizontal: BaseSize.w12,
             ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 // CircleAvatar(
-                //   backgroundColor: Palette.primary,
+                //   backgroundColor: BaseColor.primary,
                 //   child: Padding(
                 //     padding: EdgeInsets.all(9.sp),
                 //     child: SvgPicture.asset(
@@ -68,7 +68,7 @@ class CardCartPeak extends StatelessWidget {
                   padding: EdgeInsets.all(9.sp),
                   decoration: const BoxDecoration(
                     shape: BoxShape.circle,
-                    color: Palette.primary,
+                    color: BaseColor.primary3,
                   ),
                   child: SvgPicture.asset(
                     "assets/vectors/cart.svg",
@@ -76,7 +76,7 @@ class CardCartPeak extends StatelessWidget {
                     height: 24.w,
                   ),
                 ),
-                SizedBox(width: Insets.small.w),
+                Gap.w12,
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisSize: MainAxisSize.max,
@@ -87,18 +87,18 @@ class CardCartPeak extends StatelessWidget {
                       maxLines: 1,
                       overflow: TextOverflow.fade,
                       style: TextStyle(
-                            color: Palette.cardForeground,
-                            fontWeight: FontWeight.w400,
-                            fontSize: 14.sp,
-                          ),
+                        color: BaseColor.cardBackground1,
+                        fontWeight: FontWeight.w400,
+                        fontSize: 14.sp,
+                      ),
                     ),
                     Text(
                       cartOverview,
                       style: TextStyle(
-                            color: Colors.grey,
-                            fontWeight: FontWeight.w300,
-                            fontSize: 10.sp,
-                          ),
+                        color: Colors.grey,
+                        fontWeight: FontWeight.w300,
+                        fontSize: 10.sp,
+                      ),
                     ),
                   ],
                 ),

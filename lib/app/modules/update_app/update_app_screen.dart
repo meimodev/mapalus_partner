@@ -10,7 +10,7 @@ class UpdateAppScreen extends StatelessWidget {
       child: Container(
         width: double.infinity,
         height: double.infinity,
-        color: Palette.cardForeground,
+        color: BaseColor.cardBackground1,
         child: Center(
           child: Column(
             mainAxisSize: MainAxisSize.min,
@@ -20,20 +20,20 @@ class UpdateAppScreen extends StatelessWidget {
                 width: 60.sp,
                 height: 60.sp,
                 colorFilter: const ColorFilter.mode(
-                  Palette.accent,
+                  BaseColor.accent,
                   BlendMode.srcIn,
                 ),
               ),
-              SizedBox(height: Insets.small.h * .5),
+              Gap.h12,
               Text(
                 'Partner App',
                 style: TextStyle(
                   fontSize: 10.sp,
                   fontWeight: FontWeight.bold,
-                  color: Palette.accent,
+                  color: BaseColor.accent,
                 ),
               ),
-              SizedBox(height: Insets.large.h),
+              Gap.h24,
               Text(
                 'Please update the app\nto ensure the latest feature & app stability',
                 textAlign: TextAlign.center,
@@ -42,7 +42,7 @@ class UpdateAppScreen extends StatelessWidget {
                   fontWeight: FontWeight.w300,
                 ),
               ),
-              SizedBox(height: Insets.small.h),
+              Gap.h12,
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
@@ -88,20 +88,20 @@ class UpdateAppScreen extends StatelessWidget {
     required IconData icon,
   }) {
     return Material(
-      color: Palette.primary,
+      color: BaseColor.primary3,
       borderRadius: BorderRadius.circular(12.w),
       child: InkWell(
         onTap: onPressed,
         child: Padding(
           padding: EdgeInsets.symmetric(
-            horizontal: Insets.small.w,
-            vertical: Insets.small.h,
+            horizontal: BaseSize.w12,
+            vertical: BaseSize.h12,
           ),
           child: Row(
             children: [
               Icon(
                 icon,
-                color: Palette.accent,
+                color: BaseColor.accent,
                 size: 21.w,
               ),
               SizedBox(width: 6.w),
@@ -109,7 +109,7 @@ class UpdateAppScreen extends StatelessWidget {
                 title,
                 style: TextStyle(
                   fontSize: 12.sp,
-                  color: Palette.accent,
+                  color: BaseColor.accent,
                 ),
               ),
             ],

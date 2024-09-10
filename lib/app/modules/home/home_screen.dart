@@ -1,439 +1,58 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:mapalus_flutter_commons/mapalus_flutter_commons.dart';
-import 'package:mapalus_partner/app/modules/home/home_controller.dart';
-import 'package:mapalus_partner/app/widgets/card_order.dart';
-import 'package:mapalus_partner/app/widgets/card_product.dart';
-import 'package:mapalus_partner/shared/routes.dart';
+import 'package:mapalus_flutter_commons/mapalus_flutter_commons.dart'
+    hide Badge;
+import 'package:mapalus_partner/app/modules/modules.dart';
 
 class HomeScreen extends GetView<HomeController> {
-  const HomeScreen({Key? key}) : super(key: key);
-
-  //TODO gonna need to replace this list implementation with infinite scrolling implementation
+  const HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     return ScreenWrapper(
-      child: Stack(
+      padding: EdgeInsets.zero,
+      child: Column(
         children: [
-          Positioned(
-            left: 0,
-            right: 0,
-            top: 0,
-            bottom: 0,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Container(
-                  padding: EdgeInsets.symmetric(
-                    vertical: BaseSize.h12,
-                  ),
-                  decoration: BoxDecoration(
-                    color: BaseColor.cardBackground1,
-                    borderRadius: const BorderRadius.only(
-                      bottomLeft: Radius.circular(30),
-                      bottomRight: Radius.circular(30),
-                    ),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.grey.withOpacity(.35),
-                        offset: const Offset(0, 1),
-                        blurRadius: 15,
-                        spreadRadius: .5,
-                      ),
-                    ],
-                  ),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.max,
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      SizedBox(width: 12.w),
-                      Material(
-                        color: BaseColor.primary3,
-                        shape: const CircleBorder(),
-                        elevation: 3,
-                        clipBehavior: Clip.hardEdge,
-                        child: InkWell(
-                          onTap: controller.onPressedSettings,
-                          child: SizedBox(
-                            height: 40.sp,
-                            width: 40.sp,
-                            child: Padding(
-                              padding: EdgeInsets.all(12.sp),
-                              child: SvgPicture.asset(
-                                'assets/images/mapalus_logo.svg',
-                                width: 12.sp,
-                                height: 12.sp,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                      SizedBox(width: 6.w),
-                      Expanded(
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              "Mapalus Partner",
-                              style: TextStyle(
-                                fontSize: 12.sp,
-                                color: Colors.grey,
-                              ),
-                            ),
-                            Text(
-                              "Pasar Tondano",
-                              style: TextStyle(
-                                fontSize: 16.sp,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Obx(
-                        () => AnimatedSwitcher(
-                          duration: 200.milliseconds,
-                          child: controller.isLoading.value
-                              ? const SizedBox()
-                              : _buildInfoSection(
-                                  isShowingOrders:
-                                      controller.activeNavBottomIndex.value !=
-                                          2,
-                                  isShowingProducts:
-                                      controller.activeNavBottomIndex.value ==
-                                          2,
-                                  context: context,
-                                ),
-                        ),
-                      ),
-                      SizedBox(width: 12.w),
-                    ],
-                  ),
+          Expanded(
+            child: PageView(
+              physics: const NeverScrollableScrollPhysics(),
+              controller: controller.pageViewController,
+              onPageChanged: controller.onPageViewChanged,
+              children: const [
+                DashboardScreen(),
+                OrdersScreen(),
+                ProductsScreen(),
+              ],
+            ),
+          ),
+          Obx(
+            () => NavigationBar(
+              onDestinationSelected: controller.onPressedNavigationButton,
+              indicatorColor: BaseColor.primary3,
+              selectedIndex: controller.currentPageIndex.value,
+              destinations: const <Widget>[
+                NavigationDestination(
+                  selectedIcon: Icon(Icons.home),
+                  icon: Icon(Icons.home_outlined),
+                  label: 'Home',
                 ),
-                Expanded(
-                  child: Obx(
-                    () => AnimatedSwitcher(
-                      duration: 200.milliseconds,
-                      child: controller.isLoading.value
-                          ? const Center(
-                              child: CircularProgressIndicator(
-                                color: BaseColor.primary3,
-                              ),
-                            )
-                          : _buildListSwitcher(
-                              isShowingOrders:
-                                  controller.activeNavBottomIndex.value == 1 ||
-                                      controller.activeNavBottomIndex.value ==
-                                          3,
-                              isShowingProducts:
-                                  controller.activeNavBottomIndex.value == 2,
-                              context: context,
-                            ),
-                    ),
+                NavigationDestination(
+                  icon: Badge(
+                    child: Icon(Icons.notifications_sharp),
                   ),
+                  label: 'Orders',
                 ),
-                Obx(
-                  () => _BuildBottomNav(
-                    active: controller.activeNavBottomIndex.value,
-                    onPressedProducts: controller.onPressedProducts,
-                    onPressedOrders: controller.onPressedOrders,
-                    onPressedHistory: controller.onPressedHistory,
+                NavigationDestination(
+                  icon: Badge(
+                    label: Text('2'),
+                    child: Icon(Icons.messenger_sharp),
                   ),
+                  label: 'Products',
                 ),
               ],
             ),
           ),
-          Positioned(
-            right: BaseSize.w12,
-            bottom: 120.h,
-            child: Obx(
-              () => AnimatedSwitcher(
-                duration: 400.milliseconds,
-                child: controller.activeNavBottomIndex.value == 2
-                    ? Material(
-                        color: BaseColor.primary3,
-                        shape: const CircleBorder(),
-                        clipBehavior: Clip.hardEdge,
-                        elevation: 3,
-                        child: InkWell(
-                          onTap: controller.onPressedAddButton,
-                          child: SizedBox(
-                            height: 50.sp,
-                            width: 50.sp,
-                            child: Center(
-                              child: Text(
-                                '+',
-                                style: TextStyle(
-                                  color: BaseColor.accent,
-                                  fontSize: 30.sp,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      )
-                    : const SizedBox(),
-              ),
-            ),
-          ),
         ],
-      ),
-    );
-  }
-
-  _buildListSwitcher({
-    required bool isShowingOrders,
-    required bool isShowingProducts,
-    required BuildContext context,
-  }) {
-    if (isShowingOrders) {
-      return Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Gap.h12,
-          Expanded(
-            child: Obx(
-              () => controller.orders.isNotEmpty
-                  ? ListView.builder(
-                      padding: EdgeInsets.only(
-                        bottom: BaseSize.h24,
-                      ),
-                      addAutomaticKeepAlives: true,
-                      physics: const BouncingScrollPhysics(),
-                      itemBuilder: (context, index) {
-                        OrderApp order = controller.orders.elementAt(index);
-                        return CardOrder(
-                            order: order,
-                            onPressed: () => Navigator.pushNamed(
-                                  context,
-                                  Routes.orderDetail,
-                                  arguments: order,
-                                ));
-                      },
-                      itemCount: controller.orders.length,
-                    )
-                  : Center(
-                      child: Text(
-                        'No Order Yet',
-                        style: TextStyle(
-                            color: BaseColor.accent,
-                            fontSize: 15.sp,
-                            fontWeight: FontWeight.bold),
-                      ),
-                    ),
-            ),
-          ),
-        ],
-      );
-    }
-
-    if (isShowingProducts) {
-      return Column(
-        children: [
-          Container(
-            padding: EdgeInsets.only(
-              left: BaseSize.w12,
-              right: BaseSize.w12,
-              bottom: BaseSize.h12,
-              top: BaseSize.h12,
-            ),
-            child: TextField(
-              controller: controller.tecProductFilter,
-              onChanged: controller.onChangedProductFilter,
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 13.sp,
-                color: BaseColor.accent,
-              ),
-              textInputAction: TextInputAction.done,
-              maxLines: 1,
-              decoration: InputDecoration(
-                isDense: true,
-                focusColor: BaseColor.primary3,
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12.sp),
-                  borderSide: const BorderSide(
-                    color: BaseColor.primary3,
-                  ),
-                ),
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12.sp),
-                  borderSide: const BorderSide(
-                    color: BaseColor.accent,
-                  ),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12.sp),
-                  borderSide: const BorderSide(
-                    color: BaseColor.primary3,
-                  ),
-                ),
-                labelText: "Filter",
-                labelStyle: TextStyle(
-                  fontSize: 12.sp,
-                  color: Colors.grey,
-                ),
-              ),
-            ),
-          ),
-          Expanded(
-            child: ListView.builder(
-              padding: EdgeInsets.only(bottom: BaseSize.h24),
-              addAutomaticKeepAlives: true,
-              physics: const BouncingScrollPhysics(),
-              itemBuilder: (context, index) {
-                Product product = controller.products.elementAt(index);
-                return CardProduct(
-                    product: product,
-                    onPressed: (_) {
-                      Navigator.pushNamed(
-                        context,
-                        Routes.productDetail,
-                        arguments: product,
-                      );
-                    });
-              },
-              itemCount: controller.products.length,
-            ),
-          ),
-        ],
-      );
-    }
-  }
-
-  _buildInfoSection({
-    required BuildContext context,
-    required bool isShowingOrders,
-    required bool isShowingProducts,
-  }) {
-    if (isShowingOrders) {
-      return Obx(
-        () => Text(
-          'Total orders ${controller.orders.length}',
-          style: TextStyle(
-            color: BaseColor.accent,
-            fontWeight: FontWeight.w300,
-            fontSize: 10.sp,
-          ),
-        ),
-      );
-    }
-
-    return Obx(
-      () => Text(
-        'Total products ${controller.products.length}',
-        style: TextStyle(
-          color: BaseColor.accent,
-          fontWeight: FontWeight.w300,
-          fontSize: 10.sp,
-        ),
-      ),
-    );
-  }
-}
-
-class _BuildBottomNav extends StatelessWidget {
-  const _BuildBottomNav({
-    Key? key,
-    required this.onPressedOrders,
-    required this.onPressedProducts,
-    required this.onPressedHistory,
-    required this.active,
-  }) : super(key: key);
-
-  final VoidCallback onPressedOrders;
-  final VoidCallback onPressedProducts;
-  final VoidCallback onPressedHistory;
-  final int active;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      clipBehavior: Clip.hardEdge,
-      decoration: BoxDecoration(
-        color: BaseColor.cardBackground1,
-        borderRadius: const BorderRadius.only(
-          topLeft: Radius.circular(30),
-          topRight: Radius.circular(30),
-        ),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(.35),
-            offset: const Offset(0, 1),
-            blurRadius: 15,
-            spreadRadius: .5,
-          ),
-        ],
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        mainAxisSize: MainAxisSize.max,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          _buildBottomNavButton(
-            context: context,
-            title: "Pesanan",
-            active: active == 1,
-            imageAssetPath: 'assets/vectors/orders.svg',
-            onPressed: onPressedOrders,
-          ),
-          _buildBottomNavButton(
-            context: context,
-            title: "Produk",
-            active: active == 2,
-            imageAssetPath: 'assets/vectors/bag.svg',
-            onPressed: onPressedProducts,
-          ),
-          _buildBottomNavButton(
-            context: context,
-            title: "Riwayat",
-            active: active == 3,
-            imageAssetPath: 'assets/vectors/orders.svg',
-            onPressed: onPressedHistory,
-          ),
-        ],
-      ),
-    );
-  }
-
-  _buildBottomNavButton({
-    required BuildContext context,
-    required String title,
-    required String imageAssetPath,
-    required bool active,
-    required VoidCallback onPressed,
-  }) {
-    return Expanded(
-      child: Material(
-        child: InkWell(
-          onTap: onPressed,
-          child: Padding(
-            padding: EdgeInsets.symmetric(vertical: BaseSize.h12),
-            child: Column(
-              mainAxisSize: MainAxisSize.max,
-              children: [
-                SvgPicture.asset(
-                  imageAssetPath,
-                  colorFilter: ColorFilter.mode(
-                    active ? BaseColor.primary3 : Colors.grey,
-                    BlendMode.srcIn,
-                  ),
-                  width: active ? 21.w : 19.w,
-                  height: active ? 21.h : 19.h,
-                ),
-                SizedBox(height: BaseSize.h6),
-                Text(
-                  title,
-                  style: TextStyle(
-                    fontSize: 12.sp,
-                    color: active ? BaseColor.accent : Colors.grey,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
       ),
     );
   }

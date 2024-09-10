@@ -12,24 +12,11 @@ class HomeController extends GetxController {
   AppRepo appRepo = Get.find<AppRepo>();
   PartnerRepo partnerRepo = Get.find<PartnerRepo>();
 
-  RxList<OrderApp> orders = <OrderApp>[].obs;
-  RxList<Product> products = <Product>[].obs;
-  List<Product> _tempProducts = <Product>[];
+  RxInt currentPageIndex = 0.obs;
 
-  TextEditingController tecProductFilter = TextEditingController();
-
-  var isLoading = false.obs;
-  var activeNavBottomIndex = 1.obs;
-
-  bool firstInit = true;
+  final PageController pageViewController = PageController(initialPage: 0);
 
   //TODO [OPTIMIZATION] use infinite scrolling implementation
-
-  @override
-  void dispose() {
-    tecProductFilter.dispose();
-    super.dispose();
-  }
 
   @override
   void onReady() async {
@@ -39,75 +26,21 @@ class HomeController extends GetxController {
       return;
     }
 
-    final isAlreadySignedIn = await userRepo.getSignedIn();
-    if (isAlreadySignedIn == null) {
-      Get.offNamed(Routes.signing);
-      return;
-    }
+    // final isAlreadySignedIn = await userRepo.getSignedIn();
+    // if (isAlreadySignedIn == null) {
+    //   Get.offNamed(Routes.signing);
+    //   return;
+    // }
+
     _initPartnerFCMToken();
     // _initNewOrderListener();
     _initNotificationHandler();
     super.onReady();
   }
 
-  void onPressedProducts() {
-    activeNavBottomIndex.value = 2;
-    _loadProducts();
-  }
-
-  void onPressedOrders() {
-    activeNavBottomIndex.value = 1;
-    _loadTodayOrders();
-  }
-
-  Future<void> onChangedProductFilter(String value) async {
-    if (value.isEmpty) {
-      products.value = List.of(_tempProducts);
-      return;
-    }
-
-    List<Product> pp = List.of(_tempProducts);
-    pp.retainWhere((element) {
-      var pName = element.name.trim().toLowerCase();
-      var pCategory = element.category.trim().toLowerCase();
-      var val = value.trim().toLowerCase();
-      return pName.contains(val) || pCategory.contains(val);
-    });
-    products.value = pp;
-  }
-
-  _loadTodayOrders() async {
-    isLoading.value = true;
-    // var oo = await orderRepo.readOrdersToday();
-    tecProductFilter.text = '';
-    // orders.value = List<OrderApp>.from(oo.reversed);
-    // dev.log(orders.first.toString());
-
-    //show the list on screen
-    isLoading.value = false;
-  }
-
-  _loadProducts() async {
-    isLoading.value = true;
-    // await Future.delayed(1.seconds);
-
-    // var pp = await productRepo.readProducts();
-    // var p = List<Product>.from(pp);
-    // p.sort((a, b) => a.name.toLowerCase().compareTo(b.name.toLowerCase()));
-
-    // products.value = List<Product>.from(p);
-    _tempProducts = List<Product>.of(products);
-    //show the list on screen
-    isLoading.value = false;
-  }
-
   void onPressedAddButton() {
     Get.toNamed(Routes.productDetail, arguments: null);
   }
-
-  // void refreshOrders() {
-  //   _loadOrders();
-  // }
 
   _initNotificationHandler() async {
     const androidChannel = AndroidNotificationChannel(
@@ -264,38 +197,14 @@ class HomeController extends GetxController {
   //   });
   // }
 
-  void updateProductList(Product product, {bool isDeletion = false}) {
-    if (isDeletion) {
-      products.removeWhere((element) => element.id == product.id);
-      return;
-    }
-
-    if (products.isEmpty) {
-      products.add(product);
-      return;
-    }
-    int index = products.indexWhere((element) => element.id == product.id);
-    if (index <= -1) {
-      products.add(product);
-      return;
-    }
-
-    products.removeAt(index);
-    products.insert(index, product);
+  void onPressedNavigationButton(int value) {
+    currentPageIndex.value = value;
+    pageViewController.jumpToPage(value);
   }
 
-  onPressedSettings() {
-    Get.toNamed(Routes.settings);
-  }
-
-  void onPressedHistory() async {
-    activeNavBottomIndex.value = 3;
-
-    isLoading.value = true;
-    // var oo = await orderRepo.readOrders();
-    tecProductFilter.text = '';
-    // orders.value = List<OrderApp>.from(oo.reversed);
-
-    isLoading.value = false;
+  void onPageViewChanged(int value) {
+    if (currentPageIndex.value != value) {
+      currentPageIndex.value = value;
+    }
   }
 }

@@ -3,12 +3,12 @@ import 'package:mapalus_flutter_commons/mapalus_flutter_commons.dart';
 
 class DialogConfirm extends StatelessWidget {
   const DialogConfirm({
-    Key? key,
+    super.key,
     required this.onPressedConfirm,
     this.title,
     this.description,
     this.confirmText,
-  }) : super(key: key);
+  });
 
   final VoidCallback onPressedConfirm;
   final String? title;

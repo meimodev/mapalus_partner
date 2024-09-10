@@ -3,11 +3,10 @@ import 'package:mapalus_flutter_commons/mapalus_flutter_commons.dart';
 
 class ButtonAlterQuantity extends StatelessWidget {
   const ButtonAlterQuantity(
-      {Key? key,
+      {super.key,
       required this.onPressed,
       required this.label,
-      this.isEnabled = true})
-      : super(key: key);
+      this.isEnabled = true});
 
   final VoidCallback onPressed;
   final String label;

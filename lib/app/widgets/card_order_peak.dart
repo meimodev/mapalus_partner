@@ -3,9 +3,9 @@ import 'package:mapalus_flutter_commons/mapalus_flutter_commons.dart';
 
 class CardOrdersPeak extends StatelessWidget {
   const CardOrdersPeak({
-    Key? key,
+    super.key,
     required this.onPressed,
-  }) : super(key: key);
+  });
 
   final VoidCallback onPressed;
 

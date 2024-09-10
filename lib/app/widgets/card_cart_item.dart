@@ -4,11 +4,11 @@ import 'package:mapalus_partner/app/widgets/dialog_confirm.dart';
 
 class CardCartItem extends StatelessWidget {
   const CardCartItem({
-    Key? key,
+    super.key,
     required this.index,
     required this.productOrder,
     required this.onPressedDelete,
-  }) : super(key: key);
+  });
 
   final int index;
   final ProductOrder productOrder;
@@ -251,9 +251,8 @@ class CardCartItem extends StatelessWidget {
 
 class _BuildAlterQuantity extends StatelessWidget {
   const _BuildAlterQuantity({
-    Key? key,
     required this.productOrder,
-  }) : super(key: key);
+  });
 
   final ProductOrder productOrder;
 

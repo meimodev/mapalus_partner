@@ -3,9 +3,9 @@ import 'package:mapalus_flutter_commons/mapalus_flutter_commons.dart';
 
 class DialogRating extends StatefulWidget {
   const DialogRating({
-    Key? key,
+    super.key,
     required this.onPressedRate,
-  }) : super(key: key);
+  });
 
   final Function(String message, double rating) onPressedRate;
 

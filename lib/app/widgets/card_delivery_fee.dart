@@ -3,13 +3,13 @@ import 'package:mapalus_flutter_commons/mapalus_flutter_commons.dart';
 
 class CardDeliveryFee extends StatelessWidget {
   const CardDeliveryFee({
-    Key? key,
+    super.key,
     required this.deliveryTime,
     required this.price,
     this.isActive = false,
     this.isTomorrow = false,
     required this.onPressed,
-  }) : super(key: key);
+  });
 
   final String deliveryTime;
   final String price;

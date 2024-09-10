@@ -3,11 +3,11 @@ import 'package:mapalus_flutter_commons/mapalus_flutter_commons.dart';
 
 class CardNavigation extends StatelessWidget {
   const CardNavigation({
-    Key? key,
+    super.key,
     this.title,
     this.isInverted = false,
     this.isCircular = false,
-  }) : super(key: key);
+  });
 
   final String? title;
   final bool isInverted;

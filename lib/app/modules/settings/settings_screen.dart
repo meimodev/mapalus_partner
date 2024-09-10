@@ -6,7 +6,7 @@ import 'package:mapalus_partner/app/widgets/card_navigation.dart';
 import 'package:mapalus_partner/shared/routes.dart';
 
 class SettingsScreen extends GetView<SettingsController> {
-  const SettingsScreen({Key? key}) : super(key: key);
+  const SettingsScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

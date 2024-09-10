@@ -1,5 +1,3 @@
-import 'dart:developer' as dev;
-
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:mapalus_flutter_commons/mapalus_flutter_commons.dart';
@@ -55,15 +53,15 @@ class AppSettingsController extends GetxController {
     if (deliveryModifiers == null) {
       return;
     }
-    dev.log(deliveryModifiers.toString());
-    tecDistancePrice.text =
-        deliveryModifiers!.distancePrice.toStringWithoutPointZeroTrail();
-    tecDistanceUnit.text =
-        deliveryModifiers!.distanceUnit.toStringWithoutPointZeroTrail();
-    tecWeightPrice.text =
-        deliveryModifiers!.weightPrice.toStringWithoutPointZeroTrail();
-    tecWeightUnit.text =
-        deliveryModifiers!.weightUnit.toStringWithoutPointZeroTrail();
+    // dev.log(deliveryModifiers.toString());
+    // tecDistancePrice.text =
+    //     deliveryModifiers!.distancePrice.toStringWithoutPointZeroTrail();
+    // tecDistanceUnit.text =
+    //     deliveryModifiers!.distanceUnit.toStringWithoutPointZeroTrail();
+    // tecWeightPrice.text =
+    //     deliveryModifiers!.weightPrice.toStringWithoutPointZeroTrail();
+    // tecWeightUnit.text =
+    //     deliveryModifiers!.weightUnit.toStringWithoutPointZeroTrail();
   }
 
   _loadAccountInfo() async {

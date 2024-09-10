@@ -4,7 +4,7 @@ import 'package:mapalus_flutter_commons/mapalus_flutter_commons.dart';
 import 'package:mapalus_partner/app/modules/signing/signing_controller.dart';
 
 class SigningScreen extends GetView<SigningController> {
-  const SigningScreen({Key? key}) : super(key: key);
+  const SigningScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -106,12 +106,11 @@ class SigningScreen extends GetView<SigningController> {
 
 class _BuildCardSigning extends StatelessWidget {
   const _BuildCardSigning({
-    Key? key,
     required this.tecPhone,
     required this.tecPassword,
     required this.controller,
     required this.onPressedSigning,
-  }) : super(key: key);
+  });
 
   final TextEditingController tecPhone;
   final TextEditingController tecPassword;

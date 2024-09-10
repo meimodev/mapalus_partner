@@ -3,13 +3,13 @@ import 'package:mapalus_flutter_commons/mapalus_flutter_commons.dart';
 
 class TextInputQuantity extends StatelessWidget {
   const TextInputQuantity({
-    Key? key,
+    super.key,
     this.icon,
     this.onTextChanged,
     required this.textEditingController,
     this.isReadOnly = false,
     this.trailingWidget,
-  }) : super(key: key);
+  });
 
   final Widget? icon;
   final Function(String)? onTextChanged;

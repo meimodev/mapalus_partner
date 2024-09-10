@@ -3,10 +3,10 @@ import 'package:mapalus_flutter_commons/mapalus_flutter_commons.dart';
 
 class CardProduct extends StatelessWidget {
   const CardProduct({
-    Key? key,
+    super.key,
     required this.onPressed,
     required this.product,
-  }) : super(key: key);
+  });
 
   final Product product;
   final Function(Product product) onPressed;

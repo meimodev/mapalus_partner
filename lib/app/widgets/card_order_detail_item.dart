@@ -3,13 +3,13 @@ import 'package:mapalus_flutter_commons/mapalus_flutter_commons.dart';
 
 class CardOrderDetailItem extends StatefulWidget {
   const CardOrderDetailItem({
-    Key? key,
+    super.key,
     required this.index,
     required this.productName,
     required this.productPrice,
     required this.productWeight,
     required this.onChangeCheck,
-  }) : super(key: key);
+  });
 
   final String index;
   final String productName;

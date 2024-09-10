@@ -3,10 +3,10 @@ import 'package:mapalus_flutter_commons/mapalus_flutter_commons.dart';
 
 class CardOrder extends StatelessWidget {
   const CardOrder({
-    Key? key,
+    super.key,
     required this.order,
     required this.onPressed,
-  }) : super(key: key);
+  });
 
   final OrderApp order;
   final VoidCallback onPressed;

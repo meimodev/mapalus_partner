@@ -1,19 +1,5 @@
 import 'package:get/get.dart';
-import 'package:mapalus_partner/app/modules/home/app_settings/app_settings_binding.dart';
-import 'package:mapalus_partner/app/modules/home/app_settings/app_settings_screen.dart';
-import 'package:mapalus_partner/app/modules/settings/settings_binding.dart';
-import 'package:mapalus_partner/app/modules/settings/settings_screen.dart';
-import 'package:mapalus_partner/app/modules/home/home_binding.dart';
-import 'package:mapalus_partner/app/modules/home/home_screen.dart';
-import 'package:mapalus_partner/app/modules/order_detail/order_detail_binding.dart';
-import 'package:mapalus_partner/app/modules/order_detail/order_detail_screen.dart';
-import 'package:mapalus_partner/app/modules/orders/orders_binding.dart';
-import 'package:mapalus_partner/app/modules/orders/orders_screen.dart';
-import 'package:mapalus_partner/app/modules/product_detail/product_detail_binding.dart';
-import 'package:mapalus_partner/app/modules/product_detail/product_detail_screen.dart';
-import 'package:mapalus_partner/app/modules/signing/signing_binding.dart';
-import 'package:mapalus_partner/app/modules/signing/signing_screen.dart';
-import 'package:mapalus_partner/app/modules/update_app/update_app_screen.dart';
+import 'package:mapalus_partner/app/modules/modules.dart';
 
 class Routes {
   static const String home = '/';
@@ -25,7 +11,6 @@ class Routes {
   static const String updateApp = '/update-app';
   static const String settings = '/settings';
   static const String appSettings = '/app-settings';
-
 
   static List<GetPage> getRoutes() {
     return [
@@ -43,12 +28,12 @@ class Routes {
       //   binding: AccountSettingsBinding(),
       //   transition: Transition.cupertino,
       // ),
-      GetPage(
-        name: orders,
-        page: () => const OrdersScreen(),
-        binding: OrdersBinding(),
-        transition: Transition.cupertino,
-      ),
+      // GetPage(
+      //   name: orders,
+      //   page: () => const OrdersScreen(),
+      //   binding: OrdersBinding(),
+      //   transition: Transition.cupertino,
+      // ),
       GetPage(
         name: orderDetail,
         page: () => const OrderDetailScreen(),
@@ -61,7 +46,6 @@ class Routes {
         transition: Transition.cupertino,
         binding: ProductDetailBinding(),
       ),
-
 
       GetPage(
         name: signing,
@@ -80,11 +64,11 @@ class Routes {
         binding: SettingsBinding(),
         transition: Transition.leftToRight,
       ),
-      GetPage(
-        name: appSettings,
-        page: () => const AppSettingsScreen(),
-        binding: AppSettingsBinding(),
-      ),
+      // GetPage(
+      //   name: appSettings,
+      //   page: () => const AppSettingsScreen(),
+      //   binding: AppSettingsBinding(),
+      // ),
     ];
   }
 }

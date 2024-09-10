@@ -3,9 +3,9 @@ import 'package:mapalus_flutter_commons/mapalus_flutter_commons.dart';
 
 class BadgeNotification extends StatelessWidget {
   const BadgeNotification({
-    Key? key,
+    super.key,
     required this.text,
-  }) : super(key: key);
+  });
 
   final String text;
 

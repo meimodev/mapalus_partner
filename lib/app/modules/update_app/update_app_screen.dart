@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mapalus_flutter_commons/mapalus_flutter_commons.dart';
 
 class UpdateAppScreen extends StatelessWidget {
-  const UpdateAppScreen({Key? key}) : super(key: key);
+  const UpdateAppScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

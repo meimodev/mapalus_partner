@@ -5,7 +5,7 @@ import 'package:mapalus_partner/app/modules/home/app_settings/app_settings_contr
 import 'package:mapalus_partner/app/widgets/card_navigation.dart';
 
 class AppSettingsScreen extends GetView<AppSettingsController> {
-  const AppSettingsScreen({Key? key}) : super(key: key);
+  const AppSettingsScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -44,8 +44,7 @@ class AppSettingsScreen extends GetView<AppSettingsController> {
 }
 
 class _BuildDeliveryFeeCard extends StatelessWidget {
-  const _BuildDeliveryFeeCard({Key? key, required this.controller})
-      : super(key: key);
+  const _BuildDeliveryFeeCard({required this.controller});
 
   final AppSettingsController controller;
 
@@ -156,10 +155,9 @@ class _BuildDeliveryFeeCard extends StatelessWidget {
 
 class _BuildButton extends StatelessWidget {
   const _BuildButton({
-    Key? key,
     this.onPressed,
     required this.text,
-  }) : super(key: key);
+  });
 
   final VoidCallback? onPressed;
   final String text;
@@ -189,8 +187,7 @@ class _BuildButton extends StatelessWidget {
 }
 
 class _BuildAppInfoCard extends StatelessWidget {
-  const _BuildAppInfoCard({Key? key, required this.controller})
-      : super(key: key);
+  const _BuildAppInfoCard({required this.controller});
 
   final AppSettingsController controller;
 

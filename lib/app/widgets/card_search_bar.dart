@@ -3,11 +3,11 @@ import 'package:mapalus_flutter_commons/mapalus_flutter_commons.dart';
 
 class CardSearchBar extends StatelessWidget {
   const CardSearchBar({
-    Key? key,
+    super.key,
     required this.onSubmitted,
     required this.onLogoPressed,
     required this.notificationBadgeCount,
-  }) : super(key: key);
+  });
 
   final Function(String value) onSubmitted;
   final VoidCallback onLogoPressed;

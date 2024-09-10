@@ -3,12 +3,12 @@ import 'package:mapalus_flutter_commons/mapalus_flutter_commons.dart';
 
 class CardCartPeak extends StatelessWidget {
   const CardCartPeak({
-    Key? key,
+    super.key,
     required this.onPressed,
     // required this.productOrders,
     required this.totalPrice,
     required this.cartOverview,
-  }) : super(key: key);
+  });
 
   final VoidCallback onPressed;
   // final List<ProductOrder> productOrders;

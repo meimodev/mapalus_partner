@@ -3,12 +3,12 @@ import 'package:mapalus_flutter_commons/mapalus_flutter_commons.dart';
 
 class CardCategory extends StatelessWidget {
   const CardCategory({
-    Key? key,
+    super.key,
     this.isSelected = false,
     required this.name,
     required this.iconData,
     required this.onPressed,
-  }) : super(key: key);
+  });
 
   final bool isSelected;
   final String name;

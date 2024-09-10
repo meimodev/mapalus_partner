@@ -6,10 +6,10 @@ import 'button_alter_quantity.dart';
 
 class DialogItemDetail extends StatefulWidget {
   const DialogItemDetail({
-    Key? key,
+    super.key,
     required this.product,
     required this.onPressedAddToCart,
-  }) : super(key: key);
+  });
 
   final Product product;
   final Function(ProductOrder) onPressedAddToCart;

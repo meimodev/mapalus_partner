@@ -64,13 +64,13 @@ class ProductDetailController extends GetxController {
     super.dispose();
   }
 
-  @override
-  void onClose() {
-    if (shouldUpdateHomeControllerProducts) {
-      homeController.updateProductList(product, isDeletion: isDeletion);
-    }
-    super.onClose();
-  }
+  // @override
+  // void onClose() {
+  //   if (shouldUpdateHomeControllerProducts) {
+  //     homeController.updateProductList(product, isDeletion: isDeletion);
+  //   }
+  //   super.onClose();
+  // }
 
   _initTextFields() {
     tecName.text = product.name;

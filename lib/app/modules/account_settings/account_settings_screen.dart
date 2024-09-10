@@ -5,7 +5,7 @@ import 'package:mapalus_partner/app/modules/account_settings/account_settings_co
 import 'package:mapalus_partner/app/widgets/card_navigation.dart';
 
 class AccountSettingsScreen extends GetView<AccountSettingsController> {
-  const AccountSettingsScreen({Key? key}) : super(key: key);
+  const AccountSettingsScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

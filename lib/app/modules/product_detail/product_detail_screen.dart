@@ -5,7 +5,7 @@ import 'package:mapalus_partner/app/modules/product_detail/product_detail_contro
 import 'package:mapalus_partner/app/widgets/card_navigation.dart';
 
 class ProductDetailScreen extends GetView<ProductDetailController> {
-  const ProductDetailScreen({Key? key}) : super(key: key);
+  const ProductDetailScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

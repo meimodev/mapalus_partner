@@ -6,7 +6,7 @@ import 'package:mapalus_partner/app/widgets/card_navigation.dart';
 import 'package:mapalus_partner/app/widgets/card_order_detail_item.dart';
 
 class OrderDetailScreen extends GetView<OrderDetailController> {
-  const OrderDetailScreen({Key? key}) : super(key: key);
+  const OrderDetailScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -500,8 +500,7 @@ class OrderDetailScreen extends GetView<OrderDetailController> {
 // }
 
 class _BuildDeliverLayout extends StatelessWidget {
-  const _BuildDeliverLayout({Key? key, required this.onPressedDeliver})
-      : super(key: key);
+  const _BuildDeliverLayout({required this.onPressedDeliver});
 
   final VoidCallback onPressedDeliver;
 
@@ -539,10 +538,9 @@ class _BuildDeliverLayout extends StatelessWidget {
 
 class _BuildConfirmationLayout extends StatelessWidget {
   const _BuildConfirmationLayout({
-    Key? key,
     required this.onPressedPositive,
     required this.onPressedNegative,
-  }) : super(key: key);
+  });
 
   final VoidCallback onPressedPositive;
   final VoidCallback onPressedNegative;
@@ -594,9 +592,8 @@ class _BuildConfirmationLayout extends StatelessWidget {
 
 class _BuildRatedLayout extends StatelessWidget {
   const _BuildRatedLayout({
-    Key? key,
     required this.order,
-  }) : super(key: key);
+  });
 
   final OrderApp order;
 
@@ -658,9 +655,8 @@ class _BuildRatedLayout extends StatelessWidget {
 
 class _BuildNoteCard extends StatelessWidget {
   const _BuildNoteCard({
-    Key? key,
     required this.note,
-  }) : super(key: key);
+  });
 
   final String note;
 

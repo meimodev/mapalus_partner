@@ -140,8 +140,8 @@ class HomeController extends GetxController {
   }
 
   Future<void> _initPartnerFCMToken() async {
-    Partner partner = await partnerRepo.readPartner("089525699078");
-    await FirebaseMessaging.instance.subscribeToTopic(partner.id);
+    // Partner partner = await partnerRepo.readPartner("089525699078");
+    // await FirebaseMessaging.instance.subscribeToTopic(partner.id);
   }
 
   // void _initNewOrderListener() {
@@ -199,12 +199,16 @@ class HomeController extends GetxController {
 
   void onPressedNavigationButton(int value) {
     currentPageIndex.value = value;
-    pageViewController.jumpToPage(value);
+    pageViewController.animateToPage(
+      value,
+      duration: const Duration(milliseconds: 300),
+      curve: Curves.easeInOutCubic,
+    );
   }
 
   void onPageViewChanged(int value) {
-    if (currentPageIndex.value != value) {
-      currentPageIndex.value = value;
-    }
+    // if (currentPageIndex.value != value) {
+    //   currentPageIndex.value = value;
+    // }
   }
 }

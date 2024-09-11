@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart' hide Badge;
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mapalus_flutter_commons/mapalus_flutter_commons.dart';
 import 'package:mapalus_partner/app/modules/account_settings/account_settings_controller.dart';
@@ -87,22 +87,22 @@ class AccountSettingsScreen extends GetView<AccountSettingsController> {
                 context: context,
                 onPressed: controller.onPressedEditAccountInfo,
               ),
-              Badge(
-                badgeContent: Text(
-                  '99',
-                  style: TextStyle(
-                    fontSize: 10.sp,
-                    color: BaseColor.editable,
-                  ),
-                ),
-                position: BadgePosition.topStart(),
-                child: _buildItemRow(
-                  assetLocation: 'assets/vectors/bag.svg',
-                  text: 'Pesanan Anda',
-                  context: context,
-                  onPressed: controller.onPressedOrders,
-                ),
-              ),
+              // Badge(
+              //   badgeContent: Text(
+              //     '99',
+              //     style: TextStyle(
+              //       fontSize: 10.sp,
+              //       color: BaseColor.editable,
+              //     ),
+              //   ),
+              //   position: BadgePosition.topStart(),
+              //   child: _buildItemRow(
+              //     assetLocation: 'assets/vectors/bag.svg',
+              //     text: 'Pesanan Anda',
+              //     context: context,
+              //     onPressed: controller.onPressedOrders,
+              //   ),
+              // ),
               _buildItemRow(
                 assetLocation: 'assets/vectors/exit.svg',
                 text: 'Keluar',

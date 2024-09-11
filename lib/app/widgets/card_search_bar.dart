@@ -71,39 +71,39 @@ class CardSearchBar extends StatelessWidget {
               ),
             ),
             Gap.w12,
-            Badge(
-              showBadge: notificationBadgeCount > 0,
-              badgeContent: Center(
-                child: Text(
-                  notificationBadgeCount.toString(),
-                  style: TextStyle(
-                    fontSize: 10.sp,
-                    color: BaseColor.editable,
-                  ),
-                ),
-              ),
-              child: Material(
-                shape: const CircleBorder(),
-                color: BaseColor.accent,
-                child: InkWell(
-                  onTap: onLogoPressed,
-                  child: Container(
-                    padding: EdgeInsets.all(6.sp),
-                    height: 33.sp,
-                    width: 33.sp,
-                    child: SvgPicture.asset(
-                      'assets/images/mapalus_logo.svg',
-                      height: 12.sp,
-                      width: 12.sp,
-                      colorFilter: const ColorFilter.mode(
-                        BaseColor.primaryText,
-                        BlendMode.srcIn,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ),
+            // Badge(
+            //   showBadge: notificationBadgeCount > 0,
+            //   badgeContent: Center(
+            //     child: Text(
+            //       notificationBadgeCount.toString(),
+            //       style: TextStyle(
+            //         fontSize: 10.sp,
+            //         color: BaseColor.editable,
+            //       ),
+            //     ),
+            //   ),
+            //   child: Material(
+            //     shape: const CircleBorder(),
+            //     color: BaseColor.accent,
+            //     child: InkWell(
+            //       onTap: onLogoPressed,
+            //       child: Container(
+            //         padding: EdgeInsets.all(6.sp),
+            //         height: 33.sp,
+            //         width: 33.sp,
+            //         child: SvgPicture.asset(
+            //           'assets/images/mapalus_logo.svg',
+            //           height: 12.sp,
+            //           width: 12.sp,
+            //           colorFilter: const ColorFilter.mode(
+            //             BaseColor.primaryText,
+            //             BlendMode.srcIn,
+            //           ),
+            //         ),
+            //       ),
+            //     ),
+            //   ),
+            // ),
           ],
         ),
       ),

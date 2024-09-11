@@ -1,23 +1,36 @@
 import 'package:get/get.dart';
+import 'package:mapalus_flutter_commons/models/models.dart';
+import 'package:mapalus_flutter_commons/repos/repos.dart';
 
 class OrdersController extends GetxController {
-  // OrderRepo orderRepo = Get.find();
-  // UserRepo userRepo = Get.find();
-  //
-  // RxList<OrderApp> orders = <OrderApp>[].obs;
+  OrderRepo orderRepo = Get.find();
+  List<OrderApp> orders = [];
 
-  RxBool isLoading = false.obs;
+  RxBool loading = true.obs;
 
   @override
   void onReady() {
-    //populate orders
-    // _populateOrders();
     super.onReady();
+    fetchOrders();
   }
 
-  // _populateOrders() async {
-  // isLoading.value = true;
-  // orders.value = await orderRepo.readOrders(userRepo.signedUser!);
-  // isLoading.value = false;
-  // }
+  void fetchOrders() async {
+    loading.value = true;
+    orders = await orderRepo.readOrders(
+      GetOrdersRequest(
+        partner: Partner(
+          id: 'ssTneIKTUTtnb8L4dGWA',
+          name: "test partner",
+          lastActiveTimeStamp: DateTime.now(),
+        ),
+      ),
+    );
+    loading.value = false;
+  }
+
+// _populateOrders() async {
+// isLoading.value = true;
+// orders.value = await orderRepo.readOrders(userRepo.signedUser!);
+// isLoading.value = false;
+// }
 }

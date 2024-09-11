@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:mapalus_flutter_commons/shared/shared.dart';
-import 'package:mapalus_flutter_commons/widgets/widgets.dart';
+import 'package:mapalus_flutter_commons/mapalus_flutter_commons.dart';
 import 'package:mapalus_partner/app/modules/home/home.dart';
+import 'package:mapalus_partner/shared/routes.dart';
 
 class OrdersScreen extends GetView<OrdersController> {
   const OrdersScreen({super.key});
@@ -10,68 +10,79 @@ class OrdersScreen extends GetView<OrdersController> {
   @override
   Widget build(BuildContext context) {
     return ScreenWrapper(
+      padding: EdgeInsets.symmetric(
+        horizontal: BaseSize.w24,
+      ),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
+          Gap.h24,
           Text(
-            "products 3",
-            style: BaseTypography.caption,
+            'Orders',
+            textAlign: TextAlign.start,
+            style: BaseTypography.displayLarge.toBold.toPrimary,
           ),
-          Text(
-            "products 3",
-            style: BaseTypography.caption,
+          Gap.h12,
+          IntrinsicHeight(
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Expanded(
+                  child: Text(
+                    'Senin, 11 September 2024',
+                    textAlign: TextAlign.start,
+                    style: BaseTypography.bodySmall,
+                  ),
+                ),
+                Material(
+                  borderRadius: BorderRadius.circular(
+                    BaseSize.radiusMd,
+                  ),
+                  color: BaseColor.primary3,
+                  clipBehavior: Clip.hardEdge,
+                  child: InkWell(
+                    onTap: () {},
+                    child: Container(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: BaseSize.w12,
+                        vertical: BaseSize.h12,
+                      ),
+                      child: Text(
+                        'See All',
+                        textAlign: TextAlign.start,
+                        style: BaseTypography.bodySmall.toBold,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
-          Text(
-            "products 3",
-            style: BaseTypography.caption,
-          ),
-          Text(
-            "products 3",
-            style: BaseTypography.caption,
-          ),
-
-          // Expanded(
-          //   child: Obx(
-          //     () => AnimatedSwitcher(
-          //       duration: const Duration(milliseconds: 400),
-          //       child: controller.isLoading.value
-          //           ? const Center(
-          //               child: CircularProgressIndicator(
-          //                 color: BaseColor.primary3,
-          //               ),
-          //             )
-          //           : Padding(
-          //               padding: EdgeInsets.symmetric(
-          //                 horizontal: BaseSize.w12,
-          //               ),
-          //               child: Obx(
-          //                 () => ListView.builder(
-          //                   physics: const BouncingScrollPhysics(),
-          //                   itemCount: controller.orders.length,
-          //                   itemBuilder: (BuildContext context, int index) {
-          //                     OrderApp order =
-          //                         controller.orders.elementAt(index);
-          //                     return Padding(
-          //                       padding: EdgeInsets.symmetric(
-          //                         vertical: BaseSize.h12,
-          //                       ),
-          //                       child: CardOrder(
-          //                         order: order,
-          //                         onPressed: () {
-          //                           Navigator.pushNamed(
-          //                             context,
-          //                             Routes.orderDetail,
-          //                             arguments: order,
-          //                           );
-          //                         },
-          //                       ),
-          //                     );
-          //                   },
-          //                 ),
-          //               ),
-          //             ),
-          //     ),
-          //   ),
-          // ),
+          Gap.h12,
+          controller.orders.isEmpty
+              ? const Expanded(
+                  child: Center(
+                    child: Text('No Order Yet'),
+                  ),
+                )
+              : Expanded(
+                  child: Obx(
+                    () => LoadingWrapper(
+                      loading: controller.loading.value,
+                      child: ListView.separated(
+                        physics: const BouncingScrollPhysics(),
+                        itemCount: controller.orders.length,
+                        separatorBuilder: (context, index) => Gap.h12,
+                        itemBuilder: (context, index) => CardOrder(
+                          order: controller.orders[index],
+                          onPressed: () {
+                            Get.toNamed(Routes.orderDetail);
+                          },
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
         ],
       ),
     );

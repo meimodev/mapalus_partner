@@ -53,15 +53,22 @@ class HomeController extends GetxController {
       playSound: true,
       showBadge: true,
     );
+
     final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
         FlutterLocalNotificationsPlugin();
 
     const AndroidInitializationSettings initializationSettingsAndroid =
         AndroidInitializationSettings('@mipmap/ic_launcher');
 
-    const InitializationSettings initializationSettings =
+    final initializationSettingsIos = DarwinInitializationSettings(
+      onDidReceiveLocalNotification: (id, title, body, payload) {
+        dev.log('IOS Local Notification $id $title $body $payload');
+      },
+    );
+    final InitializationSettings initializationSettings =
         InitializationSettings(
       android: initializationSettingsAndroid,
+      iOS: initializationSettingsIos,
     );
 
     await flutterLocalNotificationsPlugin.initialize(

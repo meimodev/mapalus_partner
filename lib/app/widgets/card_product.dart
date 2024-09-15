@@ -9,26 +9,27 @@ class CardProduct extends StatelessWidget {
   });
 
   final Product product;
-  final Function(Product product) onPressed;
+  final void Function(Product product) onPressed;
 
   @override
   Widget build(BuildContext context) {
     return Material(
       clipBehavior: Clip.hardEdge,
-      color: BaseColor.cardBackground1,
+      borderRadius: BorderRadius.circular(BaseSize.radiusMd),
+      color: BaseColor.white,
       child: InkWell(
         onTap: () => onPressed(product),
         child: Padding(
           padding: EdgeInsets.symmetric(
             horizontal: BaseSize.w12,
-            vertical: BaseSize.w12,
+            vertical: BaseSize.h12,
           ),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Container(
-                height: 80.sp,
-                width: 80.sp,
+                height: BaseSize.w72,
+                width: BaseSize.w72,
                 clipBehavior: Clip.hardEdge,
                 decoration: const BoxDecoration(
                   color: BaseColor.primary3,
@@ -46,15 +47,11 @@ class CardProduct extends StatelessWidget {
                   children: [
                     Text(
                       product.name,
-                      style: TextStyle(
-                        fontSize: 12.sp,
-                      ),
                     ),
-                    SizedBox(height: 3.sp),
                     Row(
                       children: [
                         Text(
-                          '${product.price} / ${product.unit}',
+                          '${product.price.formatNumberToCurrency()} / ${product.unit.name}',
                           style: TextStyle(
                             fontSize: 10.sp,
                             fontWeight: FontWeight.w300,
@@ -66,7 +63,7 @@ class CardProduct extends StatelessWidget {
                                 children: [
                                   const Text(" | "),
                                   Text(
-                                    product.weight.toString(),
+                                    product.weight.toKilogram(accurate: true),
                                     style: TextStyle(
                                       fontSize: 10.sp,
                                       fontWeight: FontWeight.w500,
@@ -76,7 +73,7 @@ class CardProduct extends StatelessWidget {
                               ),
                         product.customPrice
                             ? Text(
-                                " | min ${product.minimumPrice}",
+                                " | min ${product.minimumPrice.formatNumberToCurrency()}",
                                 style: TextStyle(
                                     fontSize: 10.sp,
                                     fontWeight: FontWeight.w500),
@@ -84,8 +81,8 @@ class CardProduct extends StatelessWidget {
                             : const SizedBox(),
                       ],
                     ),
-                    SizedBox(height: 3.sp),
-                    _buildCategoriesChip(),
+                    Gap.h4,
+                    ChipCategory(category: product.category),
                   ],
                 ),
               ),
@@ -125,7 +122,7 @@ class CardProduct extends StatelessWidget {
                   ),
                 ),
               ),
-        SizedBox(width: 3.w),
+        Gap.w3,
         isCustomPrice
             ? Container(
                 padding: EdgeInsets.all(9.sp),
@@ -143,40 +140,6 @@ class CardProduct extends StatelessWidget {
                 ),
               )
             : const SizedBox(),
-      ],
-    );
-  }
-
-  _buildCategoriesChip() {
-    var categoryList = [];
-    if (product.category.contains(',')) {
-      var temp = product.category.split(',');
-      for (String t in temp) {
-        categoryList.add(t);
-      }
-    } else {
-      categoryList.add(product.category);
-    }
-
-    return Row(
-      children: [
-        for (var c in categoryList)
-          Container(
-            decoration: BoxDecoration(
-              color: BaseColor.accent,
-              borderRadius: BorderRadius.circular(30.sp),
-            ),
-            child: Center(
-              child: Text(
-                c,
-                style: TextStyle(
-                  fontFamily: 'Roboto',
-                  color: BaseColor.primary3,
-                  fontSize: 8.sp,
-                ),
-              ),
-            ),
-          ),
       ],
     );
   }

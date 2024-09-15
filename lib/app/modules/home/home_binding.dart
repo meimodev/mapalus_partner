@@ -12,5 +12,6 @@ class HomeBinding implements Bindings {
     Get.lazyPut(() => PartnerRepo());
     Get.lazyPut(() => HomeController());
     Get.lazyPut(() => OrdersController());
+    Get.lazyPut(() => ProductsController());
   }
 }

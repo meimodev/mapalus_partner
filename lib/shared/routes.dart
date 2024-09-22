@@ -43,7 +43,7 @@ class Routes {
       GetPage(
         name: productDetail,
         page: () => const ProductDetailScreen(),
-        transition: Transition.cupertino,
+        // transition: Transition.cupertino,
         binding: ProductDetailBinding(),
       ),
 

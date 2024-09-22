@@ -1,87 +1,59 @@
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mapalus_flutter_commons/mapalus_flutter_commons.dart';
 import 'package:mapalus_partner/app/modules/home/home_controller.dart';
-import 'package:mapalus_partner/app/widgets/dialog_confirm.dart';
+import 'package:uuid/uuid.dart';
 
 class ProductDetailController extends GetxController {
   ProductRepo productRepo = Get.find();
   HomeController homeController = Get.find();
 
-  RxBool isAdding = false.obs;
-  Product product = const Product();
+  bool adding = false;
+  Product? product;
 
-  TextEditingController tecName = TextEditingController();
-  TextEditingController tecDescription = TextEditingController();
-  TextEditingController tecPrice = TextEditingController();
-  TextEditingController tecUnit = TextEditingController();
-  TextEditingController tecWeight = TextEditingController();
-  TextEditingController tecCategory = TextEditingController();
-  TextEditingController tecMinimumPrice = TextEditingController();
   RxBool isAvailable = true.obs;
   RxBool isCustomPrice = false.obs;
 
-  RxString errorText = "".obs;
   RxBool saving = false.obs;
-  bool shouldUpdateHomeControllerProducts = false;
   bool isDeletion = false;
 
-  List<String> categories = [
-    'Bahan Makanan',
-    'Lauk Pauk',
-    'Bumbu Dapur',
-    'Sayuran',
-    'Buah',
-    'Bahan Kue',
-    'Paket Hemat'
-  ];
+  var loading = true.obs;
 
-  var isLoading = true.obs;
+  List<String> availableCategories = [];
+
+  String errorTextType = "";
+  String errorTextName = "";
+  String errorTextImage = "";
+  String errorTextDescription = "";
+  String errorTextPrice = "";
+  String errorTextUnit = "";
+  String errorTextWeight = "";
+  String errorTextCategory = "";
+  String errorTextStatus = "";
+  // String errorTextCustomPrice = "";
+  // String errorTextMinimumPrice = "";
 
   @override
   void onInit() {
-    isLoading.value = true;
+    super.onInit();
+
+    loading.value = true;
+
     var args = Get.arguments;
-    if (args == null) {
-      isAdding.value = true;
-    } else {
-      isAdding.value = false;
+    adding = args == null;
+    if (args != null) {
       product = args;
-      _initTextFields();
+    } else {
+      product = Product(id: const Uuid().v4());
     }
 
-    isLoading.value = false;
-    super.onInit();
+    fetchCategories();
+
+    loading.value = false;
   }
 
-  @override
-  void dispose() {
-    tecName.dispose();
-    tecDescription.dispose();
-    tecPrice.dispose();
-    tecUnit.dispose();
-    tecWeight.dispose();
-    super.dispose();
-  }
-
-  // @override
-  // void onClose() {
-  //   if (shouldUpdateHomeControllerProducts) {
-  //     homeController.updateProductList(product, isDeletion: isDeletion);
-  //   }
-  //   super.onClose();
-  // }
-
-  _initTextFields() {
-    tecName.text = product.name;
-    tecDescription.text = product.description;
-    tecPrice.text = product.price.toString();
-    // tecUnit.text = product.unit;
-    tecWeight.text = product.weight.toInt().toString();
-    tecCategory.text = product.category;
-    tecMinimumPrice.text = product.minimumPrice.toString();
-    // isAvailable.value = product.isAvailable;
-    // isCustomPrice.value = product.isCustomPrice;
+  void fetchCategories() async {
+    final res = await productRepo.getCategories();
+    availableCategories = res;
   }
 
   void onPressedAvailableCheckbox(bool? value) {
@@ -97,39 +69,76 @@ class ProductDetailController extends GetxController {
   }
 
   Future<void> onPressedSaveButton() async {
-    isLoading.value = true;
+    loading.value = true;
+    clearErrors();
+    await Future.delayed(const Duration(milliseconds: 400));
+    //run validation from product object
 
-    saving.value = true;
-    errorText.value = "";
+    // errorTextImage = Validator(
+    //   value: product?.image ?? "",
+    //   name: "Gambar",
+    // ).notEmpty().validate();
 
-    //validate if not empty except description
+    errorTextType = Validator(
+      value: product?.type?.name ?? "",
+      name: "Tipe",
+    ).notEmptyOrZero().validate();
 
-    List<String> texts = [
-      tecName.text,
-      tecPrice.text,
-      tecUnit.text,
-      tecWeight.text,
-      tecCategory.text
-    ];
+    errorTextName = Validator(
+      value: product?.name ?? "",
+      name: "Nama",
+    ).notEmptyOrZero().notMoreThan(40).validate();
 
-    for (String t in texts) {
-      if (t.isEmpty) {
-        isLoading.value = false;
-        errorText.value = "Only 'description' that can be empty";
-        saving.value = false;
-        return;
-      }
+    errorTextDescription = Validator(
+      value: product?.description ?? "",
+      name: "Deskripsi",
+    ).validate();
+
+    errorTextPrice = Validator(
+      value: product?.price.toString() ?? "",
+      name: "Harga",
+    ).notEmptyOrZero().validate();
+
+    errorTextUnit = Validator(
+      value: product?.unit?.name ?? "",
+      name: "Unit",
+    ).notEmptyOrZero().validate();
+
+    errorTextWeight = Validator(
+      value: product?.weight.toString() ?? "",
+      name: "Berat",
+    ).notEmptyOrZero().validate();
+
+    errorTextCategory = Validator(
+      value: product?.category ?? "",
+      name: "Kategori",
+    ).notEmptyOrZero().validate();
+
+    errorTextStatus = Validator(
+      value: product?.status?.name ?? "",
+      name: "Status",
+    ).notEmptyOrZero().validate();
+
+    // errorTextCustomPrice = Validator(
+    //   value: product?.customPrice.toString() ?? "",
+    //   name: "Harga Custom",
+    // ).validate();
+    //
+    // errorTextMinimumPrice = Validator(
+    //   value: product?.minimumPrice.toString() ?? "",
+    //   name: "Harga Minimal",
+    // ).notEmptyOrZero().validate();
+
+    final error = Validator.errorCount != 0;
+
+    loading.value = false;
+
+    if (error) {
+      print("error $error");
+      return;
     }
 
-    texts = [tecPrice.text, tecWeight.text];
-    for (String t in texts) {
-      if (!t.isNumericOnly) {
-        isLoading.value = false;
-        errorText.value = "Price & Weight can only contain numbers";
-        saving.value = false;
-        return;
-      }
-    }
+    print("VALIDATED");
 
     //save the updated product
     // product.name = tecName.text.trim();
@@ -142,34 +151,87 @@ class ProductDetailController extends GetxController {
     // product.isCustomPrice = isCustomPrice.value;
     // product.minimumPrice = int.tryParse( tecMinimumPrice.text.trim()) ?? 0;
 
-    if (isAdding.isTrue) {
-      await productRepo.createProduct(product);
-    } else {
-      await productRepo.updateProduct(product);
-    }
+    // if (adding) {
+    //   await productRepo.createProduct(product);
+    // } else {
+    //   await productRepo.updateProduct(product);
+    // }
 
-    shouldUpdateHomeControllerProducts = true;
+    // Get.back();
+    // Get.rawSnackbar(message: "Successfully ${adding ? "Added" : "Updated"}");
+  }
 
-    Get.back();
-    Get.rawSnackbar(
-        message: "Successfully ${isAdding.isTrue ? "Added" : "Updated"}");
+  void clearErrors() {
+    Validator.resetErrorCounter();
+
+    errorTextType = "";
+    errorTextName = "";
+    errorTextImage = "";
+    errorTextDescription = "";
+    errorTextPrice = "";
+    errorTextUnit = "";
+    errorTextWeight = "";
+    errorTextCategory = "";
+    errorTextStatus = "";
+    // errorTextCustomPrice = "";
+    // errorTextMinimumPrice = "";
   }
 
   void onPressedDelete(String productId) {
-    Get.dialog(
-      DialogConfirm(
-        title: "Heads up !",
-        description: "You're about to delete ${product.name}",
-        confirmText: "CONFIRM",
-        onPressedConfirm: () async {
-          isLoading.value = true;
-          await productRepo.deleteProduct(productId);
-          Get.back();
-          Get.rawSnackbar(message: "${product.name} deleted");
-          shouldUpdateHomeControllerProducts = true;
-          isDeletion = true;
-        },
-      ),
-    );
+    // Get.dialog(
+    //   DialogConfirm(
+    //     title: "Heads up !",
+    //     description: "You're about to delete ${product.name}",
+    //     confirmText: "CONFIRM",
+    //     onPressedConfirm: () async {
+    //       loading.value = true;
+    //       await productRepo.deleteProduct(productId);
+    //       Get.back();
+    //       Get.rawSnackbar(message: "${product.name} deleted");
+    //       shouldUpdateHomeControllerProducts = true;
+    //       isDeletion = true;
+    //     },
+    //   ),
+    // );
+  }
+
+  void onChangedName(String value) {
+    product = product!.copyWith(name: value);
+  }
+
+  void onChangedDescription(String value) {
+    product = product!.copyWith(description: value);
+  }
+
+  void onChangedPrice(String value) {
+    product = product!.copyWith(price: double.tryParse(value) ?? 0);
+  }
+
+  void onChangedUnit(ProductUnit value) {
+    product = product!.copyWith(unit: value);
+  }
+
+  void onChangedWeight(String value) {
+    product = product!.copyWith(weight: double.tryParse(value) ?? 0);
+  }
+
+  void onChangedCategory(String value) {
+    product = product!.copyWith(category: value);
+  }
+
+  void onChangedMinimumPrice(String value) {
+    product = product!.copyWith(minimumPrice: double.tryParse(value) ?? 0);
+  }
+
+  void onChangedType(ProductType value) {
+    product = product!.copyWith(type: value);
+  }
+
+  void onChangedCustomPrice(bool value) {
+    product = product!.copyWith(customPrice: value);
+  }
+
+  void onChangedStatus(ProductStatus value) {
+    product = product!.copyWith(status: value);
   }
 }

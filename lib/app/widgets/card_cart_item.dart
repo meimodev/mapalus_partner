@@ -264,7 +264,7 @@ class _BuildAlterQuantity extends StatelessWidget {
         _buildAlterRowItem(
           context: context,
           value: productOrder.quantity.toString(),
-          unit: productOrder.product.unit.name,
+          unit: productOrder.product.unit?.name ?? "",
         ),
         SizedBox(height: 6.h),
         _buildAlterRowItem(

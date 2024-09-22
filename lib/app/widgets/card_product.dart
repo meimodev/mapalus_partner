@@ -51,13 +51,13 @@ class CardProduct extends StatelessWidget {
                     Row(
                       children: [
                         Text(
-                          '${product.price.formatNumberToCurrency()} / ${product.unit.name}',
+                          '${product.price.formatNumberToCurrency()} / ${product.unit?.name}',
                           style: TextStyle(
                             fontSize: 10.sp,
                             fontWeight: FontWeight.w300,
                           ),
                         ),
-                        product.unit.name.toLowerCase() == 'kilogram'
+                        product.unit?.name.toLowerCase() == 'kilogram'
                             ? const SizedBox()
                             : Row(
                                 children: [

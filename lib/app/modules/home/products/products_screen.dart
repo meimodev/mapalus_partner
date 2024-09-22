@@ -41,11 +41,10 @@ class ProductsScreen extends GetView<ProductsController> {
               ButtonWidget(
                 text: "+ Product",
                 onPressed: () async {
-                  final Product? product =
-                      await Get.toNamed(Routes.productDetail);
+                  final product = await Get.toNamed(Routes.productDetail);
 
                   if (product != null) {
-                    controller.addProduct(product);
+                    controller.addProduct(product as Product);
                   }
                 },
               ),

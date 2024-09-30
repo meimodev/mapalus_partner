@@ -31,10 +31,9 @@ class CardProduct extends StatelessWidget {
                 height: BaseSize.w72,
                 width: BaseSize.w72,
                 clipBehavior: Clip.hardEdge,
-                decoration: const BoxDecoration(
-                  color: BaseColor.primary3,
-                  backgroundBlendMode: BlendMode.clear,
-                  shape: BoxShape.circle,
+                decoration: BoxDecoration(
+                  color: BaseColor.accent,
+                  borderRadius: BorderRadius.circular(BaseSize.radiusMd),
                 ),
                 child: CustomImage(
                   imageUrl: product.image,

@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:mapalus_flutter_commons/mapalus_flutter_commons.dart';
 import 'package:mapalus_partner/app/modules/home/home_controller.dart';
@@ -29,6 +32,7 @@ class ProductDetailController extends GetxController {
   String errorTextWeight = "";
   String errorTextCategory = "";
   String errorTextStatus = "";
+
   // String errorTextCustomPrice = "";
   // String errorTextMinimumPrice = "";
 
@@ -64,20 +68,23 @@ class ProductDetailController extends GetxController {
     isCustomPrice.toggle();
   }
 
-  void onPressedImage() {
-    Get.rawSnackbar(message: "Image selection not yet implemented -_-");
+  void onChangedImage(File image) {
+    product = product!.copyWith(image: image.path);
   }
 
-  Future<void> onPressedSaveButton() async {
+  Future<void> onPressedSaveButton({
+    required void Function(bool adding) onSuccess,
+    required VoidCallback onNotValid,
+  }) async {
     loading.value = true;
     clearErrors();
-    await Future.delayed(const Duration(milliseconds: 400));
-    //run validation from product object
 
-    // errorTextImage = Validator(
-    //   value: product?.image ?? "",
-    //   name: "Gambar",
-    // ).notEmpty().validate();
+    await Future.delayed(const Duration(milliseconds: 400));
+
+    errorTextImage = Validator(
+      value: product?.image ?? "",
+      name: "Gambar",
+    ).notEmptyOrZero().validate();
 
     errorTextType = Validator(
       value: product?.type?.name ?? "",
@@ -119,46 +126,44 @@ class ProductDetailController extends GetxController {
       name: "Status",
     ).notEmptyOrZero().validate();
 
-    // errorTextCustomPrice = Validator(
-    //   value: product?.customPrice.toString() ?? "",
-    //   name: "Harga Custom",
-    // ).validate();
-    //
-    // errorTextMinimumPrice = Validator(
-    //   value: product?.minimumPrice.toString() ?? "",
-    //   name: "Harga Minimal",
-    // ).notEmptyOrZero().validate();
-
     final error = Validator.errorCount != 0;
 
-    loading.value = false;
-
     if (error) {
-      print("error $error");
+      onNotValid();
+      loading.value = false;
       return;
     }
 
-    print("VALIDATED");
+    if (adding) {
+      final imageUrl = await uploadImage();
+      product = product!.copyWith(image: imageUrl);
+      await productRepo.createProduct(product!);
+    } else {
+      final imageUrl = product!.image.contains("http");
+      if (!imageUrl) {
+        final url = await uploadImage();
+        product = product!.copyWith(image: url);
+      }
+      await productRepo.updateProduct(product!);
+    }
 
-    //save the updated product
-    // product.name = tecName.text.trim();
-    // product.description = tecDescription.text.trim();
-    // product.price = int.parse(tecPrice.text.trim());
-    // product.unit = tecUnit.text.trim();
-    // product.weight = double.parse(tecWeight.text.trim());
-    // product.category = tecCategory.text.trim();
-    // product.isAvailable = isAvailable.value;
-    // product.isCustomPrice = isCustomPrice.value;
-    // product.minimumPrice = int.tryParse( tecMinimumPrice.text.trim()) ?? 0;
+    Get.back();
+    onSuccess(adding);
+    loading.value = false;
+  }
 
-    // if (adding) {
-    //   await productRepo.createProduct(product);
-    // } else {
-    //   await productRepo.updateProduct(product);
-    // }
-
-    // Get.back();
-    // Get.rawSnackbar(message: "Successfully ${adding ? "Added" : "Updated"}");
+  Future<String> uploadImage() async {
+    final imageUrl = await productRepo.uploadProductImage(
+      File(product!.image),
+      product!.id,
+    );
+    if (imageUrl == null) {
+      Get.snackbar(
+        "Upload Gambar Gagal",
+        "Koneksi bermasalah. Silahkan coba sesaat lagi.",
+      );
+    }
+    return imageUrl!;
   }
 
   void clearErrors() {
@@ -177,22 +182,11 @@ class ProductDetailController extends GetxController {
     // errorTextMinimumPrice = "";
   }
 
-  void onPressedDelete(String productId) {
-    // Get.dialog(
-    //   DialogConfirm(
-    //     title: "Heads up !",
-    //     description: "You're about to delete ${product.name}",
-    //     confirmText: "CONFIRM",
-    //     onPressedConfirm: () async {
-    //       loading.value = true;
-    //       await productRepo.deleteProduct(productId);
-    //       Get.back();
-    //       Get.rawSnackbar(message: "${product.name} deleted");
-    //       shouldUpdateHomeControllerProducts = true;
-    //       isDeletion = true;
-    //     },
-    //   ),
-    // );
+  void onPressedDelete(String productId) async {
+    loading.value = true;
+    await productRepo.deleteProduct(productId);
+    loading.value = false;
+    Get.back();
   }
 
   void onChangedName(String value) {

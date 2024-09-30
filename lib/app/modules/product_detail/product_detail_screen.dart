@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mapalus_flutter_commons/mapalus_flutter_commons.dart';
 import 'package:mapalus_partner/app/modules/product_detail/product_detail_controller.dart';
-import 'package:mapalus_partner/app/widgets/card_navigation.dart';
+import 'package:mapalus_partner/app/widgets/widgets.dart';
+import 'package:mapalus_partner/main.dart';
 
 class ProductDetailScreen extends GetView<ProductDetailController> {
   const ProductDetailScreen({super.key});
@@ -30,9 +31,10 @@ class ProductDetailScreen extends GetView<ProductDetailController> {
                       Gap.h24,
                       ImagePickerWidget(
                         label: "Gambar Produk",
-                        onPressed: controller.onPressedImage,
-                        imageUrl: controller.product?.image ?? "",
+                        imageUrl: controller.product?.image,
                         errorText: controller.errorTextImage,
+                        onChangedImage: controller.onChangedImage,
+                        cameras: cameras,
                         height: BaseSize.customHeight(250),
                       ),
                       Gap.h12,
@@ -47,7 +49,7 @@ class ProductDetailScreen extends GetView<ProductDetailController> {
                               ProductType>(
                             context: context,
                             title: "Tipe Produk",
-                            getDisplayText: (data) => data.name,
+                            getDisplayText: (data) => data.translate,
                             items: ProductType.values,
                           );
 
@@ -55,7 +57,7 @@ class ProductDetailScreen extends GetView<ProductDetailController> {
                             controller.onChangedType(res);
                           }
 
-                          return res?.name;
+                          return res?.translate;
                         },
                       ),
                       Gap.h12,
@@ -100,7 +102,7 @@ class ProductDetailScreen extends GetView<ProductDetailController> {
                               ProductUnit>(
                             context: context,
                             title: "Unit Produk",
-                            getDisplayText: (data) => data.name,
+                            getDisplayText: (data) => data.translate,
                             items: ProductUnit.values,
                           );
 
@@ -108,7 +110,7 @@ class ProductDetailScreen extends GetView<ProductDetailController> {
                             controller.onChangedUnit(res);
                           }
 
-                          return res?.name;
+                          return res?.translate;
                         },
                       ),
                       Gap.h12,
@@ -165,7 +167,7 @@ class ProductDetailScreen extends GetView<ProductDetailController> {
                             controller.onChangedStatus(res);
                           }
 
-                          return res?.name;
+                          return res?.translate;
                         },
                       ),
                       // Gap.h12,
@@ -193,25 +195,28 @@ class ProductDetailScreen extends GetView<ProductDetailController> {
                       //   onChanged: controller.onChangedMinimumPrice,
                       // ),
                       Gap.h24,
-                      controller.adding
-                          ? ButtonWidget(
-                              text: "Tambah Produk",
-                              padding: EdgeInsets.symmetric(
-                                vertical: BaseSize.h12,
-                              ),
-                              onPressed: controller.onPressedSaveButton,
-                            )
-                          : const SizedBox(),
-                      Gap.h12,
-                      controller.adding
-                          ? const SizedBox()
-                          : ButtonWidget(
-                              padding: EdgeInsets.symmetric(
-                                vertical: BaseSize.h12,
-                              ),
-                              text: "Edit Produk",
-                              onPressed: controller.onPressedSaveButton,
+                      ButtonWidget(
+                        text: "${controller.adding ? "Tambah" : "Edit"} Produk",
+                        padding: EdgeInsets.symmetric(
+                          vertical: BaseSize.h12,
+                        ),
+                        onPressed: () => controller.onPressedSaveButton(
+                          onSuccess: (adding) =>
+                              ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text(
+                                  "${adding ? "Tambah" : "Edit"} Produk Berhasil"),
                             ),
+                          ),
+                          onNotValid: () =>
+                              ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text("Input belum valid"),
+                            ),
+                          ),
+                        ),
+                      ),
+                      Gap.h24,
                       controller.adding
                           ? const SizedBox()
                           : ButtonWidget(
@@ -219,8 +224,22 @@ class ProductDetailScreen extends GetView<ProductDetailController> {
                                 vertical: BaseSize.h12,
                               ),
                               text: "Hapus Produk",
-                              onPressed: () => controller
-                                  .onPressedDelete(controller.product!.id),
+                              backgroundColor: BaseColor.negative,
+                              textColor: BaseColor.white,
+                              onPressed: () async {
+                                final proceed =
+                                    await showSimpleConfirmationDialogWidget(
+                                  context: context,
+                                  action: "Hapus Produk",
+                                  onPressedPositive: () {},
+                                );
+
+                                if (proceed != null && proceed) {
+                                  controller.onPressedDelete(
+                                    controller.product!.id,
+                                  );
+                                }
+                              },
                             ),
                       Gap.h24,
                     ],

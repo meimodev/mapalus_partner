@@ -15,4 +15,5 @@ export 'card_search_bar.dart';
 export 'dialog_confirm.dart';
 export 'dialog_item_detail.dart';
 export 'dialog_rating.dart';
+export 'image_picker_widget.dart';
 export 'text_input_quantity.dart';

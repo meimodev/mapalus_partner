@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
+import 'package:mapalus_flutter_commons/repos/repos.dart';
 import 'package:mapalus_partner/app/modules/signing/signing_controller.dart';
-import 'package:mapalus_flutter_commons/mapalus_flutter_commons.dart';
 
 class SigningBinding extends Bindings {
   @override

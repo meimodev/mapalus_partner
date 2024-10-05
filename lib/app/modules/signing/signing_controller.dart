@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:mapalus_flutter_commons/mapalus_flutter_commons.dart';
+import 'package:mapalus_flutter_commons/repos/repos.dart';
+import 'package:mapalus_flutter_commons/shared/shared.dart';
 import 'package:mapalus_partner/shared/routes.dart';
 
 class SigningController extends GetxController {

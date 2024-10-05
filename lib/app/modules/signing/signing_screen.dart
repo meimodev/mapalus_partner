@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mapalus_flutter_commons/mapalus_flutter_commons.dart';
+import 'package:mapalus_flutter_commons/shared/shared.dart';
+import 'package:mapalus_flutter_commons/widgets/widgets.dart';
 import 'package:mapalus_partner/app/modules/signing/signing_controller.dart';
 
 class SigningScreen extends GetView<SigningController> {

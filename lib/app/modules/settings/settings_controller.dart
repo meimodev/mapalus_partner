@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:mapalus_flutter_commons/mapalus_flutter_commons.dart';
+import 'package:mapalus_flutter_commons/repos/repos.dart';
 
 class SettingsController extends GetxController {
   RxString currentVersion = ''.obs;
@@ -14,9 +14,6 @@ class SettingsController extends GetxController {
   }
 
   _initAppVersionText() async {
-
     currentVersion.value = await appRepo.getCurrentVersion();
-
-
   }
 }

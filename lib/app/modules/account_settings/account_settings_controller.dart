@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
+import 'package:mapalus_flutter_commons/repos/repos.dart';
 import 'package:mapalus_partner/shared/routes.dart';
-import 'package:mapalus_flutter_commons/mapalus_flutter_commons.dart';
 
 class AccountSettingsController extends GetxController {
   RxString userName = ''.obs;
@@ -12,7 +12,6 @@ class AccountSettingsController extends GetxController {
   RxString currentVersion = ''.obs;
 
   AppRepo appRepo = Get.find();
-
 
   @override
   void onInit() {

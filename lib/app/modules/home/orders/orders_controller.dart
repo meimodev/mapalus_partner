@@ -11,20 +11,25 @@ class OrdersController extends GetxController {
   @override
   void onReady() {
     super.onReady();
-    fetchOrders();
+    listenToProducts();
   }
 
-  void fetchOrders() async {
+  Future<void> listenToProducts() async {
     loading.value = true;
-    orders = await orderRepo.readOrders(
-      GetOrdersRequest(
-        partner: Partner(
-          id: 'ssTneIKTUTtnb8L4dGWA',
-          name: "test partner",
-          lastActiveTimeStamp: DateTime.now(),
-        ),
-      ),
+    const request = GetOrdersRequest(
+      partnerId: "ssTneIKTUTtnb8L4dGWA",
     );
+    final streamOrders = orderRepo.readOrdersStream(request);
+
+    streamOrders.listen(
+      (event) {
+        loading.value = true;
+        orders = event;
+        loading.value = false;
+      },
+    );
+
+    orders = await orderRepo.readOrders(request);
     loading.value = false;
   }
 }

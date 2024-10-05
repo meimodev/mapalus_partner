@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
-import 'package:mapalus_flutter_commons/mapalus_flutter_commons.dart';
+import 'package:mapalus_flutter_commons/models/models.dart';
+import 'package:mapalus_flutter_commons/repos/repos.dart';
 
 class ProductsController extends GetxController {
   final ProductRepo productRepo = Get.find();

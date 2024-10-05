@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
-import 'package:mapalus_flutter_commons/mapalus_flutter_commons.dart';
+import 'package:mapalus_flutter_commons/repos/repos.dart';
+import 'package:mapalus_flutter_commons/services/services.dart';
 import 'package:mapalus_partner/app/modules/modules.dart';
 
 class HomeBinding implements Bindings {
@@ -10,6 +11,7 @@ class HomeBinding implements Bindings {
     Get.lazyPut<OrderRepo>(() => OrderRepoImpl());
     Get.lazyPut(() => ProductRepo());
     Get.lazyPut(() => PartnerRepo());
+    Get.lazyPut(() => NotificationService());
     Get.lazyPut(() => HomeController());
     Get.lazyPut(() => OrdersController());
     Get.lazyPut(() => ProductsController());

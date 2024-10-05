@@ -6,7 +6,7 @@ export 'card_cart_peak.dart';
 export 'card_category.dart';
 export 'card_delivery_fee.dart';
 export 'card_navigation.dart';
-export 'card_order_detail_item.dart';
+export 'card_order_detail_item_product.dart';
 export 'card_order_peak.dart';
 export 'card_partner_info.dart';
 export 'card_partner_status.dart';

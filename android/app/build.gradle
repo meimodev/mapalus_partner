@@ -14,11 +14,6 @@ if (localPropertiesFile.exists()) {
     }
 }
 
-//def flutterRoot = localProperties.getProperty('flutter.sdk')
-//if (flutterRoot == null) {
-//    throw new GradleException("Flutter SDK not found. Define location with flutter.sdk in the local.properties file.")
-//}
-
 def flutterVersionCode = localProperties.getProperty('flutter.versionCode')
 if (flutterVersionCode == null) {
     flutterVersionCode = '1'
@@ -29,15 +24,6 @@ if (flutterVersionName == null) {
     flutterVersionName = '1.0'
 }
 
-
-
-//apply plugin: 'com.android.application'
-//// START: FlutterFire Configuration
-//apply plugin: 'com.google.gms.google-services'
-//// END: FlutterFire Configuration
-//apply plugin: 'kotlin-android'
-//apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
-
 def keystoreProperties = new Properties()
 def keystorePropertiesFile = rootProject.file('key.properties')
 if (keystorePropertiesFile.exists()) {
@@ -45,6 +31,9 @@ if (keystorePropertiesFile.exists()) {
 }
 
 android {
+    namespace 'com.meimodev.mapalus_partner'
+    compileSdk = flutter.compileSdkVersion
+    ndkVersion = flutter.ndkVersion
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -52,11 +41,7 @@ android {
     }
 
     kotlinOptions {
-        jvmTarget = '1.8'
-    }
-
-    sourceSets {
-        main.java.srcDirs += 'src/main/kotlin'
+        jvmTarget = JavaVersion.VERSION_1_8
     }
 
     defaultConfig {
@@ -65,8 +50,8 @@ android {
         compileSdkVersion 34
         targetSdkVersion 33
 //        targetSdkVersion flutter.targetSdkVersion
-        versionCode flutterVersionCode.toInteger()
-        versionName flutterVersionName
+        versionCode = flutter.versionCode
+        versionName = flutter.versionName
     }
 
     signingConfigs {
@@ -79,7 +64,11 @@ android {
     }
     buildTypes {
         release {
-            signingConfig signingConfigs.release
+            signingConfig = signingConfigs.release
+        }
+        debug {
+            signingConfig = signingConfigs.debug
+
         }
     }
 }

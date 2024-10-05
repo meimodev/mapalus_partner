@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:mapalus_flutter_commons/mapalus_flutter_commons.dart';
+import 'package:mapalus_flutter_commons/shared/shared.dart';
+import 'package:mapalus_flutter_commons/widgets/widgets.dart';
 import 'package:mapalus_partner/app/modules/product_detail/product_detail_controller.dart';
 import 'package:mapalus_partner/app/widgets/widgets.dart';
 import 'package:mapalus_partner/main.dart';

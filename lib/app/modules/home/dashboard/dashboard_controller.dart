@@ -13,8 +13,6 @@ class DashboardController extends GetxController {
 
     await Future.delayed(Duration(seconds: 1));
 
-    // Partner should be passed from login procedure
-    // get partner object from local storage
     partner.value = await partnerRepo.readPartner("ssTneIKTUTtnb8L4dGWA");
   }
 

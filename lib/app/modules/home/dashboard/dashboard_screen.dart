@@ -42,32 +42,32 @@ class DashboardScreen extends GetView<DashboardController> {
             ),
           ),
           Gap.h12,
-          Row(
-            children: [
-              Expanded(
-                child: CardPartnerStatusWidget(
-                  title: 'Total Product',
-                  value: '123',
-                  onPressed: () {},
-                ),
-              ),
-              Gap.w12,
-              Expanded(
-                child: CardPartnerStatusWidget(
-                  title: 'Offline Product',
-                  value: '12',
-                  color: BaseColor.negative,
-                  onPressed: () {},
-                ),
-              ),
-            ],
-          ),
-          Gap.h12,
-          CardPartnerStatusWidget(
-            title: 'New Orders',
-            value: '100',
-            onPressed: () {},
-          ),
+          // Row(
+          //   children: [
+          //     Expanded(
+          //       child: CardPartnerStatusWidget(
+          //         title: 'Total Product',
+          //         value: '123',
+          //         onPressed: () {},
+          //       ),
+          //     ),
+          //     Gap.w12,
+          //     Expanded(
+          //       child: CardPartnerStatusWidget(
+          //         title: 'Offline Product',
+          //         value: '12',
+          //         color: BaseColor.negative,
+          //         onPressed: () {},
+          //       ),
+          //     ),
+          //   ],
+          // ),
+          // Gap.h12,
+          // CardPartnerStatusWidget(
+          //   title: 'New Orders',
+          //   value: '100',
+          //   onPressed: () {},
+          // ),
         ],
       ),
     );

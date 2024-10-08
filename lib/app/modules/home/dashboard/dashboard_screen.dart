@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:mapalus_flutter_commons/models/models.dart';
 import 'package:mapalus_flutter_commons/shared/shared.dart';
 import 'package:mapalus_flutter_commons/widgets/widgets.dart';
-import 'package:mapalus_partner/app/widgets/widgets.dart';
+import 'package:mapalus_partner/app/modules/home/dashboard/widgets/widgets.dart';
+import 'package:mapalus_partner/app/modules/modules.dart';
+import 'package:mapalus_partner/shared/routes.dart';
 
-class DashboardScreen extends StatelessWidget {
+class DashboardScreen extends GetView<DashboardController> {
   const DashboardScreen({super.key});
 
   @override
@@ -22,22 +26,26 @@ class DashboardScreen extends StatelessWidget {
             style: BaseTypography.displayLarge.toBold.toPrimary,
           ),
           Gap.h12,
-          CardPartnerInfo(
-            onPressed: () {},
-            name: 'Strata',
-            location: 'Jakarta Selatan, Tebet',
+          Obx(
+            () => CardPartnerInfoWidget(
+              partner: controller.partner.value,
+              onPressed: () async {
+                final Partner partner = controller.partner.value as Partner;
+                final updatedPartner = await Get.toNamed(
+                  Routes.partnerSetting,
+                  arguments: partner,
+                );
+                if (updatedPartner != null) {
+                  controller.onUpdatePartner(updatedPartner);
+                }
+              },
+            ),
           ),
           Gap.h12,
-          CardPartnerStatus(
-            title: 'New Orders',
-            value: '100',
-            onPressed: () {},
-          ),
-          Gap.h16,
           Row(
             children: [
               Expanded(
-                child: CardPartnerStatus(
+                child: CardPartnerStatusWidget(
                   title: 'Total Product',
                   value: '123',
                   onPressed: () {},
@@ -45,7 +53,7 @@ class DashboardScreen extends StatelessWidget {
               ),
               Gap.w12,
               Expanded(
-                child: CardPartnerStatus(
+                child: CardPartnerStatusWidget(
                   title: 'Offline Product',
                   value: '12',
                   color: BaseColor.negative,
@@ -53,6 +61,12 @@ class DashboardScreen extends StatelessWidget {
                 ),
               ),
             ],
+          ),
+          Gap.h12,
+          CardPartnerStatusWidget(
+            title: 'New Orders',
+            value: '100',
+            onPressed: () {},
           ),
         ],
       ),

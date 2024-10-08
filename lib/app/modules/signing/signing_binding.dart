@@ -6,7 +6,7 @@ class SigningBinding extends Bindings {
   @override
   void dependencies() {
     Get.put<AppRepo>(AppRepo());
-    Get.put<UserRepoPartner>(UserRepoPartner());
+    Get.put<UserPartnerRepo>(UserPartnerRepo());
     Get.put<SigningController>(SigningController());
   }
 }

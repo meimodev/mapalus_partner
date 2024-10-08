@@ -11,6 +11,8 @@ class Routes {
   static const String updateApp = '/update-app';
   static const String settings = '/settings';
   static const String appSettings = '/app-settings';
+  static const String partnerSetting = '/partner-settings';
+  // static const String accountSetting = '/account-settings';
 
   static List<GetPage> getRoutes() {
     return [
@@ -28,6 +30,11 @@ class Routes {
       //   binding: AccountSettingsBinding(),
       //   transition: Transition.cupertino,
       // ),
+      GetPage(
+        name: partnerSetting,
+        page: () => const PartnerSettingsScreen(),
+        binding: PartnerSettingsBinding(),
+      ),
       // GetPage(
       //   name: orders,
       //   page: () => const OrdersScreen(),

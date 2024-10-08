@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:mapalus_flutter_commons/shared/shared.dart';
 
-class CardPartnerStatus extends StatelessWidget {
-  const CardPartnerStatus({
+class CardPartnerStatusWidget extends StatelessWidget {
+  const CardPartnerStatusWidget({
     super.key,
     required this.title,
     required this.value,

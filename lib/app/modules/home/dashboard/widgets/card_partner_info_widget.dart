@@ -1,20 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:mapalus_flutter_commons/models/models.dart';
 import 'package:mapalus_flutter_commons/shared/shared.dart';
+import 'package:mapalus_flutter_commons/widgets/custom_image.dart';
 
-class CardPartnerInfo extends StatelessWidget {
-  const CardPartnerInfo({
+class CardPartnerInfoWidget extends StatelessWidget {
+  const CardPartnerInfoWidget({
     super.key,
     required this.onPressed,
-    required this.name,
-    required this.location,
+    this.partner,
   });
 
   final VoidCallback onPressed;
-  final String name;
-  final String location;
+  final Partner? partner;
 
   @override
   Widget build(BuildContext context) {
+    if (partner == null) {
+      return const SizedBox();
+    }
     return Material(
       color: BaseColor.primaryText,
       clipBehavior: Clip.hardEdge,
@@ -30,9 +33,18 @@ class CardPartnerInfo extends StatelessWidget {
           ),
           child: Row(
             children: [
-              const Icon(
-                Icons.star_outline_outlined,
-                color: BaseColor.primary3,
+              Container(
+                width: BaseSize.w48,
+                height: BaseSize.w48,
+                clipBehavior: Clip.hardEdge,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(
+                    BaseSize.radiusMd,
+                  ),
+                ),
+                child: CustomImage(
+                  imageUrl: partner!.image,
+                ),
               ),
               Gap.w12,
               Expanded(
@@ -40,11 +52,11 @@ class CardPartnerInfo extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     Text(
-                      name,
+                      partner!.name,
                       style: BaseTypography.bodyMedium.toBold.toPrimary,
                     ),
                     Text(
-                      location,
+                      partner!.location!.place,
                       style: BaseTypography.bodySmall.toCardBackground1,
                     ),
                   ],

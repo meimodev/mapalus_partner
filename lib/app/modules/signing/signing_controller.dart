@@ -7,7 +7,7 @@ import 'package:mapalus_partner/shared/routes.dart';
 
 class SigningController extends GetxController {
   AppRepo appRepo = Get.find();
-  UserRepoPartner userRepo = Get.find();
+  UserPartnerRepo userRepo = Get.find();
 
   TextEditingController tecSigning = TextEditingController();
   Rx<String> errorText = "".obs;

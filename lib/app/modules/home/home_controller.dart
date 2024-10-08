@@ -7,7 +7,7 @@ import 'package:mapalus_flutter_commons/repos/repos.dart';
 import 'package:mapalus_partner/shared/routes.dart';
 
 class HomeController extends GetxController {
-  UserRepoPartner userRepo = Get.find<UserRepoPartner>();
+  UserPartnerRepo userRepo = Get.find();
   OrderRepo orderRepo = Get.find<OrderRepo>();
   ProductRepo productRepo = Get.find<ProductRepo>();
   AppRepo appRepo = Get.find<AppRepo>();

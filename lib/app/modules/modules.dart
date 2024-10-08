@@ -2,11 +2,16 @@ export 'account_settings/account_settings_binding.dart';
 // account setting
 export 'account_settings/account_settings_controller.dart';
 export 'account_settings/account_settings_screen.dart';
+// home
 export 'home/home.dart';
 // order detail
 export 'order_detail/order_detail_binding.dart';
 export 'order_detail/order_detail_controller.dart';
 export 'order_detail/order_detail_screen.dart';
+//partner setting
+export 'partner_settings/partner_settings_binding.dart';
+export 'partner_settings/partner_settings_controller.dart';
+export 'partner_settings/partner_settings_screen.dart';
 // product detail
 export 'product_detail/product_detail_binding.dart';
 export 'product_detail/product_detail_controller.dart';

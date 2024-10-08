@@ -7,12 +7,15 @@ class HomeBinding implements Bindings {
   @override
   void dependencies() {
     Get.put(AppRepo());
-    Get.lazyPut(() => UserRepoPartner());
+    Get.put(UserPartnerRepo());
+    Get.put(NotificationService());
     Get.lazyPut<OrderRepo>(() => OrderRepoImpl());
     Get.lazyPut(() => ProductRepo());
     Get.lazyPut(() => PartnerRepo());
-    Get.lazyPut(() => NotificationService());
+
+    //Controllers
     Get.lazyPut(() => HomeController());
+    Get.lazyPut(() => DashboardController());
     Get.lazyPut(() => OrdersController());
     Get.lazyPut(() => ProductsController());
   }

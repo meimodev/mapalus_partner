@@ -1,19 +1,18 @@
 import 'package:get/get.dart';
 import 'package:mapalus_flutter_commons/models/models.dart';
-import 'package:mapalus_flutter_commons/repos/partner_repo.dart';
+import 'package:mapalus_flutter_commons/repos/repos.dart';
 
 class DashboardController extends GetxController {
   final PartnerRepo partnerRepo = Get.find();
+  final UserRepo userRepo = Get.find();
 
   Rx<Partner?> partner = Rx<Partner?>(null);
 
   @override
-  void onInit() async {
-    super.onInit();
+  void onReady() async {
+    super.onReady();
 
-    await Future.delayed(Duration(seconds: 1));
-
-    partner.value = await partnerRepo.readPartner("ssTneIKTUTtnb8L4dGWA");
+    partner.value = await partnerRepo.getCurrentPartner();
   }
 
   void onUpdatePartner(updatedPartner) {

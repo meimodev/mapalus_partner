@@ -1,69 +1,123 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
-import 'package:mapalus_flutter_commons/mapalus_flutter_commons.dart';
 import 'package:mapalus_flutter_commons/repos/repos.dart';
 import 'package:mapalus_flutter_commons/shared/shared.dart';
 import 'package:mapalus_partner/shared/routes.dart';
 
+enum SigningState {
+  verifyNumber,
+  otp,
+  unregistered,
+}
+
 class SigningController extends GetxController {
   AppRepo appRepo = Get.find();
-  UserPartnerRepo userRepo = Get.find();
+  UserRepo userRepo = Get.find();
+  PartnerRepo partnerRepo = Get.find();
 
-  TextEditingController tecSigning = TextEditingController();
-  Rx<String> errorText = "".obs;
-  String? message;
+  String errorText = "";
 
   String phone = "";
-  String name = '';
 
-  Rx<CardSigningState> signingState = CardSigningState.oneTimePassword.obs;
-  RxBool isLoading = false.obs;
+  RxBool loading = true.obs;
 
-  TextEditingController tecPhone = TextEditingController();
-  TextEditingController tecPassword = TextEditingController();
+  SigningState signingState = SigningState.verifyNumber;
 
-  late Box box;
+  final pinController = TextEditingController();
 
   @override
   Future<void> onReady() async {
     super.onReady();
 
-    isLoading.value = true;
-    if (!await appRepo.checkIfLatestVersion(false)) {
-      Get.offNamed(Routes.updateApp);
-      return;
-    }
+    await _loading(true);
 
-    final isAlreadySignedIn = await userRepo.getSignedIn();
-    if (isAlreadySignedIn != null) {
+    initSigningCallback();
+
+    await _loading(false);
+  }
+
+  initSigningCallback() {
+    userRepo.onSuccessSigning = (user) async {
+      await _loading(true);
+      print("[SIGNING CONTROLLER] Signing Success $user");
+
+      // then then get the user in firestore
+      if ((user.partnerId ?? "").isEmpty) {
+        signingState = SigningState.unregistered;
+        await userRepo.signOut();
+        // await Future.delayed(Duration(milliseconds: 500));
+        await _loading(false);
+      }
+
+      print("[SIGNING CONTROLLER] should go back");
       Get.offNamed(Routes.home);
-      return;
-    }
+    };
 
-    isLoading.value = false;
+    userRepo.onUnregisteredUser = (user) async {
+      await _loading(true);
+      signingState = SigningState.unregistered;
+      await userRepo.signOut();
+      // await Future.delayed(Duration(milliseconds: 500));
+      await _loading(false);
+    };
   }
 
   Future<void> onPressedSignIn() async {
-    errorText.value = "";
-    final phone = tecPhone.text.trim();
-    final pass = tecPassword.text.trim();
+    await _loading(true);
+    Validator.resetErrorCounter();
 
-    if (phone.isEmpty) {
-      errorText.value = "Phone cannot be empty";
+    errorText = Validator(
+      value: phone,
+      name: "Nomor Handphone",
+    ).notEmptyOrZero().mustStartsWith("0").validate();
+
+    if (Validator.hasError()) {
+      await _loading(false);
       return;
     }
 
-    if (pass.isEmpty) {
-      errorText.value = "Password cannot be empty";
-      return;
-    }
+    // userRepo.testOnSucess(phone);
 
-    final proceed = await userRepo.signIn(phone: phone, password: pass);
-    if (proceed) {
-      Get.offNamed(Routes.home);
-      return;
-    }
+    await userRepo.requestOTP(
+      phone,
+      (result) async {
+        if (result.error) {
+          errorText = result.message;
+          pinController.text = "";
+          await _loading(false);
+          return;
+        }
+        if (result.message.contains("MANUAL_VERIFICATION")) {
+          signingState = SigningState.otp;
+          errorText = "";
+          await _loading(false);
+        }
+      },
+    );
+  }
 
-    errorText.value = "invalid phone & password combination";
+  void onChangedPhone(String value) {
+    phone = value;
+  }
+
+  void onCompletedPin(String otp) async {
+    await _loading(true);
+    await userRepo.verifyOTP(
+      otp,
+      (result) async {
+        if (result.error) {
+          errorText = result.message;
+          pinController.text = "";
+          await _loading(false);
+          return;
+        }
+      },
+    );
+  }
+
+  Future<void> _loading(bool value) async {
+    if (loading.value == value) return;
+    await Future.delayed(const Duration(milliseconds: 300));
+    loading.value = value;
   }
 }

@@ -11,46 +11,51 @@ class HomeScreen extends GetView<HomeController> {
   Widget build(BuildContext context) {
     return ScreenWrapper(
       padding: EdgeInsets.zero,
-      child: Column(
-        children: [
-          Expanded(
-            child: PageView(
-              physics: const NeverScrollableScrollPhysics(),
-              controller: controller.pageViewController,
-              onPageChanged: controller.onPageViewChanged,
-              children: const [
-                DashboardScreen(),
-                OrdersScreen(),
-                ProductsScreen(),
-              ],
-            ),
+      child: Obx(
+        () => LoadingWrapper(
+          loading: controller.loading.value,
+          child: Column(
+            children: [
+              Expanded(
+                child: PageView(
+                  physics: const NeverScrollableScrollPhysics(),
+                  controller: controller.pageViewController,
+                  onPageChanged: controller.onPageViewChanged,
+                  children: const [
+                    DashboardScreen(),
+                    OrdersScreen(),
+                    ProductsScreen(),
+                  ],
+                ),
+              ),
+              Obx(
+                () => NavigationBar(
+                  labelBehavior:
+                      NavigationDestinationLabelBehavior.onlyShowSelected,
+                  onDestinationSelected: controller.onPressedNavigationButton,
+                  indicatorColor: BaseColor.primary3,
+                  selectedIndex: controller.currentPageIndex.value,
+                  destinations: const <Widget>[
+                    NavigationDestination(
+                      icon: Icon(
+                        Icons.apps_rounded,
+                      ),
+                      label: 'Dashboard',
+                    ),
+                    NavigationDestination(
+                      icon: Icon(Icons.receipt_rounded),
+                      label: 'Orders',
+                    ),
+                    NavigationDestination(
+                      icon: Icon(Icons.inventory_2_rounded),
+                      label: 'Products',
+                    ),
+                  ],
+                ),
+              ),
+            ],
           ),
-          Obx(
-            () => NavigationBar(
-              labelBehavior:
-                  NavigationDestinationLabelBehavior.onlyShowSelected,
-              onDestinationSelected: controller.onPressedNavigationButton,
-              indicatorColor: BaseColor.primary3,
-              selectedIndex: controller.currentPageIndex.value,
-              destinations: const <Widget>[
-                NavigationDestination(
-                  icon: Icon(
-                    Icons.apps_rounded,
-                  ),
-                  label: 'Dashboard',
-                ),
-                NavigationDestination(
-                  icon: Icon(Icons.receipt_rounded),
-                  label: 'Orders',
-                ),
-                NavigationDestination(
-                  icon: Icon(Icons.inventory_2_rounded),
-                  label: 'Products',
-                ),
-              ],
-            ),
-          ),
-        ],
+        ),
       ),
     );
   }

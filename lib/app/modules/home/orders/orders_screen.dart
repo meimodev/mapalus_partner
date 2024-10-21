@@ -58,8 +58,10 @@ class OrdersScreen extends GetView<OrdersController> {
                         itemBuilder: (context, index) => CardOrder(
                           order: controller.orders[index],
                           onPressed: () {
-                            Get.toNamed(Routes.orderDetail,
-                                arguments: controller.orders[index]);
+                            Get.toNamed(
+                              Routes.orderDetail,
+                              arguments: controller.orders[index],
+                            );
                           },
                         ),
                       ),

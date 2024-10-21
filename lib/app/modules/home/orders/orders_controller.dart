@@ -1,25 +1,36 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mapalus_flutter_commons/models/models.dart';
 import 'package:mapalus_flutter_commons/repos/repos.dart';
+import 'package:mapalus_flutter_commons/shared/shared.dart';
 
 class OrdersController extends GetxController {
-  OrderRepo orderRepo = Get.find();
+  final orderRepo = Get.find<OrderRepo>();
+  final partnerRepo = Get.find<PartnerRepo>();
+
   List<OrderApp> orders = [];
 
   RxBool loading = true.obs;
 
+  Partner? _partner;
+
   @override
-  void onReady() {
+  void onReady() async {
     super.onReady();
+    _partner = await partnerRepo.getCurrentPartner();
     listenToProducts();
   }
 
   Future<void> listenToProducts() async {
     loading.value = true;
-    const request = GetOrdersRequest(
-      partnerId: "ssTneIKTUTtnb8L4dGWA",
+    final req = GetOrdersRequest(
+      partnerId: _partner!.id,
+      dateRange: DateTimeRange(
+        start: DateTime.now().toStartOfTheWeek,
+        end: DateTime.now().toEndOfTheWeek,
+      ),
     );
-    final streamOrders = orderRepo.readOrdersStream(request);
+    final streamOrders = orderRepo.readOrdersStream(req);
 
     streamOrders.listen(
       (event) {
@@ -29,7 +40,7 @@ class OrdersController extends GetxController {
       },
     );
 
-    orders = await orderRepo.readOrders(request);
+    orders = await orderRepo.readOrders(req);
     loading.value = false;
   }
 }

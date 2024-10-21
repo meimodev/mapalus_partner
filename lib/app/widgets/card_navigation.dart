@@ -45,6 +45,7 @@ class CardNavigation extends StatelessWidget {
                   : Center(
                       child: Text(
                         title!,
+                        textAlign: TextAlign.center,
                         style: TextStyle(
                           color: isInverted
                               ? BaseColor.editable

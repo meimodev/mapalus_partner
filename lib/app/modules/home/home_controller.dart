@@ -7,43 +7,40 @@ import 'package:mapalus_flutter_commons/repos/repos.dart';
 import 'package:mapalus_partner/shared/routes.dart';
 
 class HomeController extends GetxController {
-  UserPartnerRepo userRepo = Get.find();
-  OrderRepo orderRepo = Get.find<OrderRepo>();
-  ProductRepo productRepo = Get.find<ProductRepo>();
-  AppRepo appRepo = Get.find<AppRepo>();
-  PartnerRepo partnerRepo = Get.find<PartnerRepo>();
+  final appRepo = Get.find<AppRepo>();
+  final partnerRepo = Get.find<PartnerRepo>();
+  final userRepo = Get.find<UserRepo>();
+
+  RxBool loading = true.obs;
 
   RxInt currentPageIndex = 0.obs;
 
   final PageController pageViewController = PageController(initialPage: 0);
 
-  //TODO [OPTIMIZATION] use infinite scrolling implementation
-
   @override
-  void onReady() async {
-    final notLatestVersion = !await appRepo.checkIfLatestVersion(false);
-    if (notLatestVersion) {
+  void onInit() async {
+    super.onInit();
+
+    final latestVersion = await appRepo.checkIfLatestVersion(false);
+    if (!latestVersion) {
       Get.offNamed(Routes.updateApp);
       return;
     }
 
-    // final isAlreadySignedIn = await userRepo.getSignedIn();
-    // if (isAlreadySignedIn == null) {
-    //   Get.offNamed(Routes.signing);
-    //   return;
-    // }
+    final signedUser = await userRepo.getSignedUser();
+    if (signedUser == null) {
+      Get.offNamed(Routes.signing);
+      return;
+    }
 
-    _initPartnerFCMToken();
-    // _initNewOrderListener();
+    await partnerRepo.setCurrentPartner(signedUser.partnerId!);
+
     _initNotificationHandler();
-    super.onReady();
+    await userRepo.updateUserMetaData(signedUser);
+    loading.value = false;
   }
 
-  void onPressedAddButton() {
-    Get.toNamed(Routes.productDetail, arguments: null);
-  }
-
-  _initNotificationHandler() async {
+  void _initNotificationHandler() async {
     const androidChannel = AndroidNotificationChannel(
       'order_channel', // id
       'order channel',
@@ -109,7 +106,7 @@ class HomeController extends GetxController {
     // });
   }
 
-  _handleMessage({
+  void _handleMessage({
     required RemoteMessage message,
     required FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin,
     AndroidNotificationChannel? androidChannel,
@@ -146,64 +143,6 @@ class HomeController extends GetxController {
       }
     }
   }
-
-  Future<void> _initPartnerFCMToken() async {
-    // Partner partner = await partnerRepo.readPartner("089525699078");
-    // await FirebaseMessaging.instance.subscribeToTopic(partner.id);
-  }
-
-  // void _initNewOrderListener() {
-  //   orderRepo.firestore.getOrdersStream().listen((snapShot) {
-  //     isLoading.value = true;
-  //     if (orders.isEmpty) {
-  //       // Populate order first time screen init
-  //       orders.value = snapShot.docs
-  //           .where((e) {
-  //             final o = OrderApp.fromMap(e.data() as Map<String, dynamic>);
-  //             // dev.log(o.toString());
-  //             return o.orderTimeStamp.isSame(DateTime.now(), Units.DAY);
-  //           })
-  //           .map((e) => OrderApp.fromMap(e.data() as Map<String, dynamic>))
-  //           .toList()
-  //           .reversed
-  //           .toList();
-  //       isLoading.value = false;
-  //
-  //       return;
-  //     }
-  //
-  //     var docChanges = snapShot.docChanges;
-  //     for (var d in docChanges) {
-  //       var map = d.doc.data() as Map<String, dynamic>;
-  //       var order = OrderApp.fromMap(map);
-  //       final existIndex =
-  //           orders.indexWhere((element) => element.id == order.id);
-  //
-  //       if (existIndex == -1) {
-  //         orders.insert(0, order);
-  //         Get.rawSnackbar(
-  //           message: "New Order received | #${order.idMinified}",
-  //         );
-  //         // FlutterRingtonePlayer.play(
-  //         //   android: AndroidSounds.notification,
-  //         //   ios: IosSounds.glass,
-  //         //   looping: false,
-  //         //   volume: 1,
-  //         //   asAlarm: true,
-  //         // );
-  //       } else {
-  //         // orders.replaceRange(existIndex, existIndex, [order]);
-  //         orders.removeAt(existIndex);
-  //         orders.insert(existIndex, order);
-  //         // Get.rawSnackbar(
-  //         //   message: "Order #${order.idMinified} updated",
-  //         // );
-  //       }
-  //     }
-  //
-  //     isLoading.value = false;
-  //   });
-  // }
 
   void onPressedNavigationButton(int value) {
     currentPageIndex.value = value;

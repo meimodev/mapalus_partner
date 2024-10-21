@@ -1,262 +1,97 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:mapalus_flutter_commons/mapalus_flutter_commons.dart';
 import 'package:mapalus_flutter_commons/shared/shared.dart';
 import 'package:mapalus_flutter_commons/widgets/widgets.dart';
 import 'package:mapalus_partner/app/modules/signing/signing_controller.dart';
+import 'package:mapalus_partner/app/modules/signing/widgets/pin_picker_widget.dart';
 
 class SigningScreen extends GetView<SigningController> {
   const SigningScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final isLargeScreen = context.isTablet;
     return ScreenWrapper(
-      backgroundColor: BaseColor.accent,
-      child: Flex(
-        direction: isLargeScreen ? Axis.horizontal : Axis.vertical,
+      backgroundColor: BaseColor.primary3,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
         children: [
-          // Expanded(
-          //   flex: 2,
-          //   child: Container(
-          //     color: BaseColor.accent,
-          //     child: CarouselSlider(
-          //       items: [
-          //         _buildGraphicHolderCard(
-          //           context: context,
-          //           assetName: 'assets/vectors/phone.svg',
-          //           text: 'Pesan dirumah, harga pasar',
-          //         ),
-          //         _buildGraphicHolderCard(
-          //           context: context,
-          //           assetName: 'assets/vectors/bike.svg',
-          //           text: 'Tinggal tunggu, kami antar',
-          //         ),
-          //         _buildGraphicHolderCard(
-          //           context: context,
-          //           assetName: 'assets/vectors/packet.svg',
-          //           text: 'Tidak sesuai, kami ganti',
-          //         ),
-          //       ],
-          //       options: CarouselOptions(
-          //         pauseAutoPlayOnTouch: true,
-          //         viewportFraction: 1,
-          //         height: double.infinity,
-          //         initialPage: 0,
-          //         reverse: false,
-          //         autoPlay: true,
-          //         autoPlayInterval: const Duration(seconds: 4),
-          //         autoPlayAnimationDuration: const Duration(milliseconds: 500),
-          //         autoPlayCurve: Curves.fastOutSlowIn,
-          //         enlargeCenterPage: false,
-          //         scrollDirection: Axis.horizontal,
-          //       ),
-          //     ),
-          //   ),
-          // ),
-          Expanded(
-            flex: isLargeScreen ? 1 : 0,
-            child: _BuildCardSigning(
-              tecPhone: controller.tecPhone,
-              tecPassword: controller.tecPassword,
-              onPressedSigning: controller.onPressedSignIn,
-              controller: controller,
+          Container(
+            padding: EdgeInsets.symmetric(
+              horizontal: BaseSize.w24,
+              vertical: BaseSize.h24,
+            ),
+            decoration: BoxDecoration(
+              color: BaseColor.white,
+              borderRadius: BorderRadius.vertical(
+                top: Radius.circular(BaseSize.radiusMd),
+              ),
+            ),
+            child: Obx(
+              () => LoadingWrapper(
+                loading: controller.loading.value,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    controller.signingState != SigningState.verifyNumber
+                        ? const SizedBox()
+                        : Column(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: [
+                              InputWidget.text(
+                                label: "Masuk dengan akun mapalus anda",
+                                hint: "Nomor Hand Phone",
+                                currentInputValue: controller.phone,
+                                textInputType: TextInputType.phone,
+                                backgroundColor: BaseColor.editable,
+                                borderColor: BaseColor.accent,
+                                errorText: controller.errorText,
+                                onChanged: controller.onChangedPhone,
+                              ),
+                              Gap.h24,
+                              ButtonWidget(
+                                text: "Masuk",
+                                onPressed: controller.onPressedSignIn,
+                              ),
+                            ],
+                          ),
+                    controller.signingState != SigningState.otp
+                        ? const SizedBox()
+                        : PinPickerWidget(
+                            controller: controller.pinController,
+                            label: 'OTP telah terkirim di ${controller.phone}',
+                            errorText: controller.errorText,
+                            onCompletedPin: controller.onCompletedPin,
+                          ),
+                    controller.signingState != SigningState.unregistered
+                        ? const SizedBox()
+                        : Column(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: [
+                              Text(
+                                "Maaf, Akun anda tidak terdaftar dengan partner kami",
+                                style: BaseTypography.headlineMedium.toBold,
+                                textAlign: TextAlign.center,
+                              ),
+                              Gap.h12,
+                              Text(
+                                "Kami tidak menemukan akun dengan nomor telpon ${controller.phone.phoneCleanUseZero}, terhubung dengan salah satu partner kami.\nSilahkan hubungi call center kami jika anda berpikir ini adalah adalah kesalahan sistem",
+                                style: BaseTypography.bodySmall.toSecondary,
+                                textAlign: TextAlign.center,
+                              ),
+                              Gap.h24,
+                              ButtonWidget(
+                                text: "Kembali",
+                                onPressed: () => SystemNavigator.pop(),
+                              ),
+                            ],
+                          ),
+                  ],
+                ),
+              ),
             ),
           ),
         ],
-      ),
-    );
-  }
-
-  // _buildGraphicHolderCard({
-  //   required BuildContext context,
-  //   required String assetName,
-  //   required String text,
-  // }) {
-  //   return Column(
-  //     crossAxisAlignment: CrossAxisAlignment.stretch,
-  //     children: [
-  //       Expanded(
-  //         child: Center(
-  //           child: Column(
-  //             mainAxisAlignment: MainAxisAlignment.center,
-  //             children: [
-  //               Container(
-  //                 padding: EdgeInsets.symmetric(
-  //                   horizontal: BaseSize.w12,
-  //                   vertical: BaseSize.h12,
-  //                 ),
-  //                 child: SvgPicture.asset(
-  //                   assetName,
-  //                   height: 200.h,
-  //                 ),
-  //               ),
-  //               Text(
-  //                 text,
-  //                 style: const TextStyle(
-  //                   color: BaseColor.editable,
-  //                 ),
-  //               ),
-  //             ],
-  //           ),
-  //         ),
-  //       ),
-  //     ],
-  //   );
-  // }
-}
-
-class _BuildCardSigning extends StatelessWidget {
-  const _BuildCardSigning({
-    required this.tecPhone,
-    required this.tecPassword,
-    required this.controller,
-    required this.onPressedSigning,
-  });
-
-  final TextEditingController tecPhone;
-  final TextEditingController tecPassword;
-  final SigningController controller;
-  final VoidCallback onPressedSigning;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.symmetric(
-        horizontal: BaseSize.w12,
-        vertical: BaseSize.w12,
-      ),
-      decoration: BoxDecoration(
-        color: BaseColor.cardBackground1,
-        borderRadius: BorderRadius.vertical(
-          top: Radius.circular(30.sp),
-        ),
-      ),
-      child: Obx(
-        () => AnimatedSwitcher(
-          duration: const Duration(milliseconds: 400),
-          child: controller.isLoading.isTrue
-              ? _buildLoading()
-              : Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Gap.h12,
-                    _buildTextField(
-                      context,
-                      controller: tecPhone,
-                      title: "Phone",
-                    ),
-                    Gap.h12,
-                    _buildTextField(
-                      context,
-                      controller: tecPassword,
-                      title: "Password",
-                      obscureText: true,
-                    ),
-                    Gap.h12,
-                    Obx(() => AnimatedSwitcher(
-                          duration: 400.milliseconds,
-                          child: controller.errorText.isEmpty
-                              ? const SizedBox()
-                              : Padding(
-                                  padding:
-                                      EdgeInsets.only(bottom: BaseSize.h12),
-                                  child: Text(
-                                    controller.errorText.value,
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                      color: BaseColor.negative,
-                                      fontSize: 10.sp,
-                                      fontWeight: FontWeight.w300,
-                                    ),
-                                  ),
-                                ),
-                        )),
-                    _buildSigningButton(context, onPressedSigning),
-                  ],
-                ),
-        ),
-      ),
-    );
-  }
-
-  _buildTextField(
-    BuildContext context, {
-    required controller,
-    required title,
-    obscureText = false,
-  }) {
-    return Container(
-      padding: EdgeInsets.symmetric(
-        horizontal: BaseSize.w12,
-        vertical: 1,
-      ),
-      decoration: BoxDecoration(
-        color: BaseColor.editable,
-        borderRadius: BorderRadius.circular(BaseSize.radiusMd),
-      ),
-      child: TextField(
-        controller: controller,
-        maxLines: 1,
-        obscureText: obscureText,
-        autocorrect: false,
-        style: TextStyle(
-          color: BaseColor.accent,
-          fontFamily: fontFamily,
-          fontSize: 12.sp,
-        ),
-        cursorColor: BaseColor.primary3,
-        decoration: InputDecoration(
-          hintStyle: TextStyle(
-            fontFamily: fontFamily,
-            fontSize: 10.sp,
-            color: BaseColor.accent,
-          ),
-          labelStyle: TextStyle(
-            fontFamily: fontFamily,
-            color: BaseColor.accent,
-            fontSize: 12.sp,
-          ),
-          isDense: true,
-          border: InputBorder.none,
-          labelText: title,
-        ),
-      ),
-    );
-  }
-
-  _buildSigningButton(
-    BuildContext context,
-    VoidCallback onPressedSigning,
-  ) {
-    return Material(
-      clipBehavior: Clip.hardEdge,
-      borderRadius: BorderRadius.circular(12.w),
-      color: BaseColor.primary3,
-      child: InkWell(
-        onTap: onPressedSigning,
-        child: Container(
-          padding: EdgeInsets.symmetric(vertical: BaseSize.h12),
-          child: Text('Sign In',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 14.sp,
-                color: BaseColor.accent,
-              )),
-        ),
-      ),
-    );
-  }
-
-  _buildLoading() {
-    return Padding(
-      padding: EdgeInsets.symmetric(
-        vertical: BaseSize.h12,
-        horizontal: BaseSize.w12,
-      ),
-      child: const CircularProgressIndicator(
-        color: BaseColor.primary3,
       ),
     );
   }

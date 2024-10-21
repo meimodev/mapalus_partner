@@ -22,7 +22,8 @@ class PartnerSettingsScreen extends GetView<PartnerSettingsController> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               CardNavigation(
-                title: 'Edit Partner',
+                title:
+                    'Edit Partner \n ${controller.user!.name} - ${controller.user!.phone}',
               ),
               Expanded(
                 child: SingleChildScrollView(
@@ -88,6 +89,22 @@ class PartnerSettingsScreen extends GetView<PartnerSettingsController> {
                             ),
                           ),
                         ),
+                      ),
+                      Gap.h24,
+                      ButtonWidget(
+                        text: "Keluar dari akun",
+                        textColor: BaseColor.negative,
+                        backgroundColor: BaseColor.accent,
+                        padding: EdgeInsets.symmetric(
+                          vertical: BaseSize.h12,
+                        ),
+                        onPressed: () {
+                          showSimpleConfirmationDialogWidget(
+                            context: context,
+                            action: "Keluar",
+                            onPressedPositive: controller.onSignOut,
+                          );
+                        },
                       ),
                       Gap.h24,
                     ],

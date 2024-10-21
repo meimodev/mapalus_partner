@@ -4,6 +4,7 @@ import 'package:mapalus_flutter_commons/repos/repos.dart';
 
 class ProductsController extends GetxController {
   final ProductRepo productRepo = Get.find();
+  final PartnerRepo partnerRepo = Get.find();
 
   RxBool loading = true.obs;
 
@@ -14,12 +15,15 @@ class ProductsController extends GetxController {
   void onReady() {
     super.onReady();
     listenToProducts();
-    // fetchProducts();
   }
 
-  void listenToProducts() {
+  void listenToProducts() async {
+    final partner = await partnerRepo.getCurrentPartner();
     final streamProduct = productRepo.readProductsStream(
-        const GetProductRequest(partnerId: "ssTneIKTUTtnb8L4dGWA"));
+      GetProductRequest(
+        partnerId: partner!.id,
+      ),
+    );
 
     streamProduct.listen(
       (event) {

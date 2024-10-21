@@ -4,11 +4,14 @@ import 'package:get/get.dart';
 import 'package:mapalus_flutter_commons/models/models.dart';
 import 'package:mapalus_flutter_commons/repos/repos.dart';
 import 'package:mapalus_flutter_commons/shared/shared.dart';
+import 'package:mapalus_partner/shared/routes.dart';
 
 class PartnerSettingsController extends GetxController {
-  PartnerRepo partnerRepo = Get.find();
+  final partnerRepo = Get.find<PartnerRepo>();
+  final userRepo = Get.find<UserRepo>();
 
   late Partner partner;
+  UserApp? user;
 
   var loading = true.obs;
 
@@ -18,7 +21,7 @@ class PartnerSettingsController extends GetxController {
   String errorTextPlaceName = "";
 
   @override
-  void onInit() {
+  void onInit() async {
     super.onInit();
 
     loading.value = true;
@@ -30,6 +33,7 @@ class PartnerSettingsController extends GetxController {
       );
     }
     partner = args as Partner;
+    user = await userRepo.getSignedUser();
 
     loading.value = false;
   }
@@ -133,5 +137,10 @@ class PartnerSettingsController extends GetxController {
         place: value,
       ),
     );
+  }
+
+  void onSignOut() async {
+    await userRepo.signOut();
+    Get.offAllNamed(Routes.home);
   }
 }

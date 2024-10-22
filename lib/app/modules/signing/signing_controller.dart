@@ -11,9 +11,9 @@ enum SigningState {
 }
 
 class SigningController extends GetxController {
-  AppRepo appRepo = Get.find();
-  UserRepo userRepo = Get.find();
-  PartnerRepo partnerRepo = Get.find();
+  final appRepo = Get.find<AppRepo>();
+  final userRepo = Get.find<UserRepo>();
+  final partnerRepo = Get.find<PartnerRepo>();
 
   String errorText = "";
 
@@ -39,7 +39,6 @@ class SigningController extends GetxController {
   initSigningCallback() {
     userRepo.onSuccessSigning = (user) async {
       await _loading(true);
-      print("[SIGNING CONTROLLER] Signing Success $user");
 
       // then then get the user in firestore
       if ((user.partnerId ?? "").isEmpty) {
@@ -47,9 +46,10 @@ class SigningController extends GetxController {
         await userRepo.signOut();
         // await Future.delayed(Duration(milliseconds: 500));
         await _loading(false);
+        print("[SIGNING CONTROLLER] Signing Success but no partner registered");
+        return;
       }
-
-      print("[SIGNING CONTROLLER] should go back");
+      print("[SIGNING CONTROLLER] Signing Success $user");
       Get.offNamed(Routes.home);
     };
 

@@ -23,7 +23,7 @@ class PartnerSettingsScreen extends GetView<PartnerSettingsController> {
             children: [
               CardNavigation(
                 title:
-                    'Edit Partner \n ${controller.user!.name} - ${controller.user!.phone}',
+                    'Edit Partner \n ${controller.user?.name} ${controller.user?.phone}',
               ),
               Expanded(
                 child: SingleChildScrollView(

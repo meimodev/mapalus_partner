@@ -4,7 +4,6 @@ import 'package:get/get.dart';
 import 'package:mapalus_flutter_commons/shared/shared.dart';
 import 'package:mapalus_flutter_commons/widgets/widgets.dart';
 import 'package:mapalus_partner/app/modules/signing/signing_controller.dart';
-import 'package:mapalus_partner/app/modules/signing/widgets/pin_picker_widget.dart';
 
 class SigningScreen extends GetView<SigningController> {
   const SigningScreen({super.key});
@@ -75,7 +74,11 @@ class SigningScreen extends GetView<SigningController> {
                               ),
                               Gap.h12,
                               Text(
-                                "Kami tidak menemukan akun dengan nomor telpon ${controller.phone.phoneCleanUseZero}, terhubung dengan salah satu partner kami.\nSilahkan hubungi call center kami jika anda berpikir ini adalah adalah kesalahan sistem",
+                                "Kami tidak menemukan akun dengan nomor telpon "
+                                "${controller.phone.phoneCleanUseZero}, "
+                                "terhubung dengan salah satu partner kami.\n"
+                                "Silahkan hubungi call center kami jika anda berpikir "
+                                "ini adalah adalah kesalahan sistem",
                                 style: BaseTypography.bodySmall.toSecondary,
                                 textAlign: TextAlign.center,
                               ),

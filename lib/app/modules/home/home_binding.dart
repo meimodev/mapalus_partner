@@ -14,7 +14,7 @@ class HomeBinding implements Bindings {
     Get.put(LocalStorageService());
 
     //specific repos
-    Get.lazyPut<OrderRepo>(() => OrderRepoImpl());
+    Get.lazyPut<OrderRepo>(() => OrderRepo());
     Get.lazyPut<ProductRepo>(() => ProductRepo());
     Get.lazyPut<PartnerRepo>(() => PartnerRepo());
     Get.put<UserRepo>(

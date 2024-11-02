@@ -44,12 +44,9 @@ class SigningController extends GetxController {
       if ((user.partnerId ?? "").isEmpty) {
         signingState = SigningState.unregistered;
         await userRepo.signOut();
-        // await Future.delayed(Duration(milliseconds: 500));
         await _loading(false);
-        print("[SIGNING CONTROLLER] Signing Success but no partner registered");
         return;
       }
-      print("[SIGNING CONTROLLER] Signing Success $user");
       Get.offNamed(Routes.home);
     };
 
@@ -57,7 +54,6 @@ class SigningController extends GetxController {
       await _loading(true);
       signingState = SigningState.unregistered;
       await userRepo.signOut();
-      // await Future.delayed(Duration(milliseconds: 500));
       await _loading(false);
     };
   }
@@ -76,7 +72,6 @@ class SigningController extends GetxController {
       return;
     }
 
-    // userRepo.testOnSucess(phone);
 
     await userRepo.requestOTP(
       phone,

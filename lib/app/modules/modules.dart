@@ -8,6 +8,10 @@ export 'home/home.dart';
 export 'order_detail/order_detail_binding.dart';
 export 'order_detail/order_detail_controller.dart';
 export 'order_detail/order_detail_screen.dart';
+export 'orders_list/orders_list_binding.dart';
+export 'orders_list/orders_list_controller.dart';
+//orders list
+export 'orders_list/orders_list_screen.dart';
 //partner setting
 export 'partner_settings/partner_settings_binding.dart';
 export 'partner_settings/partner_settings_controller.dart';

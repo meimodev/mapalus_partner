@@ -35,10 +35,10 @@ class OrdersScreen extends GetView<OrdersController> {
                     style: BaseTypography.bodySmall,
                   ),
                 ),
-                // ButtonWidget(
-                //   text: "See All",
-                //   onPressed: () {},
-                // ),
+                ButtonWidget(
+                  text: "Semua Pesanan",
+                  onPressed: () async => await Get.toNamed(Routes.ordersList),
+                ),
               ],
             ),
           ),
@@ -48,8 +48,11 @@ class OrdersScreen extends GetView<OrdersController> {
               () => LoadingWrapper(
                 loading: controller.loading.value,
                 child: controller.orders.isEmpty
-                    ? const Center(
-                        child: Text('No Order Yet'),
+                    ? Center(
+                        child: Text(
+                          'Belum ada pesanan untuk hari ini',
+                          style: BaseTypography.bodySmall,
+                        ),
                       )
                     : ListView.separated(
                         physics: const BouncingScrollPhysics(),

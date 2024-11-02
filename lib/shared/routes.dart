@@ -12,6 +12,7 @@ class Routes {
   static const String settings = '/settings';
   static const String appSettings = '/app-settings';
   static const String partnerSetting = '/partner-settings';
+  static const String ordersList = '/orders-list';
   // static const String accountSetting = '/account-settings';
 
   static List<GetPage> getRoutes() {
@@ -70,6 +71,11 @@ class Routes {
         page: () => const SettingsScreen(),
         binding: SettingsBinding(),
         transition: Transition.leftToRight,
+      ),
+      GetPage(
+        name: ordersList,
+        page: () => const OrdersListScreen(),
+        binding: OrdersListBinding(),
       ),
       // GetPage(
       //   name: appSettings,

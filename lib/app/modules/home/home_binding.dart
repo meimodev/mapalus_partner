@@ -6,17 +6,26 @@ import 'package:mapalus_partner/app/modules/modules.dart';
 class HomeBinding implements Bindings {
   @override
   void dependencies() {
-    //main repo
-    Get.put(AppRepo());
+    Get.put<FirestoreService>(FirestoreService());
 
-    //main services
-    Get.put(NotificationService());
-    Get.put(LocalStorageService());
+    Get.put<LocalStorageService>(LocalStorageService());
+    Get.put<NotificationService>(NotificationService());
+    Get.put<AppRepo>(
+      AppRepo(
+        firestoreService: Get.find<FirestoreService>(),
+        notificationService: Get.find<NotificationService>(),
+      ),
+    );
 
     //specific repos
     Get.lazyPut<OrderRepo>(() => OrderRepo());
     Get.lazyPut<ProductRepo>(() => ProductRepo());
-    Get.lazyPut<PartnerRepo>(() => PartnerRepo());
+    Get.lazyPut<PartnerRepo>(
+      () => PartnerRepo(
+        Get.find<AppRepo>(),
+        Get.find<FirestoreService>(),
+      ),
+    );
     Get.put<UserRepo>(
       UserRepo(
         appRepo: Get.find<AppRepo>(),
@@ -25,9 +34,9 @@ class HomeBinding implements Bindings {
     );
 
     //controllers
-    Get.lazyPut(() => HomeController());
-    Get.lazyPut(() => DashboardController());
-    Get.lazyPut(() => OrdersController());
-    Get.lazyPut(() => ProductsController());
+    Get.put<HomeController>(HomeController());
+    Get.lazyPut<DashboardController>(() => DashboardController());
+    Get.lazyPut<OrdersController>(() => OrdersController());
+    Get.lazyPut<ProductsController>(() => ProductsController());
   }
 }

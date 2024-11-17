@@ -45,6 +45,7 @@ void main() async {
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
   await FirebaseMessaging.instance.setAutoInitEnabled(true);
+  await FirebaseMessaging.instance.subscribeToTopic("mapalus_partner");
 
   cameras = await availableCameras();
   runApp(const MyApp());

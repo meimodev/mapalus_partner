@@ -33,10 +33,10 @@ class HomeController extends GetxController {
       return;
     }
 
-    await partnerRepo.setCurrentPartner(signedUser.partnerId!);
+    final partner = await partnerRepo.setCurrentPartner(signedUser.partnerId!);
 
     _initNotificationHandler();
-    await userRepo.updateUserMetaData(signedUser);
+    await partnerRepo.updatePartnerMetaData(partner!);
     loading.value = false;
   }
 

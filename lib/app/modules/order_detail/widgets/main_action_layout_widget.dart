@@ -72,7 +72,10 @@ class _BuildDeliverLayout extends StatelessWidget {
   void onPressed(BuildContext context) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Text("Tekan dan Tahan untuk melanjutkan..."),
+        content: Text(
+          "Tekan dan Tahan untuk melanjutkan...",
+          style: BaseTypography.bodySmall.toPrimary,
+        ),
       ),
     );
   }
@@ -101,7 +104,10 @@ class _BuildConfirmationLayout extends StatelessWidget {
   void onPressed(BuildContext context) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Text("Tekan dan Tahan untuk melanjutkan..."),
+        content: Text(
+          "Tekan dan Tahan untuk melanjutkan...",
+          style: BaseTypography.bodySmall.toPrimary,
+        ),
       ),
     );
   }

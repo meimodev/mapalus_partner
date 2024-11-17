@@ -15,9 +15,9 @@ class NoteCardWidget extends StatelessWidget {
     return Container(
       clipBehavior: Clip.hardEdge,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(BaseSize.radiusMd),
-        color: BaseColor.editable,
-      ),
+          borderRadius: BorderRadius.circular(BaseSize.radiusMd),
+          color: BaseColor.editable,
+          border: Border.all(color: BaseColor.primary3)),
       padding: EdgeInsets.symmetric(
         horizontal: BaseSize.w12,
         vertical: BaseSize.h12,

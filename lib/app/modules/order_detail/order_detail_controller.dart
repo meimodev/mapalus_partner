@@ -4,16 +4,18 @@ import 'package:get/get.dart';
 import 'package:mapalus_flutter_commons/mapalus_flutter_commons.dart';
 import 'package:mapalus_flutter_commons/models/models.dart';
 import 'package:mapalus_flutter_commons/repos/repos.dart';
-import 'package:mapalus_flutter_commons/services/services.dart';
 import 'package:mapalus_flutter_commons/shared/shared.dart';
 
 class OrderDetailController extends GetxController {
   final OrderRepo orderRepo = Get.find();
-  final NotificationService notificationService = Get.find();
+  final AppRepo appRepo = Get.find();
+  final userRepo = Get.find<UserRepo>();
 
   late OrderApp order;
 
   RxBool loading = true.obs;
+
+  UserApp? orderBy;
 
   @override
   Future<void> onInit() async {
@@ -28,6 +30,9 @@ class OrderDetailController extends GetxController {
     order = args as OrderApp;
 
     listenToOrderDetail(order.id);
+
+    orderBy = await userRepo
+        .getUser(GetUserRequest(documentId: order.orderBy.documentId));
 
     loading.value = false;
   }
@@ -75,11 +80,12 @@ class OrderDetailController extends GetxController {
       lastUpdate: DateTime.now(),
     );
     await orderRepo.updateOrder(UpdateOrderRequest(orderApp: updated));
-    await notificationService.postNotification(
+    await appRepo.sendNotification(
       PostNotificationRequest(
-        messageTitle: "Pesanan Diterima !",
-        messageBody:
+        title: "Pesanan Diterima !",
+        body:
             "Pesanan anda telah diterima, setelah selesai akan kami kabari yaaa",
+        destination: orderBy?.fcmToken ?? "",
       ),
     );
   }
@@ -91,11 +97,12 @@ class OrderDetailController extends GetxController {
       lastUpdate: DateTime.now(),
     );
     await orderRepo.updateOrder(UpdateOrderRequest(orderApp: updated));
-    await notificationService.postNotification(
+    await appRepo.sendNotification(
       PostNotificationRequest(
-        messageTitle: "Pesanan Dibatalkan !",
-        messageBody:
+        title: "Pesanan Dibatalkan !",
+        body:
             "Pesanan anda telah ditolak oleh partner, silahkan coba lagi nanti yaaa",
+        destination: orderBy?.fcmToken ?? "",
       ),
     );
   }
@@ -108,12 +115,13 @@ class OrderDetailController extends GetxController {
       lastUpdate: DateTime.now(),
     );
     await orderRepo.updateOrder(UpdateOrderRequest(orderApp: updated));
-    await notificationService.postNotification(
+    await appRepo.sendNotification(
       PostNotificationRequest(
-        messageTitle: "Pesanan Dikirim !",
-        messageBody:
+        title: "Pesanan Dikirim !",
+        body:
             "Yay! pesanan sedang dalam perjalanan menuju tujuan, mohon tunggu sebentar yaaa",
-      ).copyWith(),
+        destination: orderBy?.fcmToken ?? "",
+      ),
     );
   }
 }

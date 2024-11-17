@@ -22,8 +22,8 @@ class Routes {
         page: () => const HomeScreen(),
         binding: HomeBinding(),
         transition: Transition.fade,
-        maintainState: true,
-        preventDuplicates: true,
+        // maintainState: true,
+        // preventDuplicates: true,
       ),
       // GetPage(
       //   name: accountSetting,

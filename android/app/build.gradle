@@ -31,7 +31,7 @@ if (keystorePropertiesFile.exists()) {
 }
 
 android {
-    namespace 'com.meimodev.mapalus_partner'
+    namespace 'com.meimodev.revamp.mapalus_partner'
     compileSdk = flutter.compileSdkVersion
 //    ndkVersion = flutter.ndkVersion
     ndkVersion = "27.0.12077973"
@@ -47,10 +47,10 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.meimodev.mapalus_partner"
+        applicationId "com.meimodev.revamp.mapalus_partner"
         minSdkVersion 24
         compileSdkVersion 34
-        targetSdkVersion 33
+        targetSdkVersion 34
 //        targetSdkVersion flutter.targetSdkVersion
         versionCode = flutter.versionCode
         versionName = flutter.versionName

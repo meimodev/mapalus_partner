@@ -49,7 +49,7 @@ android {
     defaultConfig {
         applicationId "com.meimodev.revamp.mapalus_partner"
         minSdkVersion 24
-        compileSdkVersion 34
+        compileSdkVersion 35
         targetSdkVersion 34
 //        targetSdkVersion flutter.targetSdkVersion
         versionCode = flutter.versionCode

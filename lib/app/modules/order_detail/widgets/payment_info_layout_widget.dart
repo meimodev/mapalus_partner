@@ -1,10 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:mapalus_flutter_commons/shared/shared.dart';
+import 'package:mapalus_flutter_commons/widgets/button_widget.dart';
 
 class PaymentInfoLayoutWidget extends StatelessWidget {
-  const PaymentInfoLayoutWidget({super.key, required this.paymentMethod});
+  const PaymentInfoLayoutWidget({
+    super.key,
+    required this.paymentMethod,
+    required this.onPressedSeeTransferStatus,
+  });
 
-  final String paymentMethod;
+  final PaymentMethod paymentMethod;
+  final VoidCallback onPressedSeeTransferStatus;
 
   @override
   Widget build(BuildContext context) {
@@ -31,11 +37,18 @@ class PaymentInfoLayoutWidget extends StatelessWidget {
                 style: BaseTypography.bodySmall,
               ),
               Text(
-                paymentMethod,
+                paymentMethod.name.toUpperCase(),
                 style: BaseTypography.caption.toBold,
               ),
             ],
           ),
+          paymentMethod == PaymentMethod.transfer
+              ? ButtonWidget(
+                  text: "Lihat Transfer",
+                  textStyle: BaseTypography.bodySmall.toBold,
+                  onPressed: onPressedSeeTransferStatus,
+                )
+              : const SizedBox(),
         ],
       ),
     );

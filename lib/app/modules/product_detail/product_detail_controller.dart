@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/foundation.dart';
@@ -9,8 +10,9 @@ import 'package:mapalus_partner/app/modules/home/home_controller.dart';
 import 'package:uuid/uuid.dart';
 
 class ProductDetailController extends GetxController {
-  ProductRepo productRepo = Get.find();
-  HomeController homeController = Get.find();
+  final ProductRepo productRepo = Get.find();
+  final PartnerRepo partnerRepo = Get.find();
+  final HomeController homeController = Get.find();
 
   bool adding = false;
   Product? product;
@@ -137,14 +139,14 @@ class ProductDetailController extends GetxController {
     }
 
     if (adding) {
-      final imageUrl = await uploadImage();
-      product = product!.copyWith(image: imageUrl);
-      await productRepo.createProduct(product!);
+      final partner = await partnerRepo.getCurrentPartner();
+      product = await productRepo.createProduct(product!, partner!.id);
+      product = product!.copyWith(image: await uploadProductImage());
+      log("product just added ${product.toString()}");
     } else {
       final imageUrl = product!.image.contains("http");
       if (!imageUrl) {
-        final url = await uploadImage();
-        product = product!.copyWith(image: url);
+        product = product!.copyWith(image: await uploadProductImage());
       }
       await productRepo.updateProduct(product!);
     }
@@ -154,18 +156,19 @@ class ProductDetailController extends GetxController {
     loading.value = false;
   }
 
-  Future<String> uploadImage() async {
+  Future<String> uploadProductImage() async {
     final imageUrl = await productRepo.uploadProductImage(
       File(product!.image),
       product!.id,
     );
     if (imageUrl == null) {
+
       Get.snackbar(
         "Upload Gambar Gagal",
         "Koneksi bermasalah. Silahkan coba sesaat lagi.",
       );
     }
-    return imageUrl!;
+    return imageUrl ?? "";
   }
 
   void clearErrors() {
@@ -184,9 +187,10 @@ class ProductDetailController extends GetxController {
     // errorTextMinimumPrice = "";
   }
 
-  void onPressedDelete(String productId) async {
+  void onPressedDelete() async {
     loading.value = true;
-    await productRepo.deleteProduct(productId);
+    await productRepo.deleteProduct(product!.id);
+    await productRepo.deleteProductImage(product!.id);
     loading.value = false;
     Get.back();
   }

@@ -1,10 +1,6 @@
-// ignore_for_file: unused_import
-
 import 'package:flutter/material.dart';
-import 'package:mapalus_flutter_commons/mapalus_flutter_commons.dart';
 import 'package:mapalus_flutter_commons/models/models.dart';
 import 'package:mapalus_flutter_commons/shared/shared.dart';
-import 'package:mapalus_flutter_commons/widgets/widgets.dart';
 import 'package:mapalus_partner/app/modules/order_detail/widgets/main_action_layout_widget.dart';
 
 import 'widgets.dart';
@@ -19,6 +15,7 @@ class OrderDataCardWidget extends StatelessWidget {
     required this.onPressedViewPhone,
     required this.onPressedViewMap,
     required this.onPressedViewWhatsApp,
+    required this.onPressedSeeTransferStatus,
   });
 
   final OrderApp orderApp;
@@ -30,6 +27,7 @@ class OrderDataCardWidget extends StatelessWidget {
   final VoidCallback onPressedAccept;
   final VoidCallback onPressedReject;
   final VoidCallback onPressedDeliver;
+  final VoidCallback onPressedSeeTransferStatus;
 
   @override
   Widget build(BuildContext context) {
@@ -57,7 +55,8 @@ class OrderDataCardWidget extends StatelessWidget {
                 onPressedViewPhone: onPressedViewPhone,
               ),
               PaymentInfoLayoutWidget(
-                paymentMethod: orderApp.payment.method.name.toUpperCase(),
+                paymentMethod: orderApp.payment.method,
+                onPressedSeeTransferStatus: onPressedSeeTransferStatus,
               ),
               Gap.h12,
               orderApp.note.isNotEmpty

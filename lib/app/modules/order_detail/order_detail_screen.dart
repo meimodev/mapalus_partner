@@ -54,6 +54,8 @@ class OrderDetailScreen extends GetView<OrderDetailController> {
                           controller.onPressedReject(controller.order),
                       onPressedDeliver: () =>
                           controller.onPressedDeliver(controller.order),
+                      onPressedSeeTransferStatus: ()=>controller
+                          .onPressedSeeTransferStatus(controller.order),
                     ),
                   ],
                 ),

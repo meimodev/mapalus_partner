@@ -29,6 +29,7 @@ class DeliveryInfoLayoutWidget extends StatelessWidget {
                 style: BaseTypography.titleLarge.bold,
                 textAlign: TextAlign.center,
               ),
+        Text(orderApp.id, style: BaseTypography.captionSmall,),
         Gap.h4,
         Container(
           padding: EdgeInsets.symmetric(

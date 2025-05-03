@@ -47,6 +47,7 @@ class ProductsController extends GetxController {
   }
 
   void addProduct(Product product) async {
-    await productRepo.createProduct(product);
+    final partner = await partnerRepo.getCurrentPartner();
+    await productRepo.createProduct(product, partner!.id);
   }
 }

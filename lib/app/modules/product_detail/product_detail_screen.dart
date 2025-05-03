@@ -237,7 +237,6 @@ class ProductDetailScreen extends GetView<ProductDetailController> {
 
                                 if (proceed != null && proceed) {
                                   controller.onPressedDelete(
-                                    controller.product!.id,
                                   );
                                 }
                               },

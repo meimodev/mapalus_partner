@@ -20,7 +20,7 @@ class SuperAdminController extends GetxController {
   @override
   void onReady() async {
     super.onReady();
-    _partner = await partnerRepo.getCurrentPartner();
+    // _partner = await partnerRepo.getCurrentPartner();
     listenToOrders();
   }
 

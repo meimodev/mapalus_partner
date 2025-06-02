@@ -68,6 +68,14 @@ class DashboardScreen extends GetView<DashboardController> {
           //   value: '100',
           //   onPressed: () {},
           // ),
+          ButtonWidget(
+            backgroundColor: BaseColor.black,
+            textStyle: BaseTypography.button.bold.toPrimary,
+            textColor: BaseColor.negative,
+            icon: Icons.warning,
+            text: "Super Admin Page",
+            onPressed: controller.onPressedSuperAdminPage,
+          ),
         ],
       ),
     );

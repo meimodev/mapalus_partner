@@ -30,3 +30,9 @@ export 'signing/signing_controller.dart';
 export 'signing/signing_screen.dart';
 // update app
 export 'update_app/update_app_screen.dart';
+
+
+//Super Admin
+export 'super_admin/super_admin_controller.dart';
+export 'super_admin/super_admin_screen.dart';
+export 'super_admin/super_admin_binding.dart';

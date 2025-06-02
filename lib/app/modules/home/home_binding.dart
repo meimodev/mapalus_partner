@@ -18,7 +18,7 @@ class HomeBinding implements Bindings {
     );
 
     //specific repos
-    Get.lazyPut<OrderRepo>(() => OrderRepo());
+    Get.put<OrderRepo>(OrderRepo());
     Get.lazyPut<ProductRepo>(() => ProductRepo());
     Get.lazyPut<PartnerRepo>(
       () => PartnerRepo(

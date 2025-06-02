@@ -13,6 +13,7 @@ class Routes {
   static const String appSettings = '/app-settings';
   static const String partnerSetting = '/partner-settings';
   static const String ordersList = '/orders-list';
+  static const String superAdmin = '/super-admin';
   // static const String accountSetting = '/account-settings';
 
   static List<GetPage> getRoutes() {
@@ -76,6 +77,11 @@ class Routes {
         name: ordersList,
         page: () => const OrdersListScreen(),
         binding: OrdersListBinding(),
+      ),
+      GetPage(
+        name: superAdmin,
+        page: () => const SuperAdminScreen(),
+        binding: SuperAdminBinding(),
       ),
       // GetPage(
       //   name: appSettings,

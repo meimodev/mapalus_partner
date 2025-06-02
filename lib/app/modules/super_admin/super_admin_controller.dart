@@ -12,7 +12,6 @@ class SuperAdminController extends GetxController {
 
   RxBool loading = true.obs;
 
-  Partner? _partner;
 
   // Filter state
   OrderStatus? filterOrderStatus;

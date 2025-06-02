@@ -36,16 +36,12 @@ class SuperAdminScreen extends GetView<SuperAdminController> {
               children: [
                 Gap.h12,
                 DateRangePickerWidget(
-                  onChangedDate: (DateTimeRange value) {
-                    print(value);
-                  },
+                  onChangedDate: controller.onChangedDate,
                 ),
                 Gap.h12,
                 DropDownButtonOrderStatusWidget(
                   list: OrderStatus.values,
-                  onChangeOrderStatus: (OrderStatus value) {
-                    print(value);
-                  },
+                  onChangeOrderStatus: controller.onChangedOrderStatus,
                 ),
                 Gap.h12,
               ],

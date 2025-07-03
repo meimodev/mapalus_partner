@@ -168,7 +168,7 @@ class _BuildRatedLayout extends StatelessWidget {
             maxRating: rating.rate.toDouble(),
             direction: Axis.horizontal,
             itemCount: 5,
-            glowColor: BaseColor.editable.withOpacity(.25),
+            glowColor: BaseColor.editable.withValues(alpha: .25),
             itemSize: BaseSize.customRadius(27),
             itemPadding: EdgeInsets.symmetric(horizontal: BaseSize.w6),
             onRatingUpdate: (_) {},

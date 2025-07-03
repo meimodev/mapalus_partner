@@ -36,7 +36,7 @@ class SigningController extends GetxController {
     await _loading(false);
   }
 
-  initSigningCallback() {
+  void initSigningCallback() {
     userRepo.onSuccessSigning = (user) async {
       await _loading(true);
 

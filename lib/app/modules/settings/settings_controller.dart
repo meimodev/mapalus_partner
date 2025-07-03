@@ -13,7 +13,7 @@ class SettingsController extends GetxController {
     _initAppVersionText();
   }
 
-  _initAppVersionText() async {
+  void _initAppVersionText() async {
     currentVersion.value = await appRepo.getCurrentVersion();
   }
 }

@@ -184,7 +184,7 @@ class _DialogItemDetailState extends State<DialogItemDetail> {
                     widget.product.status == ProductStatus.available
                         ? BoxDecoration(
                             shape: BoxShape.circle,
-                            color: Colors.grey.withOpacity(.5),
+                            color: Colors.grey.withValues(alpha: .5),
                           )
                         : null,
                 decoration: BoxDecoration(
@@ -194,7 +194,7 @@ class _DialogItemDetailState extends State<DialogItemDetail> {
                     BoxShadow(
                       spreadRadius: .5,
                       blurRadius: 15,
-                      color: Colors.grey.withOpacity(.5),
+                      color: Colors.grey.withValues(alpha: .5),
                       offset: const Offset(3, 5),
                     ),
                   ],

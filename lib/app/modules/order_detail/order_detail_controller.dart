@@ -49,13 +49,13 @@ class OrderDetailController extends GetxController {
     );
   }
 
-  onPressedViewPhone() {
+  void onPressedViewPhone() {
     final phone = order.orderBy.phone.phoneCleanUseCountryCode;
     final phoneUri = Uri.parse("tel:$phone");
     launchUrl(phoneUri);
   }
 
-  onPressedViewMaps() {
+  void onPressedViewMaps() {
     final latitude = order.delivery!.destination.latitude;
     final longitude = order.delivery!.destination.longitude;
     final url =

@@ -100,7 +100,7 @@ class CardProduct extends StatelessWidget {
     );
   }
 
-  _buildStatusIcons({
+  Widget _buildStatusIcons({
     required bool isAvailable,
     required bool isCustomPrice,
   }) {

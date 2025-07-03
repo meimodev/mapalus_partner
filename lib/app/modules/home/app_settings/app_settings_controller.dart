@@ -49,7 +49,7 @@ class AppSettingsController extends GetxController {
     isLoading.value = false;
   }
 
-  _loadDelivery() async {
+  Future<void> _loadDelivery() async {
     deliveryModifiers = await partnerRepo.getDeliveryModifiers();
     if (deliveryModifiers == null) {
       return;
@@ -65,7 +65,7 @@ class AppSettingsController extends GetxController {
     //     deliveryModifiers!.weightUnit.toStringWithoutPointZeroTrail();
   }
 
-  _loadAccountInfo() async {
+  Future<void> _loadAccountInfo() async {
     // UsersInfo usersInfo = await partnerRepo.getUsersInfo();
     //
     // final lastQuery =

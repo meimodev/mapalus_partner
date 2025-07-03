@@ -16,7 +16,7 @@ class DashboardController extends GetxController {
     partner.value = await partnerRepo.getCurrentPartner();
   }
 
-  void onUpdatePartner(updatedPartner) {
+  void onUpdatePartner(Partner updatedPartner) {
     partner.value = updatedPartner;
   }
 

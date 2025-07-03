@@ -20,24 +20,21 @@ class AccountSettingsController extends GetxController {
     initVersion();
   }
 
-  onPressedEditAccountInfo() {}
+  void onPressedEditAccountInfo() {}
 
-  onPressedOrders() {
+  void onPressedOrders() {
     Get.toNamed(Routes.orders);
   }
 
-  onPressedSignOut() async {
+  void onPressedSignOut() async {
     await userRepo.signOut();
   }
 
-  onPressedSignIn() {
-    Get.toNamed(
-      Routes.signing,
-      arguments: "",
-    );
+  void onPressedSignIn() {
+    Get.toNamed(Routes.signing, arguments: "");
   }
 
-  initVersion() async {
+  void initVersion() async {
     currentVersion.value = await appRepo.getCurrentVersion();
   }
 }

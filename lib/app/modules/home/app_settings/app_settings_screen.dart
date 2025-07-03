@@ -100,7 +100,7 @@ class _BuildDeliveryFeeCard extends StatelessWidget {
     );
   }
 
-  _buildListItem({
+  Widget _buildListItem({
     required BuildContext context,
     required String title,
     required TextEditingController controller,

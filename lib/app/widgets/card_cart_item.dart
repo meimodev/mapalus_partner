@@ -278,7 +278,7 @@ class _BuildAlterQuantity extends StatelessWidget {
     );
   }
 
-  _buildAlterRowItem({
+  Widget _buildAlterRowItem({
     required BuildContext context,
     required String value,
     required String unit,
